@@ -1,0 +1,41 @@
+#tabs
+{
+
+	border:none;
+}
+
+#tab-list-custom
+{
+	font-size:0.8em;
+	background:transparent;
+	border:none;
+	
+}
+
+.headings-custom
+{
+	font-size: 1.9em;
+	color:#FF9900;
+}
+.headings-custom2
+{
+	font-size:1em;
+	color:#808080;
+}
+
+.subtext-custom{
+	color: black;
+	font-size:0.65em;
+	position:absolute;
+	left:87px;
+	top:55px;
+	
+}
+tr
+{
+	padding:0.8em;
+}
+td,th
+{
+	padding:1em;
+}

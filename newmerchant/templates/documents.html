@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<{% load staticfiles %}
+<link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet" media="screen">
+<link href="{% static "bootstrap/css/bootstrap-responsive.min.css" %}" rel="stylesheet" media="screen">
+<link rel="stylesheet" href="{% static "font-awesome-4.1.0/css/font-awesome.min.css" %}">
+<link rel="stylesheet" href="{% static "lib/custom.css" %}">
+<link rel="stylesheet" href="{% static "lib/jquery-ui.css" %}">
+<script src="{% static "lib/jquery-1.10.2.js" %}"></script>
+<script src="{% static "lib/jquery-ui.js" %}"></script>
+<script src="{% static "lib/customdoc.js" %}"></script>
+</head>
+
+<body>
+
+<span><h2>&nbsp;Submit your Documents</h2>
+</span>
+<hr>
+<span style="color:#A8A8A8;position:absolute;left:15px;top:79px">Upload all required documents to ensure your application is verified and your account is activated permanently
+</br>
+<span style="color:black;font-weight:700">
+When upload your documents and submit this application for review, our team will check and verify them within <strong>48 hours</strong>.
+</br>
+You will receive an email with your application status, the <strong> verification status </strong> will be updated for each document.
+</br>
+</br>
+If you need help, please call our team at <span style="color:#FF9900">1-800-456-7890</span> or email us at <a href="mailto:support@citruspay.com">support@citruspay.com</a>
+<hr>
+</span>
+</span>
+</br>
+</br></br></br></br></br></br>
+<table style="border-bottom:2px solid rgb(240,240,240);left: 16%;position: relative;">
+<tr style="border-bottom:2px solid rgb(240,240,240)">
+	<td><strong>Document name</strong></td>
+	<td><strong>&nbsp;&nbsp;&nbsp;Upload Status&nbsp;&nbsp;&nbsp;</strong></td>
+	<td><strong>&nbsp;&nbsp;&nbsp;Verification status&nbsp;&nbsp;&nbsp;</strong></td>
+</tr>
+
+<tr style="border-bottom:2px solid rgb(240,240,240)">
+<td><h4>Identity proof</h4>
+<span style="color:rgb(230,230,230)">
+Lorem ipsum dolor sit amet, consectetuer adipiscing
+</br> elit, sed diam nonummy nibh euismod tincidunt ut laoreet</br> dolore magna aliqu
+</span>
+</td>
+<td style="text-align:center;">
+<input style="display:none" type='file' id='IdProof'><label name="IdProof" onclick="$('#IdProof').click();"><i class="fa fa-upload fa-1x" style="padding:0.2em;"></i>Upload</label><progress style="display:none" name="IdProof" max="100", value="0"></progress>
+</td>
+<td style="text-align:center;">
+<i class="fa fa-check-square fa-1x" style="padding:0.2em"></i>Verified
+</td>
+</tr>
+
+<tr style="border-bottom:2px solid rgb(240,240,240)">
+<td><h4>Company Registration</h4>
+<span style="color:rgb(230,230,230)">
+Lorem ipsum dolor sit amet, consectetuer adipiscing
+</br> elit, sed diam nonummy nibh euismod tincidunt ut laoreet</br> dolore magna aliqu
+</span>
+</td>
+<td style="text-align:center;">
+<input style="display:none" type='file' id='CompanyReg'><label name="CompanyReg" onclick="$('#CompanyReg').click();"><i class="fa fa-upload fa-1x" style="padding:0.2em;"></i>Upload</label><progress style="display:none" name="CompanyReg" max="100", value="0"></progress>
+</td>
+<td style="text-align:center;">
+<i class="fa fa-check-square fa-1x" style="padding:0.2em"></i>Verified
+</td>
+</tr>
+
+<tr style="border-bottom:2px solid rgb(240,240,240)">
+<td><h4>Photo</h4>
+<span style="color:rgb(230,230,230)">
+Lorem ipsum dolor sit amet, consectetuer adipiscing
+</br> elit, sed diam nonummy nibh euismod tincidunt ut laoreet</br> dolore magna aliqu
+</span>
+</td>
+<td style="text-align:center;">
+<input style="display:none" type='file' id='photo'><label name="photo" onclick="$('#photo').click();"><i class="fa fa-upload fa-1x" style="padding:0.2em;"></i>Upload</label><progress style="display:none" name="photo" max="100", value="0"></progress>
+</td>
+<td style="text-align:center;">
+<i class="fa fa-check-square fa-1x" style="padding:0.2em"></i>Verified
+</td>
+</tr>
+
+<tr style="border-bottom:2px solid rgb(240,240,240)">
+<td><h4>Service Tax Registration</h4>
+<span style="color:rgb(230,230,230)">
+Lorem ipsum dolor sit amet, consectetuer adipiscing
+</br> elit, sed diam nonummy nibh euismod tincidunt ut laoreet</br> dolore magna aliqu
+</span>
+</td>
+<td style="text-align:center;">
+<input style="display:none" type='file' id='ServiceTaxReg'><label name="ServiceTaxReg" onclick="$('#ServiceTaxReg').click();"><i class="fa fa-upload fa-1x" style="padding:0.2em;"></i>Upload</label><progress style="display:none" name="ServiceTaxReg" max="100", value="0"></progress>
+</td>
+<td style="text-align:center;">
+<i class="fa fa-check-square fa-1x" style="padding:0.2em"></i>Verified
+</td>
+</tr>
+
+<tr style="border-bottom:2px solid rgb(240,240,240)">
+<td><h4>Address Proof</h4>
+<span style="color:rgb(230,230,230)">
+Lorem ipsum dolor sit amet, consectetuer adipiscing
+</br> elit, sed diam nonummy nibh euismod tincidunt ut laoreet</br> dolore magna aliqu
+</span>
+</td>
+<td style="text-align:center;">
+<input style="display:none" type='file' id='AddressProof'><label name="AddressProof" onclick="$('#AddressProof').click();"><i class="fa fa-upload fa-1x" style="padding:0.2em;"></i>Upload</label><progress style="display:none" name="AddressProof" max="100", value="0"></progress>
+</td>
+<td style="text-align:center;">
+<i class="fa fa-check-square fa-1x" style="padding:0.2em"></i>Verified
+</td>
+</tr>
+
+</table>
+</br>
+<button  class="btn btn-default btn-large" style="position:relative;left:39%;">Submit for Verification</button>
+</br>
+</body>
