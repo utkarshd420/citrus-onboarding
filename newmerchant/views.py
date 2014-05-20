@@ -3,7 +3,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib import staticfiles
 import datetime, hashlib, json
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
+from hashlib import sha1
+import hmac
+import binascii
 
 def reg(request):
   if request.method == 'GET':
@@ -42,7 +45,7 @@ def reg(request):
       response_data['msg'] = str(e) 
       return HttpResponse(json.dumps(response_data), content_type="application/json")
       
-def uploadFiles(request):
+def upload_files(request):
   if request.method == 'GET':
     if request.user.is_authenticated():
       return render(request, "documents.html")
@@ -59,4 +62,15 @@ def uploadFiles(request):
       return HttpResponse(str(request.user.username))
     else:
       return HttpResponse("Failed")
-
+def gen_hmac(request):
+  if request.method == 'GET':
+    raise Http404
+  elif request.method == 'POST':
+    key = "d24c6ba5e15fb1c7e30f7bffe07c3b75aa99b635"
+    merchantId = request.POST.get("merchantId")
+    orderAmount = request.POST.get("orderAmount")
+    merchantTxnId = request.POST.get("merchantTxnId")
+    currency = request.POST.get("currency")
+    data=merchantId+orderAmount+merchantTxnId+currency
+    hashed = hmac.new(key, data, sha1)
+    return binascii.b2a_hex(hashed.digest())[:-1]
