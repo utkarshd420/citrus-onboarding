@@ -11,8 +11,9 @@ def reg(request):
   else:
     try:
       passwd= request.POST.get('password')
-      username =hashlib.md5(request.POST.get('email')).hexdigest()[:30] 
-      user = User.objects.create_user(hashlib.md5(username).hexdigest()[:30], username, passwd)
+      email  = request.POST.get('email')
+      username = hashlib.md5(email).hexdigest()[:30] 
+      user = User.objects.create_user(username, email, passwd)
       user.save()
       user.new.company_name = request.POST.get('company-name')
       user.new.company_category = request.POST.get('company-category')
@@ -21,9 +22,9 @@ def reg(request):
       user.new.reg_date = datetime.datetime.now()
       user.new.step = 1
       user.new.save()
-      user = authenticate(username=hashlib.md5(username).hexdigest()[:30], password=passwd)
-      login(request, user)
+      user = authenticate(username=username, password=passwd)
       if user is not None:
+        login(request, user)
         response_data = {}
         response_data['status'] = 'success'
         response_data['step'] = 1
@@ -32,6 +33,7 @@ def reg(request):
         response_data = {}
         response_data['status'] = 'failed'
         response_data['step'] = 0 
+        response_data['msg'] = 'Auth problem'
         return HttpResponse(json.dumps(response_data), content_type="application/json")
     except Exception as e:
       response_data = {}
