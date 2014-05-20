@@ -1,10 +1,8 @@
 from django.conf.urls import patterns, include, url
-from views import check, new, upload, uploadFiles 
+from views import reg, uploadFiles 
 
 urlpatterns = patterns('',
-    url(r'^check/$', check),
-    url(r'^new/$', new),
-    url(r'^upload_file/$', upload),
+    url(r'^reg/$', reg),
     url(r'^uploadfiles/$', uploadFiles),
 
 )

@@ -1,4 +1,27 @@
 $(document).ready(function() {
+$.ajaxSetup({ 
+     beforeSend: function(xhr, settings) {
+         function getCookie(name) {
+             var cookieValue = null;
+             if (document.cookie && document.cookie != '') {
+                 var cookies = document.cookie.split(';');
+                 for (var i = 0; i < cookies.length; i++) {
+                     var cookie = jQuery.trim(cookies[i]);
+                     // Does this cookie string begin with the name we want?
+                 if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                     cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                     break;
+                 }
+             }
+         }
+         return cookieValue;
+         }
+         if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+             // Only send the token to relative URLs i.e. locally.
+             xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+         }
+     } 
+});
     $( "#tabs" ).tabs(
 	{disabled: [1,2]}
 	);
@@ -15,24 +38,19 @@ function newpost()
 	var email = $("#email").val();
 	var phone= $("#phone").val();
 	var password = $("#password").val();
-//	alert(1); 
 	var datastring = 'company-name=' +company_name +'&company-category='+company_category+'&your-name='+your_name+'&email='+email+'&phone='+phone+'&password='+password;
-//	formData = new FormData(e.target);
 	$.ajax({
-		url:"../new/",
+		url:"../reg/",
 		data:datastring,
 		processData:false,
 		type: 'POST',
 		success:function(data)
 		{
-		//	alert(data);
-			alert("Account Created");
 			console.log(data);
 			switch_tab(0);
 		}
 });
 }
-//	});  
  function switch_tab(temp) 
  {
 	if(temp == 0)
@@ -44,7 +62,6 @@ function newpost()
 		$("#headings-custom-tab1").css("color","#00CC00");
 		$("#ver1").attr("class","fa fa-check fa-stack-1x");
 		$("#headings-custom-tab2").css("color","#FF9900");	
-		//submit data via ajax
 
 	}
 	else if(temp == 1)
