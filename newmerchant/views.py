@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib import staticfiles
-import datetime, hashlib, json
+import datetime, hashlib, json,os
 from django.http import HttpResponse, Http404
 from hashlib import sha1
 import hmac
@@ -53,7 +53,11 @@ def upload_files(request):
       return HttpResponse("Failed")
   else:
     if request.user.is_authenticated():
-      path = './'+ request.user.email + "__" +request.FILES.keys()[0]
+      if not os.path.exists('./files/'+request.user.email):
+        os.makedirs('./files/'+ request.user.email)
+      if not os.path.exists('./files/'+ request.user.email + '/' + request.FILES.keys()[0]):
+        os.makedirs('./files/'+ request.user.email + '/' + request.FILES.keys()[0])
+      path = './files/'+ request.user.email + '/' + request.FILES.keys()[0] + '/' + request.FILES[request.FILES.keys()[0]].name
       f = request.FILES[request.FILES.keys()[0]]   
       destination = open(path, 'wb+')
       for chunk in f.chunks():
