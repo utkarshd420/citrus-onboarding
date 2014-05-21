@@ -81,3 +81,26 @@ function newpost()
 	}
 	//have to add ajax data saving
  }
+function iniPay(){
+  	var merchantId= "ksjfgsd6758756"
+// 	var orderAmt = $("#amount").val();
+// 	var merchanttxnId = $("#txnid").val();
+// 	var currency = $("#currency").val();
+	var orderAmt = "2990";
+	var merchanttxnId = "24324234234";
+	var currency = "INR";
+	var datastring = 'merchantId=' + merchantId +'&orderAmount='+ orderAmt +'&merchantTxnId='+ merchanttxnId +'&currency='+currency;
+	$.ajax({
+		url:"../gencode/",
+		data:datastring,
+		processData:false,
+		type: 'POST',
+		success:function(data)
+		{
+			console.log(data);
+			$("#secSignature").val(data);
+			//switch_tab(0);
+		}
+});
+
+}

@@ -196,7 +196,7 @@
   </tr>
   </table>
   </form>
-  <button onclick="switch_tab(1)" class="btn btn-warning btn-large" style="left:-65px;position: relative;"><span style="color:white"><strong>Pay 2990</strong></span></button>
+  <button id="pay" onclick="iniPay()" class="btn btn-warning btn-large" style="left:-65px;position: relative;"><span style="color:white"><strong>Pay 2990</strong></span></button>
   </div>
   
   <div id="cards">
@@ -311,6 +311,7 @@
 	</input></br></br>
   <span style="color:#E0E0E0">You can skip this step and do it later, simply press continue for now</span>
   </div>
+  <input type="hidden" id="secSignature" name="secSignature" value="" />
   </form>    
   </div>
 </div>

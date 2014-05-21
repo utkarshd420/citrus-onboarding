@@ -77,4 +77,7 @@ def gen_hmac(request):
     currency = request.POST.get("currency")
     data=merchantId+orderAmount+merchantTxnId+currency
     hashed = hmac.new(key, data, sha1)
-    return binascii.b2a_hex(hashed.digest())[:-1]
+    return HttpResponse(binascii.b2a_hex(hashed.digest())[:-1])
+  else:
+    raise Http404
+    
