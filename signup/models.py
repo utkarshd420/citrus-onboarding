@@ -25,7 +25,7 @@ class Services(models.Model):
   servicecost = models.IntegerField(default = 0)
 class Bank(models.Model):
   banklist = models.CharField(max_length = 200)
-def create_user_profile(sender, ins:tance, created, **kwargs):  
+def create_user_profile(sender, instance, created, **kwargs):  
   if created:  
     profile, created = new.objects.get_or_create(user=instance)  
 post_save.connect(create_user_profile, sender=User)   
