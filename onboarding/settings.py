@@ -1,5 +1,5 @@
 """
-Django settings for citrus project.
+Django settings for onboarding project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.6/topics/settings/
@@ -36,7 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'newmerchant',
+    'signup',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -48,9 +48,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'citrus.urls'
+ROOT_URLCONF = 'onboarding.urls'
 
-WSGI_APPLICATION = 'citrus.wsgi.application'
+WSGI_APPLICATION = 'onboarding.wsgi.application'
 
 
 # Database
@@ -59,7 +59,7 @@ WSGI_APPLICATION = 'citrus.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-	'NAME': 'newmerchant',
+	'NAME': 'merchants',
 	'USER' : 'root',
 	'PASSWORD': 'wjlbti',
 	'HOST': 'localhost',
@@ -84,8 +84,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
-AUTH_PROFILE_MODULE = 'newmerchant.new'
+AUTH_PROFILE_MODULE = 'signup.Merchant'
 
 TEMPLATE_DIRS = ( 
-    os.path.join('./newmerchant/', "templates"),
+    os.path.join('./signup/', "templates"),
 )
