@@ -97,11 +97,17 @@
 <div id="tabs-1">
 <div id="content-tab1" style="text-align:center">
 	<form id="step1-onboarding" action="">
-	<table style="padding:2em;left: 25%;position: relative;">
+	<table style="padding:2em;left: 26%;position: relative;">
 	<tr>
 	<td style="text-align:right"><strong>Company Name</strong></td>
 	<td style="text-align:left"><input id="company-name" name="company-name" type="text" placeholder="uncommon"></input></td>
 	</tr>
+	<tr>
+	<td style="text-align:right"><strong>Company Website</strong></td>
+	<td style="text-align:left"><input id="company-website" name="company-website" type="text" placeholder="http://www.uncommon.is"></input>
+	</td>
+	</tr>
+
 	<tr>
 	<td style="text-align:right"><strong>Company Category</strong></td>
 	<td style="text-align:left">
@@ -114,6 +120,50 @@
 	<option>Category6</option>
 	<option>Category7</option>
 	</select></td>
+	</tr>
+
+	<tr>
+	<td style="text-align:right"><strong>Type of Business</strong></td>
+	<td style="text-align:left">
+	<select id="company-business-category" name="company-business-category">
+	<option value="Properietorship">Proprietorship</option>
+	<option>Category2</option>
+	<option>Category3</option>
+	<option>Category4</option>
+	<option>Category5</option>
+	<option>Category6</option>
+	<option>Category7</option>
+	</select></td>
+	</tr>
+
+	</table>
+	<hr>
+	<table style="padding:2em;left: 25%;position: relative;">
+	<tr>
+	<td style="text-align:right;valign:center;"><strong>Value Added Services</strong>
+	</br>
+	<span style="color:#C0C0C0">Please tick all that apply</span>
+	</td>
+	<td style="text-align:left">
+	<div class="checkbox">
+
+	<label>
+	<input type="checkbox" value="">International Payment Gateway
+	<span style="color:#00CC33">(+Rs. 2500)</span>
+	</label>
+
+	<label>
+	<input type="checkbox" value="">Accept American Express Cards
+	<span style="color:#00CC33">(+Rs. 1500)</span>
+	</label>
+
+	<label>
+	<input type="checkbox" value="">Email Invoicing
+	<span style="color:#00CC33">(+Rs. 10 per email)</span>
+	</label>
+
+	</div>
+	</td>
 	</tr>
 	</table>
 	<hr>
@@ -136,7 +186,7 @@
 	</tr>
 	</table>
 	<input type="checkbox" onclick="var p = document.getElementById('button-content1'); p.disabled = !(p.disabled) " ></input>
-	<span style="padding:10px;padding-top:15px;">I have read and agree to the terms and conditions</span>
+	<span style="padding:10px;padding-top:15px;">I have read and agree to the <a href="http://signup.citruspay.com/attachment/CitrusTermsAndConditions.pdf" target="_blank" style="color:#0000FF">terms and conditions</a></span>
 	</form>
 	</br>
     <button id="button-content1"  class="btn btn-large" disabled onclick="newpost()">Continue</button>
@@ -146,10 +196,19 @@
   
   <div id="tabs-2">
   <div style="text-align:center">
-  <h3>Citrus has a one time setup fee of <span style="color:#FF9900">Rs. 2990</span></h3>
-  <span style="color:#B8B8B8">We provide with lifetime 24X7 phone and email support to help you integrate citrus on your website/app
-  </span></br></br></br>
-  <div id="payment-tabs" style="background:#FFFFFF;border: none;position:relative;left: 10%;">
+  <h3><span style="color:#808080">Annual Maintainence </span> <span style="color:#FF9900">Rs. 2990</span></h3>
+  <span style="color:#B8B8B8;text-align:center">
+  Includes </br>
+  24X7 Phone and Email Support</br>
+  International Payments </br>
+  Variable Items #3
+  </span>
+  </br>
+  </br>
+  <hr>
+  </br>
+
+  <div id="payment-tabs" style="background:#FFFFFF;border: none;position:relative;left: 17%;">
   <ul id="tab-list-custom">
   
   <li style="padding:1.1em"> <a href="#net-banking">
@@ -217,7 +276,7 @@
   </tr>
   </table>
   </form>
-  <button id="pay" onclick="iniPay()" class="btn btn-warning btn-large" style="left:-65px;position: relative;"><span style="color:white"><strong>Pay 2990</strong></span></button>
+  <button id="pay" onclick="iniPay()" class="btn btn-warning btn-large" style="left:-180px;position: relative;"><span style="color:white"><strong>Pay 2990</strong></span></button>
   </div>
   
   <div id="cards">
@@ -328,7 +387,7 @@
   <strong>Integration Instruction</br></br></strong>
   <textarea rows="20" cols="100" style="background:#F8F8F8;width:45%;cursor:default" disabled></textarea>
   </div>
-  <a href="../uploadfiles"><input class="btn btn-large" value="Continue"></a>
+  <input class="btn btn-large" value="Continue" onclick="switch_tab(2)">
 	</input></br></br>
   <span style="color:#E0E0E0">You can skip this step and do it later, simply press continue for now</span>
   </div>
