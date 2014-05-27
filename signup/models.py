@@ -31,7 +31,7 @@ class Merchant(models.Model):
     phone = models.CharField(max_length=15)
     url = models.URLField(max_length=200, unique=True)
     step = models.IntegerField(choices=STEP_CHOICES, default=STEP_SIGNUP)
-    applicaton_status = models.CharField(max_length=2, choices=APPLICATION_STATUS_CHOICES, default=NEW, db_index=True)
+    application_status = models.CharField(max_length=2, choices=APPLICATION_STATUS_CHOICES, default=NEW, db_index=True)
     
     def __unicode__(self):
         return self.name
@@ -98,8 +98,8 @@ class Txn(models.Model):
     amount = models.DecimalField(decimal_places=2, max_digits=10)
     date_time = models.DateTimeField(null=True, db_index=True, blank=True)
 
-def create_user_profile(sender, instance, created, **kwargs):  
-    if created:  
-        profile, created = new.objects.get_or_create(user=instance)  
-
-post_save.connect(create_user_profile, sender=User)   
+#def create_user_profile(sender, instance, created, **kwargs):  
+#    if created:  
+#        profile, created = Merchant.objects.get_or_create(user=instance)  
+#
+#post_save.connect(create_user_profile, sender=User)   
