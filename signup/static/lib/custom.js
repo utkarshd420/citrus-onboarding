@@ -34,36 +34,37 @@ $.ajaxSetup({
 function newpost()
 {
 	var selected = [];
-	$("#services:checked").each(
+	$("input[name=services]:checked").each(
 	function(){
-	selected.push($(this.val()));
+	selected.push($(this).val());
 	});
-	var datastring =[
-		{"company-name":$("#company-name").val()},
-		{"company-website":$("#company-website").val()},
-		{"company-category":$("#company-category").val()},
-		{"company-business-category":$("#company-business-category").val()},
-		{"services":selected},
-		{"your-name": $("#your-name").val()},
-		{"email":$("#email").val()},
-		{"phone":$("#phone").val()},
-		{"password":$("#password").val()},
-	]
-	
-	
-//	var datastring = 'company-name=' +company_name +'&company-category='+company_category+'&your-name='+your_name+'&email='+email+'&phone='+phone+'&password='+password;
+    console.log(selected);
+	var datastring = {
+		"company-name":$("#company-name").val(),
+		"company-website":$("#company-website").val(),
+		"company-category":$("#company-category").val(),
+		"company-business-category":$("#company-business-category").val(),
+		"services":selected,
+		"your-name": $("#your-name").val(),
+		"email":$("#email").val(),
+		"phone":$("#phone").val(),
+		"password":$("#password").val(),
+	}
 	$.ajax({
+		type: 'POST',
 		url:"../reg/",
 		data:JSON.stringify({data:datastring}),
 		contentType: "application/json; charset=utf-8",
 		dataType: "json",
-	//	processData:false,
-		type: 'POST',
+		processData:false,
 		success:function(data)
 		{
 			console.log(data);
 			switch_tab(0);
-		}
+		},
+        failure: function(errMsg) {
+                    alert(errMsg);
+        }
 });
 }
  function switch_tab(temp) 

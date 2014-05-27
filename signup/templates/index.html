@@ -141,9 +141,9 @@
     {% for service in services %}
 	<label>
     {% ifequal service.included_in_default True %}
-    	<input type="checkbox" value="{{service.name}}" checked="checked" disabled="disabled">
+    	<input name="services" type="checkbox" value="{{service.name}}" checked="checked" disabled="disabled">
     {% else %}
-    	<input type="checkbox" value="{{service.name}}">
+    	<input name="services" type="checkbox" value="{{service.name}}">
     {% endifequal%} 
     {{service.name}}
 	<span style="color:#00CC33">(+Rs. {{service.charges}})</span>
