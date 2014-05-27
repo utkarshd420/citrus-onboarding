@@ -43,7 +43,7 @@ function newpost()
 		"company-name":$("#company-name").val(),
 		"company-website":$("#company-website").val(),
 		"company-category":$("#company-category").val(),
-		"company-business-category":$("#company-business-category").val(),
+		"company-business-type":$("#company-business-category").val(),
 		"services":selected,
 		"your-name": $("#your-name").val(),
 		"email":$("#email").val(),

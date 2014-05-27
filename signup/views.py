@@ -17,21 +17,26 @@ def reg(request):
         return render_to_response("index.html", {'categories':category_list,'businesstypes':business_list, 'services':service_list})
     else:
         try:
-            data = json.loads(request.body)
-            print data
-            return HttpResponse("done")
-            passwd= request.POST.get('password')
-            email  = request.POST.get('email')
+            data = json.loads(request.body).get('data')
+            passwd= data.get('password')
+            email  = data.get('email')
             username = hashlib.md5(email).hexdigest()[:30] 
             user = User.objects.create_user(username, email, passwd)
             user.save()
-            user.new.company_name = request.POST.get('company-name')
-            user.new.company_category = request.POST.get('company-category')
-            user.new.name = request.POST.get('your-name')
-            user.new.phone = request.POST.get('phone')
-            user.new.reg_date = datetime.datetime.now()
-            user.new.step = 1
-            user.new.save()
+            company_name = data.get('company-name')
+            company_category = data.get('company-category')
+            name = data.get('your-name')
+            phone = data.get('phone')
+            url = data.get('company-website')
+            business_type = data.get('company-business-type')
+            reg_date = datetime.datetime.now()
+            step = 1
+            merchant = Merchant(user=user, name=name, phone=phone, url=url)
+            merchant.save() 
+            category = CompanyCategory.objects.get(category=company_category)
+            btype = BusinessType.objects.get(type=business_type)
+            company = Company(name=company_name,merchant=merchant, company_category=category, business_type = btype)
+            company.save()
             user = authenticate(username=username, password=passwd)
             if user is not None:
                 login(request, user)
@@ -51,7 +56,6 @@ def reg(request):
             response_data['step'] = 0 
             response_data['msg'] = str(e) 
             return HttpResponse(json.dumps(response_data), content_type="application/json")
-            
 def upload_files(request):
     if request.method == 'GET':
         if request.user.is_authenticated():
@@ -78,10 +82,10 @@ def gen_hmac(request):
         raise Http404
     elif request.method == 'POST':
         key = "d24c6ba5e15fb1c7e30f7bffe07c3b75aa99b635"
-        merchantId = request.POST.get("merchantId")
-        orderAmount = request.POST.get("orderAmount")
-        merchantTxnId = request.POST.get("merchantTxnId")
-        currency = request.POST.get("currency")
+        merchantId = data.get("merchantId")
+        orderAmount = data.get("orderAmount")
+        merchantTxnId = data.get("merchantTxnId")
+        currency = data.get("currency")
         data=merchantId+orderAmount+merchantTxnId+currency
         hashed = hmac.new(key, data, sha1)
         return HttpResponse(binascii.b2a_hex(hashed.digest())[:-1])
