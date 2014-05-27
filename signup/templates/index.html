@@ -112,13 +112,9 @@
 	<td style="text-align:right"><strong>Company Category</strong></td>
 	<td style="text-align:left">
 	<select id="company-category" name="company-category">
-	<option value="Design & Engg. Services">Design & Engg. Services</option>
-	<option>Category2</option>
-	<option>Category3</option>
-	<option>Category4</option>
-	<option>Category5</option>
-	<option>Category6</option>
-	<option>Category7</option>
+    {% for category in categories %}
+	<option value="{{category}}">{{category}}</option>
+    {% endfor %}
 	</select></td>
 	</tr>
 
@@ -126,13 +122,9 @@
 	<td style="text-align:right"><strong>Type of Business</strong></td>
 	<td style="text-align:left">
 	<select id="company-business-category" name="company-business-category">
-	<option value="Properietorship">Proprietorship</option>
-	<option>Category2</option>
-	<option>Category3</option>
-	<option>Category4</option>
-	<option>Category5</option>
-	<option>Category6</option>
-	<option>Category7</option>
+    {% for type in businesstypes %}
+	<option value="{{type}}">{{type}}</option>
+    {% endfor %}
 	</select></td>
 	</tr>
 
@@ -146,22 +138,17 @@
 	</td>
 	<td style="text-align:left">
 	<div class="checkbox">
-
+    {% for service in services %}
 	<label>
-	<input type="checkbox" value="">International Payment Gateway
-	<span style="color:#00CC33">(+Rs. 2500)</span>
+    {% ifequal service.included_in_default True %}
+    	<input type="checkbox" value="{{service.name}}" checked="checked" disabled="disabled">
+    {% else %}
+    	<input type="checkbox" value="{{service.name}}">
+    {% endifequal%} 
+    {{service.name}}
+	<span style="color:#00CC33">(+Rs. {{service.charges}})</span>
 	</label>
-
-	<label>
-	<input type="checkbox" value="">Accept American Express Cards
-	<span style="color:#00CC33">(+Rs. 1500)</span>
-	</label>
-
-	<label>
-	<input type="checkbox" value="">Email Invoicing
-	<span style="color:#00CC33">(+Rs. 10 per email)</span>
-	</label>
-
+    {% endfor %}
 	</div>
 	</td>
 	</tr>

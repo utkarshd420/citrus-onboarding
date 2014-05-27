@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render_to_response
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib import staticfiles
@@ -7,10 +7,14 @@ from django.http import HttpResponse, Http404
 from hashlib import sha1
 import hmac
 import binascii
+from models import *
 
 def reg(request):
     if request.method == 'GET':
-        return render(request, "index.html")
+        category_list = CompanyCategory.objects.values_list('category', flat=True).distinct()
+        business_list = BusinessType.objects.values_list('type', flat=True).distinct()
+        service_list = Service.objects.values()
+        return render_to_response("index.html", {'categories':category_list,'businesstypes':business_list, 'services':service_list})
     else:
         try:
             passwd= request.POST.get('password')

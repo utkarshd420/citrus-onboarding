@@ -39,7 +39,8 @@ class Merchant(models.Model):
 
 class CompanyCategory(models.Model):
     category = models.CharField(max_length = 300)
-
+    def __unicode__(self):
+        return self.category
 
 class BusinessType(models.Model):
     type = models.CharField(max_length = 200)
