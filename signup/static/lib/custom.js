@@ -33,17 +33,31 @@ $.ajaxSetup({
 
 function newpost()
 {
-	var company_name= $("#company-name").val();
-	var company_category = $("#company-category").val();
-	var your_name = $("#your-name").val();
-	var email = $("#email").val();
-	var phone= $("#phone").val();
-	var password = $("#password").val();
-	var datastring = 'company-name=' +company_name +'&company-category='+company_category+'&your-name='+your_name+'&email='+email+'&phone='+phone+'&password='+password;
+	var selected = [];
+	$("#services:checked").each(
+	function(){
+	selected.push($(this.val()));
+	});
+	var datastring =[
+		{"company-name":$("#company-name").val()},
+		{"company-website":$("#company-website").val()},
+		{"company-category":$("#company-category").val()},
+		{"company-business-category":$("#company-business-category").val()},
+		{"services":selected},
+		{"your-name": $("#your-name").val()},
+		{"email":$("#email").val()},
+		{"phone":$("#phone").val()},
+		{"password":$("#password").val()},
+	]
+	
+	
+//	var datastring = 'company-name=' +company_name +'&company-category='+company_category+'&your-name='+your_name+'&email='+email+'&phone='+phone+'&password='+password;
 	$.ajax({
 		url:"../reg/",
-		data:datastring,
-		processData:false,
+		data:JSON.stringify({data:datastring}),
+		contentType: "application/json; charset=utf-8",
+		dataType: "json",
+	//	processData:false,
 		type: 'POST',
 		success:function(data)
 		{

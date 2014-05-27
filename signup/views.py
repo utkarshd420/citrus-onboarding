@@ -17,6 +17,8 @@ def reg(request):
         return render_to_response("index.html", {'categories':category_list,'businesstypes':business_list, 'services':service_list})
     else:
         try:
+            print request
+            return "done"
             passwd= request.POST.get('password')
             email  = request.POST.get('email')
             username = hashlib.md5(email).hexdigest()[:30] 
