@@ -23,11 +23,12 @@ $.ajaxSetup({
      } 
 });
     $( "#tabs" ).tabs(
-	{disabled: [1,2]}
+	{disabled: [1,2,3]}
 	);
 	$("#payment-tabs").tabs();
 	$("#headings-custom-tab2").css("color","#A8A8A8");
 	$("#headings-custom-tab3").css("color","#A8A8A8");
+	$("#headings-custom-tab4").css("color","#A8A8A8");
   });
 
 function newpost()
