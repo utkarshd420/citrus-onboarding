@@ -11,7 +11,11 @@
 	border:none;
 	
 }
-
+.table-left-col
+{
+    border-bottom:2px solid rgb(240,240,240);
+    text-align:left        
+}
 .headings-custom
 {
 	font-size: 1.9em;
