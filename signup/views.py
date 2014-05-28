@@ -29,6 +29,7 @@ def reg(request):
             phone = data.get('phone')
             url = data.get('company-website')
             business_type = data.get('company-business-type')
+            services = data.get('services')
             reg_date = datetime.datetime.now()
             step = 1
             merchant = Merchant(user=user, name=name, phone=phone, url=url)
@@ -37,6 +38,10 @@ def reg(request):
             btype = BusinessType.objects.get(type=business_type)
             company = Company(name=company_name,merchant=merchant, company_category=category, business_type = btype)
             company.save()
+            for service in services:
+                serv = Service.objects.get(name=service)
+                merchant_service = MerchantService(merchant=merchant, service=serv)
+                merchant_service.save()
             user = authenticate(username=username, password=passwd)
             if user is not None:
                 login(request, user)
