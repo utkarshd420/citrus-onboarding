@@ -2,7 +2,7 @@ from django.shortcuts import render_to_response
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib import staticfiles
-import datetime, hashlib, json,os
+import datetime, hashlib, json,os, random
 from django.http import HttpResponse, Http404
 from hashlib import sha1
 import hmac
@@ -84,15 +84,18 @@ def upload_files(request):
             return HttpResponse("Failed")
 def gen_hmac(request):
     if request.method == 'GET':
-        raise Http404
-    elif request.method == 'POST':
+        username = request.user.username
+        merchant = Merchant.objects.get(user__username=username)
+        servicelist =  MerchantService.objects.filter(merchant=merchant)
+        charges = [a.service.charges for a in servicelist]
         key = "d24c6ba5e15fb1c7e30f7bffe07c3b75aa99b635"
-        merchantId = data.get("merchantId")
-        orderAmount = data.get("orderAmount")
-        merchantTxnId = data.get("merchantTxnId")
-        currency = data.get("currency")
-        data=merchantId+orderAmount+merchantTxnId+currency
+        merchantTxnId = ''.join(random.choice('0123456789ABCDEFGHIJ') for i in range(32))
+        merchantId = "1234"
+        orderAmount = sum(charges)
+        currency = 'INR'
+        data=merchantId+str(orderAmount)+merchantTxnId+currency
         hashed = hmac.new(key, data, sha1)
-        return HttpResponse(binascii.b2a_hex(hashed.digest())[:-1])
+        returndata = {'secSignature': binascii.b2a_hex(hashed.digest())[:-1],'currecny':'INR','orderAmount':orderAmount,'merchantTxnId':merchantTxnId, 'merchantId':merchantId};
+        return HttpResponse(json.dumps(returndata), content_type="application/json")
     else:
         raise Http404

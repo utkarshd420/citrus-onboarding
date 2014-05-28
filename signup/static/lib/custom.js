@@ -114,16 +114,7 @@ function iniPay(){
 //	var datastring = 'orderAmount='+orderAmt;
     
 // 'merchantId=' + merchantId +'&orderAmount='+ orderAmt +'&merchantTxnId='+ merchanttxnId +'&currency='+currency+'&companyName='+companyName+'&merchantEmail='+merchantEmail+'$secSignature='+secSignature;
-	$.ajax({
-		url:"../gencode/",
-		processData:false,
-		type: 'GET',
-		success:function(data)
-		{
-			console.log(data);
-//			$("#secSignature").val(data);
-			//switch_tab(0);
-		}
-});
-
+    $.get('../gencode', function(data){
+            console.log(data['orderAmount']);
+        });
 }
