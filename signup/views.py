@@ -98,7 +98,7 @@ def gen_hmac(request):
         currency = 'INR'
         data=merchantId+str(orderAmount)+merchantTxnId+currency
         hashed = hmac.new(key, data, sha1)
-        returndata = {'secSignature': binascii.b2a_hex(hashed.digest())[:-1],'currecny':'INR','orderAmount':orderAmount,'merchantTxnId':merchantTxnId, 'merchantId':merchantId, 'merchantEmail': merchantEmail,'companyName':companyName};
+        returndata = {'secSignature': binascii.b2a_hex(hashed.digest())[:-1],'currency':'INR','orderAmount':orderAmount,'merchantTxnId':merchantTxnId, 'merchantId':merchantId, 'merchantEmail': merchantEmail,'companyName':companyName};
         return HttpResponse(json.dumps(returndata), content_type="application/json")
     else:
         raise Http404

@@ -107,13 +107,13 @@ function newpost()
 function iniPay(){
 
     $.get('../gencode', function(data){
-            console.log(data['orderAmount']);
-            $("#merchantId").val()=data['merchantId']; 
-            $("#orderAmount").val()=data['orderAmount'];
-            $("#merchantTxnId").val()=data['merchantTxnId'];
-            $("#currency").val()=data['currency'];
-            $("#companyName").val()=data['companyName'];
-            $("#merchantEmail").val()=data['merchantEmail'];
-            $("#secSignature").val()=data['secSignature'];
+            console.log(data);
+            $("#merchantId").val(data['merchantId']); 
+            $("#orderAmount").val(data['orderAmount']);
+            $("#merchantTxnId").val(data['merchantTxnId']);
+            $("#currency").val(data['currency']);
+            $("#companyName").val(data['companyName']);
+            $("#merchantEmail").val(data['merchantEmail']);
+            $("#secSignature").val(data['secSignature']);
         });
 }
