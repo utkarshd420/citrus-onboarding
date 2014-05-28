@@ -105,23 +105,9 @@ function newpost()
 	//have to add ajax data saving
  }
 function iniPay(){
-$("#merchantId").val()=data['merchantId'];
-$("#orderAmount").val()=data['orderAmount'];
-$("#merchantTxnId").val()=data['merchantTxnId'];
-$("#currency").val()=data['currency'];
-$("#companyName").val()=data['companyName'];
-$("#merchantEmail").val()=data['merchantEmail'];
-$("#secSignature").val()=data['secSignature'];
 
-    
-// 'merchantId=' + merchantId +'&orderAmount='+ orderAmt +'&merchantTxnId='+ merchanttxnId +'&currency='+currency+'&companyName='+companyName+'&merchantEmail='+merchantEmail+'$secSignature='+secSignature;
-	$.ajax({
-		url:"../gencode/",
-		processData:false,
-		type: 'GET',
-		success:function(data)
-		{
-			console.log(data);
+    $.get('../gencode', function(data){
+            console.log(data['orderAmount']);
             $("#merchantId").val()=data['merchantId']; 
             $("#orderAmount").val()=data['orderAmount'];
             $("#merchantTxnId").val()=data['merchantTxnId'];
@@ -129,8 +115,5 @@ $("#secSignature").val()=data['secSignature'];
             $("#companyName").val()=data['companyName'];
             $("#merchantEmail").val()=data['merchantEmail'];
             $("#secSignature").val()=data['secSignature'];
-
-		}
-});
-
+        });
 }
