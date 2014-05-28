@@ -86,6 +86,9 @@ def gen_hmac(request):
     if request.method == 'GET':
         username = request.user.username
         merchant = Merchant.objects.get(user__username=username)
+        merchantEmail = merchant.user.email
+        company = Company.objects.get(merchant=merchant)
+        companyName = company.name
         servicelist =  MerchantService.objects.filter(merchant=merchant)
         charges = [a.service.charges for a in servicelist]
         key = "d24c6ba5e15fb1c7e30f7bffe07c3b75aa99b635"
@@ -95,7 +98,7 @@ def gen_hmac(request):
         currency = 'INR'
         data=merchantId+str(orderAmount)+merchantTxnId+currency
         hashed = hmac.new(key, data, sha1)
-        returndata = {'secSignature': binascii.b2a_hex(hashed.digest())[:-1],'currecny':'INR','orderAmount':orderAmount,'merchantTxnId':merchantTxnId, 'merchantId':merchantId};
+        returndata = {'secSignature': binascii.b2a_hex(hashed.digest())[:-1],'currecny':'INR','orderAmount':orderAmount,'merchantTxnId':merchantTxnId, 'merchantId':merchantId, 'merchantEmail': merchantEmail,'companyName':companyName};
         return HttpResponse(json.dumps(returndata), content_type="application/json")
     else:
         raise Http404
