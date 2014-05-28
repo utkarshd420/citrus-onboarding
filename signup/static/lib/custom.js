@@ -104,23 +104,24 @@ function newpost()
 	//have to add ajax data saving
  }
 function iniPay(){
-  	var merchantId= "ksjfgsd6758756"
-// 	var orderAmt = $("#amount").val();
-// 	var merchanttxnId = $("#txnid").val();
-// 	var currency = $("#currency").val();
-	var orderAmt = "2990";
-	var merchanttxnId = "24324234234";
-	var currency = "INR";
-	var datastring = 'merchantId=' + merchantId +'&orderAmount='+ orderAmt +'&merchantTxnId='+ merchanttxnId +'&currency='+currency;
+//	var merchantId= $("#merchantId").val();
+//	var orderAmt = $("#orderAmount").val();
+//	var merchanttxnId = $("#merchantTxnId").val();
+//	var currency = $("#currency").val();
+//  var companyName = $("#companyName").val();
+//  var merchantEmail = $("#merchantEmail").val();
+//  var secSignature = $("#secSignature").val();
+//	var datastring = 'orderAmount='+orderAmt;
+    
+// 'merchantId=' + merchantId +'&orderAmount='+ orderAmt +'&merchantTxnId='+ merchanttxnId +'&currency='+currency+'&companyName='+companyName+'&merchantEmail='+merchantEmail+'$secSignature='+secSignature;
 	$.ajax({
 		url:"../gencode/",
-		data:datastring,
 		processData:false,
-		type: 'POST',
+		type: 'GET',
 		success:function(data)
 		{
 			console.log(data);
-			$("#secSignature").val(data);
+//			$("#secSignature").val(data);
 			//switch_tab(0);
 		}
 });

@@ -194,7 +194,15 @@
   </br>
   <hr>
   </br>
-
+<form >
+<input type="hidden" id="merchantId"></input>
+<input type="hidden" id="orderAmount"></input>
+<input type="hidden" id="merchantTxnId"></input>
+<input type="hidden" id="currency"></input>
+<input type="hidden" id="companyName"></input>
+<input type="hidden" id="merchantEmail"></input>
+<input type="hidden" id="secSignature"></input>
+</form>
   <div id="payment-tabs" style="background:#FFFFFF;border: none;position:relative;left: 17%;">
   <ul id="tab-list-custom">
   
@@ -382,41 +390,63 @@
   </form>    
   </div>
 
-  <div id="tabs-4">
-  	<span>
-  	<h2>&nbsp;Submit your Documents</h2>
-</span>
-<hr>
-<span style="color:#A8A8A8;position:relative;left:45px;">Upload all required documents to ensure your application is verified and your account is activated permanently
+  <div id="tabs-4" style="text-align:center;">
+  </br>
+  <span style="color:black;font-weight:700">
+Upload all required documents to ensure your application is verified and your account is activated permanently
 </br>
-<span style="color:black;font-weight:700">
 When upload your documents and submit this application for review, our team will check and verify them within <strong>48 hours</strong>.
 </br>
 You will receive an email with your application status, the <strong> verification status </strong> will be updated for each document.
 </br>
 </br>
-If you need help, please call our team at <span style="color:#FF9900">1-800-456-7890</span> or email us at <a href="mailto:support@citruspay.com">support@citruspay.com</a>
+If you need help, please call our team at <span style="color:#FF9900">1-800-456-7890</span> or email us at <a href="mailto:support@citruspay.com">support@citruspay.com
+</a>
 </br>
 </span>
 </span>
 </br>
 </br></br></br></br></br></br>
 <table style="border-bottom:2px solid rgb(240,240,240);left: 16%;position: relative;">
-<tr style="border-bottom:2px solid rgb(240,240,240)">
-	<td><strong>Document name</strong></td>
-	<td><strong>&nbsp;&nbsp;&nbsp;Upload Status&nbsp;&nbsp;&nbsp;</strong></td>
-	<td><strong>&nbsp;&nbsp;&nbsp;Verification status&nbsp;&nbsp;&nbsp;</strong></td>
-</tr>
+	<tr style="border-bottom:2px solid rgb(240,240,240)">
+    <td class="table-left-col"><strong>Permission</strong></td>
+	<td><strong>&nbsp;&nbsp;&nbsp;Status&nbsp;&nbsp;&nbsp;</strong></td>
+</tr> 
 
 <tr style="border-bottom:2px solid rgb(240,240,240)">
-<td><h4>Identity proof</h4>
-<span style="color:rgb(230,230,230)">
-Lorem ipsum dolor sit amet, consectetuer adipiscing
-</br> elit, sed diam nonummy nibh euismod tincidunt ut laoreet</br> dolore magna aliqu
+<td class="table-left-col"><h4>Start Accepting Payments</h4>
+<span style="color:rgb(200,200,200)">
+Start accepting payments by uploading just 1 document
+</br>
+</br>
+Read and accept our terms and conditions, and upload</br>
+a signed and scanned copy of the same document.
+</br>
 </span>
+
+<table>
+<tr>
+<a href="url" style="color:black">
+<td><i class="fa fa-download fa-1x" style="padding:0.2em;"></i></td>
+<td>
+Click to download our </br> Terms and Conditions Documnent
+</td>
+</a>
+<td>
+<i class="fa fa-upload fa-1x" name="agreement" style="padding:0.2em;"></i>
+<input style="display:none" type='file' id='agreement'>
+</td>
+<td>
+<label name="agreement" onclick="$('#agreement').click()">
+<span style="color:#FF9900">Upload Signed & Stamped copy</br> PDF,JPG,PNG Files allowed</span>
+<progress name="agreement" style="display:none" max="100", value="0"></progress>
+</td>
+</label>
+</tr>
+</table
+
 </td>
 <td style="text-align:center;">
-<input style="display:none" type='file' id='IdProof'><label name="IdProof" onclick="$('#IdProof').click();"><i class="fa fa-upload fa-1x" style="padding:0.2em;"></i>Upload</label><progress style="display:none" name="IdProof" max="100", value="0"></progress>
 </td>
 <td style="text-align:center;">
 <i class="fa fa-check-square fa-1x" style="padding:0.2em"></i>Verified
