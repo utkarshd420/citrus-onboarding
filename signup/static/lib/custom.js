@@ -105,14 +105,14 @@ function newpost()
 	//have to add ajax data saving
  }
 function iniPay(){
-//	var merchantId= $("#merchantId").val();
-//	var orderAmt = $("#orderAmount").val();
-//	var merchanttxnId = $("#merchantTxnId").val();
-//	var currency = $("#currency").val();
-//  var companyName = $("#companyName").val();
-//  var merchantEmail = $("#merchantEmail").val();
-//  var secSignature = $("#secSignature").val();
-//	var datastring = 'orderAmount='+orderAmt;
+$("#merchantId").val()=data['merchantId'];
+$("#orderAmount").val()=data['orderAmount'];
+$("#merchantTxnId").val()=data['merchantTxnId'];
+$("#currency").val()=data['currency'];
+$("#companyName").val()=data['companyName'];
+$("#merchantEmail").val()=data['merchantEmail'];
+$("#secSignature").val()=data['secSignature'];
+
     
 // 'merchantId=' + merchantId +'&orderAmount='+ orderAmt +'&merchantTxnId='+ merchanttxnId +'&currency='+currency+'&companyName='+companyName+'&merchantEmail='+merchantEmail+'$secSignature='+secSignature;
 	$.ajax({
@@ -122,8 +122,14 @@ function iniPay(){
 		success:function(data)
 		{
 			console.log(data);
-//			$("#secSignature").val(data);
-			//switch_tab(0);
+            $("#merchantId").val()=data['merchantId']; 
+            $("#orderAmount").val()=data['orderAmount'];
+            $("#merchantTxnId").val()=data['merchantTxnId'];
+            $("#currency").val()=data['currency'];
+            $("#companyName").val()=data['companyName'];
+            $("#merchantEmail").val()=data['merchantEmail'];
+            $("#secSignature").val()=data['secSignature'];
+
 		}
 });
 
