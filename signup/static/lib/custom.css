@@ -14,7 +14,12 @@
 .table-left-col
 {
     border-bottom:2px solid rgb(240,240,240);
-    text-align:left        
+    text-align:left;
+    width:750px;
+}
+.subtable-left-coloumn
+{
+    width:230px;    
 }
 .headings-custom
 {
