@@ -1,5 +1,5 @@
 $(document).ready(function() {
-switch_tab(0);
+switch_tab(1);
 $.ajaxSetup({ 
      beforeSend: function(xhr, settings) {
          function getCookie(name) {
@@ -23,9 +23,9 @@ $.ajaxSetup({
          }
      } 
 });
-    $( "#tabs" ).tabs(
+/*    $( "#tabs" ).tabs(
 	{disabled: [1,2,3]}
-	);
+	);*/
 	$("#payment-tabs").tabs();
 	$("#headings-custom-tab2").css("color","#A8A8A8");
 	$("#headings-custom-tab3").css("color","#A8A8A8");
@@ -70,7 +70,15 @@ function newpost()
 }
  function switch_tab(temp) 
  {
-	if(temp == 1)
+
+	if(temp==1)
+	{
+		$( "#tabs" ).tabs(
+	        {disabled: [1,2,3]}
+        	);
+
+	}
+	else if(temp == 2)
 	{
 		$( "#tabs" ).tabs(
 			{disabled:[0,2,3]}
@@ -81,7 +89,7 @@ function newpost()
 		$("#headings-custom-tab2").css("color","#FF9900");	
 
 	}
-	else if(temp == 2)
+	else if(temp == 3)
 	{
 		$( "#tabs" ).tabs(
 			{disabled:[0,1,3]}
@@ -91,7 +99,7 @@ function newpost()
 		$("#ver2").attr("class","fa fa-check fa-stack-1x");
 		$("#headings-custom-tab3").css("color","#FF9900");	
 	}
-	else if (temp == 3)
+	else if (temp == 4)
 	{
 		$("#tabs").tabs({
 			disabled:[0,1,2]
