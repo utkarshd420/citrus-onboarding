@@ -11,10 +11,17 @@ from models import *
 
 def reg(request):
     if request.method == 'GET':
-        category_list = CompanyCategory.objects.values_list('category', flat=True).distinct()
-        business_list = BusinessType.objects.values_list('type', flat=True).distinct()
-        service_list = Service.objects.values()
-        return render_to_response("index.html", {'categories':category_list,'businesstypes':business_list, 'services':service_list})
+        if request.user.is_authenticated():
+            username = request.user.username
+            print username
+            merchant = Merchant.objects.get(user__username=username)
+            step = merchant.step
+            return render_to_response('index.html', {'step':step})
+        else:
+            category_list = CompanyCategory.objects.values_list('category', flat=True).distinct()
+            business_list = BusinessType.objects.values_list('type', flat=True).distinct()
+            service_list = Service.objects.values()
+            return render_to_response("index.html", {'categories':category_list,'businesstypes':business_list, 'services':service_list,'step':1})
     else:
         try:
             data = json.loads(request.body).get('data')
@@ -45,9 +52,11 @@ def reg(request):
             user = authenticate(username=username, password=passwd)
             if user is not None:
                 login(request, user)
+                merchant.step = 2
+                merchant.save()
                 response_data = {}
                 response_data['status'] = 'success'
-                response_data['step'] = 1
+                response_data['step'] = 2 
                 return HttpResponse(json.dumps(response_data), content_type="application/json")
             else:
                 response_data = {}

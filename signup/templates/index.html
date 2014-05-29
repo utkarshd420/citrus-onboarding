@@ -13,6 +13,11 @@
 <script src="{% static "lib/jquery-ui.js" %}"></script>
 <script src="{% static "lib/custom.js" %}"></script>
 <script src="{% static "lib/customdoc.js" %}"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+            switch_tab({{step}});
+        });
+</script>
 </head>
 
 <body>

@@ -1,5 +1,4 @@
 $(document).ready(function() {
-switch_tab(1);
 $.ajaxSetup({ 
      beforeSend: function(xhr, settings) {
          function getCookie(name) {
