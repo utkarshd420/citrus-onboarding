@@ -199,14 +199,17 @@
   </br>
   <hr>
   </br>
-<form >
-<input type="hidden" id="merchantId"></input>
-<input type="hidden" id="orderAmount"></input>
-<input type="hidden" id="merchantTxnId"></input>
-<input type="hidden" id="currency"></input>
-<input type="hidden" id="companyName"></input>
-<input type="hidden" id="merchantEmail"></input>
-<input type="hidden" id="secSignature"></input>
+<form action = "https://sandbox.citruspay.com/mufvo8mgto" method= "post" id="payform"> 
+<input type="hidden" name="merchantId"></input>
+<input type="hidden" name="orderAmount"></input>
+<input type="hidden" name="merchantTxnId"></input>
+<input type="hidden" name="currency"></input>
+<input type="hidden" name="returnUrl" value="http://localhost:8000/new/citrusresponse/"></input>
+<input type="hidden" name="customParams[0].name" value="Company Name"></input>
+<input type="hidden" name="customParams[0].value" value=""></input>
+<input type="hidden" name="customParams[1].name" value="Merchant Email"></input>
+<input type="hidden" name="customParams[1].value" value=""></input>
+<input type="hidden" name="secSignature"></input>
 </form>
   <div id="payment-tabs" style="background:#FFFFFF;border: none;position:relative;left: 17%;">
   <ul id="tab-list-custom">

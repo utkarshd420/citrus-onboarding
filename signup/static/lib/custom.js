@@ -115,12 +115,13 @@ function iniPay(){
 
     $.get('../gencode', function(data){
             console.log(data);
-            $("#merchantId").val(data['merchantId']); 
-            $("#orderAmount").val(data['orderAmount']);
-            $("#merchantTxnId").val(data['merchantTxnId']);
-            $("#currency").val(data['currency']);
-            $("#companyName").val(data['companyName']);
-            $("#merchantEmail").val(data['merchantEmail']);
-            $("#secSignature").val(data['secSignature']);
+            $("input[name=merchantId]").val(data['merchantId']); 
+            $("input[name=orderAmount]").val(data['orderAmount']);
+            $("input[name=merchantTxnId]").val(data['merchantTxnId']);
+            $("input[name=currency]").val(data['currency']);
+            $("input[name='customParams[0].value']").val(data['companyName']);
+            $("input[name='customParams[1].value']").val(data['merchantEmail']);
+            $("input[name=secSignature]").val(data['secSignature']);
+            //$("#payform").submit();
         });
 }

@@ -1,9 +1,11 @@
 from django.shortcuts import render_to_response
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib import staticfiles
 import datetime, hashlib, json,os, random
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.core.urlresolvers import reverse
 from hashlib import sha1
 import hmac
 import binascii
@@ -13,7 +15,6 @@ def reg(request):
     if request.method == 'GET':
         if request.user.is_authenticated():
             username = request.user.username
-            print username
             merchant = Merchant.objects.get(user__username=username)
             step = merchant.step
             return render_to_response('index.html', {'step':step})
@@ -100,14 +101,30 @@ def gen_hmac(request):
         companyName = company.name
         servicelist =  MerchantService.objects.filter(merchant=merchant)
         charges = [a.service.charges for a in servicelist]
-        key = "d24c6ba5e15fb1c7e30f7bffe07c3b75aa99b635"
-        merchantTxnId = ''.join(random.choice('0123456789ABCDEFGHIJ') for i in range(32))
-        merchantId = "1234"
-        orderAmount = sum(charges)
+        key = "8d67f4a947a6273b1aa55ef72a133d5518a9a13f"
+        merchantTxnId = ''.join(random.choice('0123456789ABCDEFGHIJ') for i in range(28))
+        merchantId = "mufvo8mgto"
+        orderAmount = 1
         currency = 'INR'
         data=merchantId+str(orderAmount)+merchantTxnId+currency
         hashed = hmac.new(key, data, sha1)
-        returndata = {'secSignature': binascii.b2a_hex(hashed.digest())[:-1],'currency':'INR','orderAmount':orderAmount,'merchantTxnId':merchantTxnId, 'merchantId':merchantId, 'merchantEmail': merchantEmail,'companyName':companyName};
+        returndata = {'secSignature': binascii.b2a_hex(hashed.digest()),'currency':'INR','orderAmount':orderAmount,'merchantTxnId':merchantTxnId, 'merchantId':merchantId, 'merchantEmail': merchantEmail,'companyName':companyName};
+        txn = Txn(merchant_tx_id=merchantTxnId,merchant=merchant,status='P',amount=orderAmount,date_time=datetime.datetime.now())
+        txn.save()
         return HttpResponse(json.dumps(returndata), content_type="application/json")
     else:
         raise Http404
+
+@csrf_exempt
+def citrusresponse(request):
+    print request.POST
+    txn = Txn.objects.get(merchant_tx_id=request.POST.get('TxId'))
+    if request.POST.get('TxStatus')=="SUCCESS":
+        txn.status = 'S'
+        txn.citrus_txn_id = request.POST.get('TxRefNo')
+        txn.save()
+        merchant = Merchant.objects.get(user__email=request.POST.get('Merchant Email'))
+        merchant.step = 3
+        merchant.save()
+    return HttpResponseRedirect('../reg/')
+
