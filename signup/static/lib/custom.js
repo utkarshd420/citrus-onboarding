@@ -59,8 +59,12 @@ function newpost()
 		processData:false,
 		success:function(data)
 		{
-			console.log(data);
-			switch_tab(1);
+            if (data['status']=='success') {
+                location.reload();
+            }
+            else{
+			    console.log(data);
+            }
 		},
         failure: function(errMsg) {
                     alert(errMsg);

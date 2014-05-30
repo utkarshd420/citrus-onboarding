@@ -11,13 +11,22 @@ import hmac
 import binascii
 from models import *
 
+@csrf_exempt
 def reg(request):
     if request.method == 'GET':
         if request.user.is_authenticated():
             username = request.user.username
             merchant = Merchant.objects.get(user__username=username)
             step = merchant.step
-            return render_to_response('index.html', {'step':step})
+            if step==2:
+                servicelist =  MerchantService.objects.filter(merchant=merchant)
+                charges = [a.service.charges for a in servicelist]
+                return render_to_response('index.html', {'step':step,'amt':sum(charges)})
+            #elif step==3:
+                
+            else:
+                return render_to_response('index.html')
+               
         else:
             category_list = CompanyCategory.objects.values_list('category', flat=True).distinct()
             business_list = BusinessType.objects.values_list('type', flat=True).distinct()
@@ -39,7 +48,7 @@ def reg(request):
             business_type = data.get('company-business-type')
             services = data.get('services')
             reg_date = datetime.datetime.now()
-            step = 1
+            step = 1 
             merchant = Merchant(user=user, name=name, phone=phone, url=url)
             merchant.save() 
             category = CompanyCategory.objects.get(category=company_category)
@@ -104,7 +113,7 @@ def gen_hmac(request):
         key = "8d67f4a947a6273b1aa55ef72a133d5518a9a13f"
         merchantTxnId = ''.join(random.choice('0123456789ABCDEFGHIJ') for i in range(28))
         merchantId = "mufvo8mgto"
-        orderAmount = 1
+        orderAmount = sum(charges) 
         currency = 'INR'
         data=merchantId+str(orderAmount)+merchantTxnId+currency
         hashed = hmac.new(key, data, sha1)
@@ -126,5 +135,9 @@ def citrusresponse(request):
         merchant = Merchant.objects.get(user__email=request.POST.get('Merchant Email'))
         merchant.step = 3
         merchant.save()
+        banks = Bank.objects.all()
+        for elem in bank:
+            merchant_bank = MerchantBankApproval(merchant=merchant, bank=elem, status='P', remarks='')
+            merchant_bank.save()
     return HttpResponseRedirect('../reg/')
 
