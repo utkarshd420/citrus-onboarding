@@ -73,18 +73,27 @@ function newpost()
 }
  function switch_tab(temp) 
  {
-
+ 	if(temp==0)
+ 	{
+ 		$( "#tabs" ).tabs(
+	        {disabled: [1,2,3,4]}
+        	);
+ 	}
 	if(temp==1)
 	{
 		$( "#tabs" ).tabs(
-	        {disabled: [1,2,3]}
+	        {disabled: [0,2,3,4]}
         	);
+		$("#tab-1").click();
+		$("#headings-custom-tab0").css("color","#00CC00");
+		$("#ver0").attr("class","fa fa-check fa-stack-1x");
+		$("#headings-custom-tab1").css("color","#FF9900");	
 
 	}
 	else if(temp == 2)
 	{
 		$( "#tabs" ).tabs(
-			{disabled:[0,2,3]}
+			{disabled:[0,1,3,4]}
 		);
 		$("#tab-2").click();
 		$("#headings-custom-tab1").css("color","#00CC00");
@@ -95,7 +104,7 @@ function newpost()
 	else if(temp == 3)
 	{
 		$( "#tabs" ).tabs(
-			{disabled:[0,1,3]}
+			{disabled:[0,1,2,4]}
 		);
 		$("#tab-3").click();
 		$("#headings-custom-tab2").css("color","#00CC00");
@@ -105,7 +114,7 @@ function newpost()
 	else if (temp == 4)
 	{
 		$("#tabs").tabs({
-			disabled:[0,1,2]
+			disabled:[0,1,2,3]
 		});
 		$("#tab-4").click();
 		$("#headings-custom-tab3").css("color","#00CC00");

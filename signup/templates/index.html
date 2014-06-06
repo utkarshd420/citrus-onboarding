@@ -29,6 +29,28 @@
 
 <div  id="tabs" style="position:absolute;left:6%;top:25%;background:#FFFFFF">
 <ul id="tab-list-custom">
+
+	<li class="row">
+	<a href="#tabs-0" id="tab-0" style="width:265px">
+	<span class="headings-custom" id="headings-custom-tab0">
+	<span class="fa-stack fa-lg" style="padding-top:0.3em">
+	<i class="fa fa-circle-thin fa-stack-2x" ></i> 
+	<i class="fa fa-copy fa-stack-1x " id="ver0"></i>
+	</span>
+	Upload Docs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</br></br>
+	<p>
+	<span class="subtext-custom">
+	Upload documents and look &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	</br>
+	at your application status&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	</span>
+	</p>
+	</span>
+	
+	</a>
+	</li>
+	
+
 	<li class="row"><a href="#tabs-1" id="tab-1"><span id="headings-custom-tab1" class="headings-custom">
 	<span class="fa-stack fa-lg" style="padding-top:0.3em">
 	<i class="fa fa-circle-thin fa-stack-2x"></i>
@@ -98,6 +120,126 @@
 	
 	
 </ul>
+
+<div id="tabs-0" style="text-align:center;">
+  </br>
+  <span style="color:black;font-weight:700">
+Upload all required documents to ensure your application is verified and your account is activated permanently
+</br>
+When upload your documents and submit this application for review, our team will check and verify them within <strong>48 hours</strong>.
+</br>
+You will receive an email with your application status, the <strong> verification status </strong> will be updated for each document.
+</br>
+</br>
+If you need help, please call our team at <span style="color:#FF9900">1-800-456-7890</span> or email us at <a href="mailto:support@citruspay.com">support@citruspay.com
+</a>
+</br>
+</span>
+</span>
+</br>
+</br></br></br></br></br></br>
+<table style="border-bottom:2px solid rgb(240,240,240);left: 8%;position: relative;">
+	<tr style="border-bottom:2px solid rgb(240,240,240)">
+    <td class="table-left-col"><strong>Permission</strong></td>
+	<td><strong>&nbsp;&nbsp;&nbsp;Status&nbsp;&nbsp;&nbsp;</strong></td>
+</tr> 
+
+<tr style="border-bottom:2px solid rgb(240,240,240)">
+<td class="table-left-col"><h4>Start Accepting Payments</h4>
+<span style="color:rgb(200,200,200)">
+Start accepting payments by uploading just 1 document
+</br>
+</br>
+Read and accept our terms and conditions, and upload</br>
+a signed and scanned copy of the same document.
+</br>
+</span>
+
+<table>
+<tr>
+<td style="subtable-left-coloumn"><i class="fa fa-download fa-1x" style="padding:0.2em;"></i></td>
+<td>
+<a href="url" style="color:black">
+Click to download our </br> Terms and Conditions Documnent
+</a>
+</td>
+<td>
+<i class="fa fa-upload fa-1x" name="agreement" style="padding:0.2em;color:#FF9900"></i>
+<input style="display:none" type='file' id='agreement-input'>
+</td>
+<td>
+<label name="agreement" onclick="$('#agreement-input').click()">
+<span style="color:#FF9900"><strong>Upload Signed & Stamped copy</strong></br> PDF,JPG,PNG Files allowed</span></br>
+<progress name="agreement" style="display:none" max="100", value="0"></progress>
+</label>
+</td>
+</tr>
+</table>
+
+
+</td>
+<td style="text-align:center;valign:ceneter">
+Waiting for documents
+</td>
+</tr>
+
+<tr style="border-bottom:2px solid rgb(240,240,240)">
+<td class="table-left-col"><h4>Enable Settlemments</h4>
+<span style="color:rgb(200,200,200)">
+Start bank settlements for your money
+</br></br> 
+Download our documents and upload them back.
+</span>
+
+<table>
+<tr>
+<td><i class="fa fa-download fa-1x" style="padding:0.2em;"></i></td>
+<td class="subtable-left-coloumn">
+<a href="url" style="color:black">
+Click to download the </br> Documents Package
+</a>
+</td>
+<td>
+<i class="fa fa-upload fa-1x" name="settlement" style="padding:0.2em;color:#FF9900"></i>
+<input style="display:none" type='file' id='settlement'>
+</td>
+<td>
+<label name="settlement" onclick="$('#settlement').click()">
+<span style="color:#FF9900"><strong>Upload Completed Set</strong></br>ZIP,RAR or Separate PDF Files</span>
+</br>
+<progress name="settlement" style="display:none" max="100", value="0"></progress>
+</label>
+</td>
+</tr>
+</table>
+
+</td>
+<td style="text-align:center;">
+Waiting for documents
+</td>
+</tr> 
+
+</table>
+</br>
+</br>
+<table style="border-bottom:2px solid rgb(240,240,240);left: 36%;position: relative;">
+<tr>
+<td style="text-align:center"><strong>Bank</strong></td>
+<td style="text-align:center"><strong>Status</strong></td>
+</tr>
+<tr>		<!--bank rows -->
+<td class="bank-name">Axis Bank</td>
+<td class="approved-status" style="display:none;color:green">
+<i class="fa fa-check-square fa-1x"></i>
+Approved</td>
+<td class="pending-status" style="color:rgb(200,200,200)">
+<i class="fa fa-exclamation-circle fa-1x"></i>
+Pending</td>
+</tr>
+</table>
+</br>
+</div>
+
 
 <div id="tabs-1">
 <div id="content-tab1" style="text-align:center">
