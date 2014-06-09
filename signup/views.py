@@ -12,26 +12,53 @@ import binascii
 from models import *
 
 @csrf_exempt
-def reg(request):
+def reg(request, **kwargs):
     if request.method == 'GET':
+        req_step = kwargs.get('step')
+        print req_step
         if request.user.is_authenticated():
             username = request.user.username
             merchant = Merchant.objects.get(user__username=username)
             step = merchant.step
+            if req_step=='0':
+                if step==2:
+                    return render_to_response("index.html", {'step':0,'dashboardbody':'Nothing to do here<br>until you pay us first by<a href="../2">clicking here</a>'})
+                if step==4 or step==3:
+                    temphtml='<table style="border-bottom:2px solid rgb(240,240,240);left: 36%;position: relative;"><tr><td style="text-align:center"><strong>Bank</strong></td><td style="text-align:center"><strong>Status</strong></td></tr>'
+                    banks = MerchantBankApproval.objects.filter(merchant=merchant)
+                    for elem in banks:
+                        if elem.status == 'A':
+                            temphtml += '<tr><td class="bank-name">'+elem.bank.bank+'</td><td class="approved-status" style="color:green"><i class="fa fa-check-square fa-1x"></i>Approved</td></tr>'
+                        elif elem.status == 'P':
+                            temphtml += '<tr><td class="bank-name">'+elem.bank.bank+'<td class="pending-status" style="color:rgb(200,200,200)"><i class="fa fa-exclamation-circle fa-1x"></i>Pending</td></tr>'
+                    filelist = os.listdir('./files/'+ merchant.user.username + '/')
+                    no_file_uploaded = len(set([elem[:4] for elem in filelist]))
+                    total = 10
+                    temphtml += '<br><br><tr><td style="text-align:center"><strong>No. of Docs Left</strong></td><td style="text-align:center"><strong>'+str(total-no_file_uploaded)+ '/' +str(total) +'</strong></td></tr></table>'
+                    return render_to_response("index.html", {'step':0,'dashboardbody':temphtml})
+
             if step==2:
                 servicelist =  MerchantService.objects.filter(merchant=merchant)
                 charges = [a.service.charges for a in servicelist]
                 return render_to_response('index.html', {'step':step,'amt':sum(charges)})
-            #elif step==3:
+            elif req_step=='3':
+                return render_to_response('index.html', {'step':3})
+            elif req_step=='4':
+                return render_to_response('index.html', {'step':4})
                 
             else:
-                return render_to_response('index.html')
+                return HttpResponseRedirect('../0')
                
         else:
-            category_list = CompanyCategory.objects.values_list('category', flat=True).distinct()
-            business_list = BusinessType.objects.values_list('type', flat=True).distinct()
-            service_list = Service.objects.values()
-            return render_to_response("index.html", {'categories':category_list,'businesstypes':business_list, 'services':service_list,'step':1})
+            if req_step == '1':
+                print "haha"
+                category_list = CompanyCategory.objects.values_list('category', flat=True).distinct()
+                business_list = BusinessType.objects.values_list('type', flat=True).distinct()
+                service_list = Service.objects.values()
+                return render_to_response("index.html", {'categories':category_list,'businesstypes':business_list, 'services':service_list,'step':1})
+            else:
+                return render_to_response("index.html", {'step':0,'dashboardbody':'Nothing to do here<br>get started with signup by <a href="../1">clicking here</a>'})
+
     else:
         try:
             data = json.loads(request.body).get('data')
@@ -113,7 +140,8 @@ def gen_hmac(request):
         key = "8d67f4a947a6273b1aa55ef72a133d5518a9a13f"
         merchantTxnId = ''.join(random.choice('0123456789ABCDEFGHIJ') for i in range(28))
         merchantId = "mufvo8mgto"
-        orderAmount = sum(charges) 
+        #orderAmount = sum(charges) 
+        orderAmount = 1
         currency = 'INR'
         data=merchantId+str(orderAmount)+merchantTxnId+currency
         hashed = hmac.new(key, data, sha1)
@@ -136,8 +164,8 @@ def citrusresponse(request):
         merchant.step = 3
         merchant.save()
         banks = Bank.objects.all()
-        for elem in bank:
+        for elem in banks:
             merchant_bank = MerchantBankApproval(merchant=merchant, bank=elem, status='P', remarks='')
             merchant_bank.save()
-    return HttpResponseRedirect('../reg/')
+    return HttpResponseRedirect('../reg/3')
 

@@ -126,7 +126,7 @@ function newpost()
  }
 function iniPay(){
 
-    $.get('../gencode', function(data){
+    $.get('../../gencode', function(data){
             console.log(data);
             $("input[name=merchantId]").val(data['merchantId']); 
             $("input[name=orderAmount]").val(data['orderAmount']);
