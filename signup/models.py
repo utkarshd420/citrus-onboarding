@@ -54,22 +54,29 @@ class Company(models.Model):
 
 
 class Bank(models.Model):
-    bank = models.CharField(max_length = 200)
+    bank = models.CharField(max_length = 200,unique=True)
+    email = models.EmailField()
+    def __unicode__(self):
+        return self.bank
 
 
 class MerchantBankApproval(models.Model):
     APPROVED = "A"
     PENDING = "P"
     INSUFFICIENT_DOCUMENTS = "ID"
+    EMAIL_SENT = "ES"
     APPLICATION_STATUS_CHOICES = (
                                    (APPROVED, "Approved"),
                                    (PENDING, "Pending"),
                                    (INSUFFICIENT_DOCUMENTS, "Insufficient Documents"),
+                                   (EMAIL_SENT,"Email Sent"),
                                    )
     merchant = models.ForeignKey(Merchant)
     bank = models.ForeignKey(Bank)
     status = models.CharField(max_length=2, choices=APPLICATION_STATUS_CHOICES, default=PENDING, db_index=True)
-    remarks = models.CharField(max_length=320) 
+    remarks = models.CharField(max_length=320,blank=True) 
+    date_mailed_on = models.DateTimeField(null=True, blank=True)
+    date_received_status = models.DateTimeField(null=True, blank=True)
 
 
 class Service(models.Model):
