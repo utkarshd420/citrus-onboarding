@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'signup',
+    'bank_approvals'
 )
 
 MIDDLEWARE_CLASSES = (
