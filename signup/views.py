@@ -31,7 +31,7 @@ def reg(request, **kwargs):
                             temphtml += '<tr><td class="bank-name">'+elem.bank.bank+'</td><td class="approved-status" style="color:green"><i class="fa fa-check-square fa-1x"></i>Approved</td></tr>'
                         elif elem.status == 'P':
                             temphtml += '<tr><td class="bank-name">'+elem.bank.bank+'<td class="pending-status" style="color:rgb(200,200,200)"><i class="fa fa-exclamation-circle fa-1x"></i>Pending</td></tr>'
-                    filelist = os.listdir('./files/'+ merchant.user.username + '/')
+                    filelist = os.listdir('./files/'+ merchant.user.email + '/')
                     no_file_uploaded = len(set([elem[:4] for elem in filelist]))
                     total = 10
                     temphtml += '<br><br><tr><td style="text-align:center"><strong>No. of Docs Left</strong></td><td style="text-align:center"><strong>'+str(total-no_file_uploaded)+ '/' +str(total) +'</strong></td></tr></table>'
@@ -167,5 +167,7 @@ def citrusresponse(request):
         for elem in banks:
             merchant_bank = MerchantBankApproval(merchant=merchant, bank=elem, status='P', remarks='')
             merchant_bank.save()
+        if not os.path.exists('./files/'+request.user.email):
+            os.makedirs('./files/'+ request.user.email)
     return HttpResponseRedirect('../reg/3')
 
