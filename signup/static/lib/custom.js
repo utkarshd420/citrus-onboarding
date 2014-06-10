@@ -22,10 +22,7 @@ $.ajaxSetup({
          }
      } 
 });
-/*    $( "#tabs" ).tabs(
-	{disabled: [1,2,3]}
-	);*/
-	$("#payment-tabs").tabs();
+	$("#headings-custom-tab1").css("color","#A8A8A8");
 	$("#headings-custom-tab2").css("color","#A8A8A8");
 	$("#headings-custom-tab3").css("color","#A8A8A8");
 	$("#headings-custom-tab4").css("color","#A8A8A8");
@@ -75,18 +72,11 @@ function newpost()
  {
  	if(temp==0)
  	{
- 		$( "#tabs" ).tabs(
-	        {//disabled: [1,2,3,4]
-	        }
-        	);
+ 		$("#tab-0").click();
+
  	}
 	if(temp==1)
 	{
-		$( "#tabs" ).tabs(
-	        {
-	        //	disabled: [0,2,3,4]
-	        }
-        	);
 		$("#tab-1").click();
 		$("#headings-custom-tab0").css("color","#00CC00");
 		$("#ver0").attr("class","fa fa-check fa-stack-1x");
@@ -95,9 +85,6 @@ function newpost()
 	}
 	else if(temp == 2)
 	{
-		$( "#tabs" ).tabs(
-		//	{disabled:[0,1,3,4]}
-		);
 		$("#tab-2").click();
 		$("#headings-custom-tab1").css("color","#00CC00");
 		$("#ver1").attr("class","fa fa-check fa-stack-1x");
@@ -106,9 +93,6 @@ function newpost()
 	}
 	else if(temp == 3)
 	{
-		$( "#tabs" ).tabs(
-		//	{disabled:[0,1,2,4]}
-		);
 		$("#tab-3").click();
 		$("#headings-custom-tab2").css("color","#00CC00");
 		$("#ver2").attr("class","fa fa-check fa-stack-1x");
@@ -116,9 +100,6 @@ function newpost()
 	}
 	else if (temp == 4)
 	{
-		$("#tabs").tabs({
-			//disabled:[0,1,2,3]
-		});
 		$("#tab-4").click();
 		$("#headings-custom-tab3").css("color","#00CC00");
 		$("#ver3").attr("class","fa fa-check fa-stack-1x");

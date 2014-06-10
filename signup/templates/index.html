@@ -13,6 +13,8 @@
 <script src="{% static "lib/jquery-ui.js" %}"></script>
 <script src="{% static "lib/custom.js" %}"></script>
 <script src="{% static "lib/customdoc.js" %}"></script>
+<script src="{% static "lib/bootstrap.min.js" %}"></script>
+
 <script type="text/javascript">
     $(document).ready(function(){
             switch_tab({{step}});
@@ -20,116 +22,113 @@
 </script>
 </head>
 
-<body>
+<body style="background:rgb(240,240,240)">
 <span><h2>&nbsp;Sign up for Citrus</h2>
 </span>
-<hr>
-
+<hr style="border-color:rgb(220,220,220)">
 <span style="color:#A8A8A8;position:absolute;left:15px;top:79px">Help us get you in quickly</span>
 
-<div  id="tabs" style="position:absolute;left:6%;top:25%;background:#FFFFFF">
-<ul id="tab-list-custom">
+<div  id="tabs" style="position:absolute;left:0.4%;top:25%;width:100%;z-index:1;height:100%" class="content">
 
-	<li class="row">
-	<a href="#tabs-0" id="tab-0" style="width:265px">
+<ul id="tablistcustom" class="nav nav-tabs" data-tabs="tab">
+	<li class="row active">
+	<a data-toggle="tab" href="#tabs-0" id="tab-0" onclick="$('#tabs-0').css({backgroundColor: 'white'})">
 	<span class="headings-custom" id="headings-custom-tab0">
 	<span class="fa-stack fa-lg" style="padding-top:0.3em">
 	<i class="fa fa-circle-thin fa-stack-2x" ></i> 
 	<i class="fa fa-copy fa-stack-1x " id="ver0"></i>
 	</span>
-	Dashboard&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</br></br>
-	<p>
+	Dashboard
 	<span class="subtext-custom">
-	This is the dashboard &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	</br>
-	and this is a msg.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<br>
+	This is the dashboard 
+	<br>
+	and this is a msg.
 	</span>
-	</p>
 	</span>
 	
 	</a>
 	</li>
 	
 
-	<li class="row"><a href="#tabs-1" id="tab-1"><span id="headings-custom-tab1" class="headings-custom">
+	<li class="row" >
+	<a data-toggle="tab" href="#tabs-1" id="tab-1" onclick="$('#tabs-1').css({backgroundColor: 'white'})">
+	<span id="headings-custom-tab1" class="headings-custom">
 	<span class="fa-stack fa-lg" style="padding-top:0.3em">
 	<i class="fa fa-circle-thin fa-stack-2x"></i>
 	<i class="fa fa-bolt fa-stack-1x " id="ver1"></i>
 	</span>
-	Your Details&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</br></br>
-	<p>
-	<span class="subtext-custom">Basic information about you </br>and your company</span>
-	</p>
+	Your Details</br>
+	<span class="subtext-custom">Basic information about <br>you and your company</span>
 	</span>
 	</a>
 	</li>
 	
-	<li class="row"><a href="#tabs-2" id="tab-2">
+	<li class="row">
+	<a data-toggle="tab" href="#tabs-2" id="tab-2" onclick="$('#tabs-2').css({backgroundColor: 'white'})">
 	<span class="headings-custom" id="headings-custom-tab2">
 	<span class="fa-stack fa-lg" style="padding-top:0.3em">
 	<i class="fa fa-circle-thin fa-stack-2x"></i>
 	<i class="fa fa-usd fa-stack-1x " id="ver2"></i>
 	</span>
-	Payment Details&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</br></br>
-	<p>
-	<span class="subtext-custom">One-time setup fee for</br> your account</span>
-	</p>
+	Payment Details</br>
+	<span class="subtext-custom">One-time setup fee for<br> your account</span>
+	
 	</span>
 	</a>
-	</li>
+	</li>	
 	
-	
-	
-	<li class="row">
-	<a href="#tabs-3" id="tab-3">
+	<li class="row" >
+	<a data-toggle="tab" href="#tabs-3" id="tab-3" onclick="$('#tabs-3').css({backgroundColor: 'white'})">
 	<span class="headings-custom" id="headings-custom-tab3">
 	<span class="fa-stack fa-lg" style="padding-top:0.3em">
 	<i class="fa fa-circle-thin fa-stack-2x" ></i>
 	<i class="fa fa-bars fa-stack-1x " id="ver3"></i>
 	</span>
-	Implementation&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</br></br>
-	<p>
+	Implementation
+	</br>
 	<span class="subtext-custom">
-	Learn how to integrate Citrus </br>on your website/app
+	Learn how to integrate Citrus <br>on your website/app
 	</span>
-	</p>
 	</span>
 	
 	</a>
 	</li>
 
-	<li class="row">
-	<a href="#tabs-4" id="tab-4" style="width:265px">
+	<li class="row" >
+	<a data-toggle="tab" href="#tabs-4" id="tab-4" onclick="$('#tabs-4').css({backgroundColor: 'white'})">
 	<span class="headings-custom" id="headings-custom-tab4">
 	<span class="fa-stack fa-lg" style="padding-top:0.3em">
 	<i class="fa fa-circle-thin fa-stack-2x" ></i> 
 	<i class="fa fa-copy fa-stack-1x " id="ver3"></i>
 	</span>
-	Upload Docs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</br></br>
-	<p>
-	<span class="subtext-custom">
-	Upload documents and look &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	Upload Docs
 	</br>
-	at your application status&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<span class="subtext-custom">
+	Upload documents and look 
+	<br>
+	at your application status
 	</span>
-	</p>
 	</span>
 	
 	</a>
 	</li>
-	
-	
 </ul>
 
-<div id="tabs-0" style="text-align:center;">
+<div class="tab-content" id="content" style="margin-top:0px;padding-top:0px;">
+<div id="tabs-0" style="text-align:center;background:white" class="tab-pane active">
+<br>
+<br><br>
 {{dashboardbody|safe}}
+<br>
+<br><br>
 </div>
 
 
-<div id="tabs-1">
-<div id="content-tab1" style="text-align:center">
+<div id="tabs-1" class="tab-pane">
+<div id="content-tab1" style="text-align:center" >
 	<form id="step1-onboarding" action="">
-	<table style="padding:2em;left: 26%;position: relative;">
+	<table style="padding:2em;left: 33%;position: relative;">
 	<tr>
 	<td style="text-align:right"><strong>Company Name</strong></td>
 	<td style="text-align:left"><input id="company-name" name="company-name" type="text" placeholder="uncommon"></input></td>
@@ -213,8 +212,9 @@
 </div>
   
   
-  <div id="tabs-2">
+  <div id="tabs-2" class="tab-pane">
   <div style="text-align:center">
+  <br><br><br><br>
   <h3><span style="color:#808080">Annual Maintainence </span> <span style="color:#FF9900">Rs. {{amt}}</span></h3>
   <span style="color:#B8B8B8;text-align:center">
   Includes </br>
@@ -238,6 +238,7 @@
 <input type="hidden" name="customParams[1].value" value=""></input>
 <input type="hidden" name="secSignature"></input>
 </form>
+<!--
   <div id="payment-tabs" style="background:#FFFFFF;border: none;position:relative;left: 17%;">
   <ul id="tab-list-custom">
   
@@ -396,14 +397,14 @@
   <button onclick="switch_tab(1)" class="btn btn-warning btn-large" style="position:relative;left:-60px"><span style="color:white"><strong>Pay 2990</strong></span></button>
   </div>
   
-  </div>
+  </div>-->
   
   <!--  <button onclick="switch_tab(1)" class="btn btn-warning btn-large" style="left: -35px;position: relative;"><span style="color:white"><strong>Pay 2990</strong></span></button>-->
   </div>
   </div>
   
   
-  <div id="tabs-3">
+  <div id="tabs-3" class="tab-pane">
   <form id="step3-onboarding" action="">
   <div style="text-align:center;padding:2em;">
   <span style="padding:1.5em"><strong>Choose a platform</strong></span>
@@ -425,7 +426,7 @@
   </form>    
   </div>
 
-  <div id="tabs-4" style="text-align:center;">
+  <div id="tabs-4" style="text-align:center;" class="tab-pane">
   </br>
   <span style="color:black;font-weight:700">
 Upload all required documents to ensure your application is verified and your account is activated permanently
@@ -530,6 +531,7 @@ Lorem ipsum dolor sit amet, consectetuer adipiscing
 </br>
 </br>
   </div>
+</div>
 </div>
 </body>
 </html>
