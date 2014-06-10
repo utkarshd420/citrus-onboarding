@@ -127,31 +127,31 @@
 	<table style="padding:2em;left: 26%;position: relative;">
 	<tr>
 	<td style="text-align:right"><strong>Company Name</strong></td>
-	<td style="text-align:left"><input id="company-name" name="company-name" type="text" placeholder="uncommon"></input></td>
+	<td style="text-align:left"><input id="company-name" name="company-name" type="text" placeholder="{{companyname}}" disabled></input></td>
 	</tr>
 	<tr>
 	<td style="text-align:right"><strong>Company Website</strong></td>
-	<td style="text-align:left"><input id="company-website" name="company-website" type="text" placeholder="http://www.uncommon.is"></input>
+	<td style="text-align:left"><input id="company-website" name="company-website" type="text" placeholder="{{companyurl}}" disabled></input>
 	</td>
 	</tr>
 
 	<tr>
 	<td style="text-align:right"><strong>Company Category</strong></td>
 	<td style="text-align:left">
-	<select id="company-category" name="company-category">
-    {% for category in categories %}
+	<select id="company-category" name="company-category" disabled>
+    
 	<option value="{{category}}">{{category}}</option>
-    {% endfor %}
+  
 	</select></td>
 	</tr>
 
 	<tr>
 	<td style="text-align:right"><strong>Type of Business</strong></td>
 	<td style="text-align:left">
-	<select id="company-business-category" name="company-business-category">
-    {% for type in businesstypes %}
+	<select id="company-business-category" name="company-business-category" disabled>
+  
 	<option value="{{type}}">{{type}}</option>
-    {% endfor %}
+
 	</select></td>
 	</tr>
 
@@ -167,11 +167,7 @@
 	<div class="checkbox">
     {% for service in services %}
 	<label>
-    {% ifequal service.included_in_default True %}
-    	<input name="services" type="checkbox" value="{{service.name}}" checked="checked" disabled="disabled">
-    {% else %}
-    	<input name="services" type="checkbox" value="{{service.name}}">
-    {% endifequal%} 
+    	<input name="services" type="checkbox" value="{{service.name}}" checked="checked" disabled>
     {{service.name}}
 	<span style="color:#00CC33">(+Rs. {{service.charges}})</span>
 	</label>
@@ -184,22 +180,22 @@
 	<table style="padding:2em;left: 29%;position: relative;">
 	<tr>
 	<td style="text-align:right"><strong>Your Name</strong></td>
-	<td style="text-align:left"><input id="your-name" name="your-name" type="text" placeholder="Name..."></input></td>
+	<td style="text-align:left"><input id="your-name" name="your-name" type="text" placeholder="{{name}}" disabled></input></td>
 	</tr>
 	<tr>
 	<td style="text-align:right"><strong>Email Address</strong></td>
-	<td style="text-align:left"><input name="email" id="email" type="text" placeholder="example@xyz.com"></input></td>
+	<td style="text-align:left"><input name="email" id="email" type="text" placeholder="{{email}}" disabled></input></td>
 	</tr>
 	<tr>
 	<td style="text-align:right"><strong>Phone Number</strong></td>
-	<td style="text-align:left"><input name="phone" id="phone" type="text" placeholder="XXXXX XXXXX"></input></td>
+	<td style="text-align:left"><input name="phone" id="phone" type="text" placeholder="{{phone}}" disabled></input></td>
 	</tr>
 	<tr>
 	<td style="text-align:right"><strong>Password</strong></td>
-	<td style="text-align:left"><input name="password" id="password"  type="password" placeholder="*******"></input></td>
+	<td style="text-align:left"><input name="password" id="password"  type="password" placeholder="*******" disabled></input></td>
 	</tr>
 	</table>
-	<input type="checkbox" onclick="var p = document.getElementById('button-content1'); p.disabled = !(p.disabled) " ></input>
+	<input type="checkbox" checked='checked' disabled ></input>
 	<span style="padding:10px;padding-top:15px;">I have read and agree to the <a href="http://signup.citruspay.com/attachment/CitrusTermsAndConditions.pdf" target="_blank" style="color:#0000FF">terms and conditions</a></span>
 	</form>
 	</br>
