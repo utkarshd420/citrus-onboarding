@@ -239,7 +239,35 @@
 <input type="hidden" name="secSignature"></input>
 </form>
 <button id="pay" onclick="iniPay()" class="btn btn-warning btn-large" style="left:-180px;position: relative;"><span style="color:white"><strong>Pay {{amt}}</strong></span></button>
+  </div>
+  </div>
+  
+  
+  <div id="tabs-3" class="tab-pane">
+  <form id="step3-onboarding" action="">
+  <div style="text-align:center;padding:2em;">
+  <span style="padding:1.5em"><strong>Choose a platform</strong></span>
+  <select id="platform">
+	<option>Web In-Context Payments</option>
+	<option>2</option>
+	<option>3</option>
+  </select>
+  <hr>
+  <div style="text-align:center">
+  <strong>Integration Instruction</br></br></strong>
+  <textarea rows="20" cols="100" style="background:#F8F8F8;width:45%;cursor:default" disabled></textarea>
+  </div>
+  <input class="btn btn-large" value="Continue" onclick="switch_tab(2)">
+	</input></br></br>
+  <span style="color:#E0E0E0">You can skip this step and do it later, simply press continue for now</span>
+  </div>
+  <input type="hidden" id="secSignature" name="secSignature" value="" />
+  </form>    
+  </div>
 
+  <div id="tabs-4" style="text-align:center;" class="tab-pane">
+  </br>
+  <span style="color:black;font-weight:700">
 Upload all required documents to ensure your application is verified and your account is activated permanently
 </br>
 When upload your documents and submit this application for review, our team will check and verify them within <strong>48 hours</strong>.
