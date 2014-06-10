@@ -58,7 +58,7 @@ def reg(request, **kwargs):
                 return render_to_response("index.html", {'categories':category_list,'businesstypes':business_list, 'services':service_list,'step':1})
             else:
                 return render_to_response("index.html", {'step':0,'dashboardbody':'Nothing to do here<br>get started with signup by <a href="../1">clicking here</a>'})
-
+                
     else:
         try:
             data = json.loads(request.body).get('data')
