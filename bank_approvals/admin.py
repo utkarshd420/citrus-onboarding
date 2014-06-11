@@ -1,6 +1,9 @@
 from django.contrib import admin
+from django.contrib import messages
 from bank_approvals.models import BankChoice
-import xlwt, datetime
+import os
+from datetime import datetime
+import xlwt
 from signup.models import Company, MerchantBankApproval, Bank
 from django.core.mail import send_mail
 #from django.core.management.base import NoArgsCommand
@@ -72,6 +75,7 @@ def unapproved_users(modeladmin,request,bank_obj,choiceList):
 			colVal=0
 			rowVal= rowVal +1
 			####################header stops, body starts#####################3
+<<<<<<< HEAD
 			workbook.save("Files/"+bank_obj.bank+".xlsx")
 			#send_mail('mail for bank approval', 'agar aaya to code chala.', 'vasughatole@gmail.com', ['utkarsh.dixit11@gmail.com'], fail_silently=False,)
 		#	class Command(NoArgsCommand):
@@ -85,6 +89,27 @@ def unapproved_users(modeladmin,request,bank_obj,choiceList):
 				obj.date_mailed_on=datetime.datetime.now()
 				obj.employee_assigned_to = request.user
 				obj.save()
+=======
+			dirname=str(datetime.now().strftime('%Y.%m.%d'))
+			#d = os.path.dirname(dirname)
+			if not os.path.exists('./'+dirname+'/'):
+				os.makedirs("%s"%dirname)
+
+			workbook.save(dirname+"/"+bank_obj.bank+".xlsx")
+			try:
+				emailtemp=bank_obj.email
+				email = EmailMessage('subject of the mail ', 'body of the mail', 'vasughatole@gmail.com', [''+emailtemp])
+				email.attach_file(dirname+"/"+bank_obj.bank+".xlsx")
+				email.send()
+				for obj in unapp_user:
+					obj.status= "ES"
+					obj.date_mailed_on=datetime.now()
+					obj.save()
+			except Exception, e:
+				message="Email not sent to bank "+bank_obj.bank
+				modeladmin.message_user (request,message,"error")
+			
+>>>>>>> ad7636aa63a53537824826b4e1a10110d994ac1b
 			
 			return unapp_user
 #################################################
@@ -102,7 +127,7 @@ class BankChoiceInline(admin.StackedInline):
 
 class BankAdmin (admin.ModelAdmin):
 	fieldsets = [
-        ('Bank Info',               {'fields': ['bank','email']}),
+        ('Bank Info', {'fields': ['bank','email']}),
        
     ]
 	inlines = [BankChoiceInline]
