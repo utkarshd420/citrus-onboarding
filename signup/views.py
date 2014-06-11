@@ -31,21 +31,34 @@ def reg(request, **kwargs):
                             temphtml += '<tr><td class="bank-name">'+elem.bank.bank+'</td><td class="approved-status" style="color:green"><i class="fa fa-check-square fa-1x"></i>Approved</td></tr>'
                         elif elem.status == 'P':
                             temphtml += '<tr><td class="bank-name">'+elem.bank.bank+'<td class="pending-status" style="color:rgb(200,200,200)"><i class="fa fa-exclamation-circle fa-1x"></i>Pending</td></tr>'
-                    filelist = os.listdir('./files/'+ merchant.user.username + '/')
+                    filelist = os.listdir('./files/'+ merchant.user.email + '/')
                     no_file_uploaded = len(set([elem[:4] for elem in filelist]))
                     total = 10
                     temphtml += '<br><br><tr><td style="text-align:center"><strong>No. of Docs Left</strong></td><td style="text-align:center"><strong>'+str(total-no_file_uploaded)+ '/' +str(total) +'</strong></td></tr></table>'
                     return render_to_response("index.html", {'step':0,'dashboardbody':temphtml})
 
-            if step==2:
+            elif step==2:
                 servicelist =  MerchantService.objects.filter(merchant=merchant)
                 charges = [a.service.charges for a in servicelist]
                 return render_to_response('index.html', {'step':step,'amt':sum(charges)})
+            elif req_step=='1':
+                company = Company.objects.get(merchant=merchant)
+                merchantservices = MerchantService.objects.filter(merchant=merchant)
+                datadict = {}
+                datadict['companyname'] = company.name
+                datadict['companyurl'] = merchant.url
+                datadict['category'] = company.company_category.category
+                datadict['type'] = company.business_type.type
+                datadict['name'] = merchant.name
+                datadict['email'] = merchant.user.email
+                datadict['phone'] = merchant.phone
+                datadict['services'] = []
+                a = [datadict['services'].append({'name':g.service.name, 'charges':g.service.charges}) for g in merchantservices]
+                return render_to_response('indextab1.html', datadict)
             elif req_step=='3':
                 return render_to_response('index.html', {'step':3})
             elif req_step=='4':
                 return render_to_response('index.html', {'step':4})
-                
             else:
                 return HttpResponseRedirect('../0')
                
@@ -167,5 +180,7 @@ def citrusresponse(request):
         for elem in banks:
             merchant_bank = MerchantBankApproval(merchant=merchant, bank=elem, status='P', remarks='')
             merchant_bank.save()
+        if not os.path.exists('./files/'+request.user.email):
+            os.makedirs('./files/'+ request.user.email)
     return HttpResponseRedirect('../reg/3')
 

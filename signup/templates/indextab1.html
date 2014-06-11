@@ -15,143 +15,137 @@
 <script src="{% static "lib/customdoc.js" %}"></script>
 <script>
 	$(document).ready(function(){
-		$("#tabs").tabs({active:1});
+		$("#tab-1").tab('show');
 	});
 </script>
 </head>
 
-<body>
+<body style="background:rgb(240,240,240)">
 <span><h2>&nbsp;Sign up for Citrus</h2>
 </span>
-<hr>
+<hr style="border-color:rgb(220,220,220)">
 
 <span style="color:#A8A8A8;position:absolute;left:15px;top:79px">Help us get you in quickly</span>
 
-<div  id="tabs" style="position:absolute;left:6%;top:25%;background:#FFFFFF">
-<ul id="tab-list-custom">
+<div  id="tabs" style="position:absolute;left:0.4%;top:25%;width:100%;z-index:1;height:100%" class="content">
 
-	<li class="row" style="pointer:cursor">
-	<a href="#tabs-0" id="tab-0" style="width:265px" onclick="window.location.replace('../0/')">
+<ul id="tablistcustom" class="nav nav-tabs" data-tabs="tab">
+	<li class="row">
+	<a data-toggle="tab" href="#tabs-0" id="tab-0" onclick="location.replace('../0/')">
 	<span class="headings-custom" id="headings-custom-tab0">
 	<span class="fa-stack fa-lg" style="padding-top:0.3em">
 	<i class="fa fa-circle-thin fa-stack-2x" ></i> 
 	<i class="fa fa-copy fa-stack-1x " id="ver0"></i>
 	</span>
-	Dashboard&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</br></br>
-	<p>
+	Dashboard
 	<span class="subtext-custom">
-	This is the dashboard &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	</br>
-	and this is a msg.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<br>
+	This is the dashboard 
+	<br>
+	and this is a msg.
 	</span>
-	</p>
 	</span>
 	
 	</a>
 	</li>
 	
 
-	<li class="row"><a href="#tabs-1" id="tab-1"><span id="headings-custom-tab1" class="headings-custom">
+	<li class="row active" >
+	<a data-toggle="tab" href="#tabs-1" id="tab-1" onclick="location.replace('../1/')">
+	<span id="headings-custom-tab1" class="headings-custom">
 	<span class="fa-stack fa-lg" style="padding-top:0.3em">
 	<i class="fa fa-circle-thin fa-stack-2x"></i>
 	<i class="fa fa-bolt fa-stack-1x " id="ver1"></i>
 	</span>
-	Your Details&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</br></br>
-	<p>
-	<span class="subtext-custom">Basic information about you </br>and your company</span>
-	</p>
+	Your Details</br>
+	<span class="subtext-custom">Basic information about <br>you and your company</span>
 	</span>
 	</a>
 	</li>
 	
-	<li class="row"><a href="#tabs-2" id="tab-2" onclick="window.location.replace('../2/')">
+	<li class="row">
+	<a data-toggle="tab" href="#tabs-2" id="tab-2" onclick="location.replace('../2/')">
 	<span class="headings-custom" id="headings-custom-tab2">
 	<span class="fa-stack fa-lg" style="padding-top:0.3em">
 	<i class="fa fa-circle-thin fa-stack-2x"></i>
 	<i class="fa fa-usd fa-stack-1x " id="ver2"></i>
 	</span>
-	Payment Details&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</br></br>
-	<p>
-	<span class="subtext-custom">One-time setup fee for</br> your account</span>
-	</p>
+	Payment Details</br>
+	<span class="subtext-custom">One-time setup fee for<br> your account</span>
+	
 	</span>
 	</a>
-	</li>
+	</li>	
 	
-	
-	
-	<li class="row">
-	<a href="#tabs-3" id="tab-3" onclick="window.location.replace('../3/')">
+	<li class="row" >
+	<a data-toggle="tab" href="#tabs-3" id="tab-3" onclick="location.replace('../3/')">
 	<span class="headings-custom" id="headings-custom-tab3">
 	<span class="fa-stack fa-lg" style="padding-top:0.3em">
 	<i class="fa fa-circle-thin fa-stack-2x" ></i>
 	<i class="fa fa-bars fa-stack-1x " id="ver3"></i>
 	</span>
-	Implementation&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</br></br>
-	<p>
+	Implementation
+	</br>
 	<span class="subtext-custom">
-	Learn how to integrate Citrus </br>on your website/app
+	Learn how to integrate Citrus <br>on your website/app
 	</span>
-	</p>
 	</span>
 	
 	</a>
 	</li>
 
-	<li class="row">
-	<a href="#tabs-4" id="tab-4" style="width:265px" onclick="window.location.replace('../4/')">
+	<li class="row" >
+	<a data-toggle="tab" href="#tabs-4" id="tab-4" onclick="location.replace('../4/')">
 	<span class="headings-custom" id="headings-custom-tab4">
 	<span class="fa-stack fa-lg" style="padding-top:0.3em">
 	<i class="fa fa-circle-thin fa-stack-2x" ></i> 
 	<i class="fa fa-copy fa-stack-1x " id="ver3"></i>
 	</span>
-	Upload Docs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</br></br>
-	<p>
-	<span class="subtext-custom">
-	Upload documents and look &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	Upload Docs
 	</br>
-	at your application status&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<span class="subtext-custom">
+	Upload documents and look 
+	<br>
+	at your application status
 	</span>
-	</p>
 	</span>
 	
 	</a>
 	</li>
-	
-	
 </ul>
 
-<div id="tabs-1">
+<div class="tab-content" id="content" style="margin-top:0px;padding-top:0px;background:white">
+<div id="tabs-1" class="tab-pane">
 <div id="content-tab1" style="text-align:center">
 	<form id="step1-onboarding" action="">
-	<table style="padding:2em;left: 26%;position: relative;">
+	<table style="padding:2em;left: 33%;position: relative;">
 	<tr>
 	<td style="text-align:right"><strong>Company Name</strong></td>
-	<td style="text-align:left"><input id="company-name" name="company-name" type="text" placeholder="uncommon"></input></td>
+	<td style="text-align:left"><input id="company-name" name="company-name" type="text" placeholder="{{companyname}}" disabled></input></td>
 	</tr>
 	<tr>
 	<td style="text-align:right"><strong>Company Website</strong></td>
-	<td style="text-align:left"><input id="company-website" name="company-website" type="text" placeholder="http://www.uncommon.is"></input>
+	<td style="text-align:left"><input id="company-website" name="company-website" type="text" placeholder="{{companyurl}}" disabled></input>
 	</td>
 	</tr>
 
 	<tr>
 	<td style="text-align:right"><strong>Company Category</strong></td>
 	<td style="text-align:left">
-	<select id="company-category" name="company-category">
-    {% for category in categories %}
+	<select id="company-category" name="company-category" disabled>
+    
 	<option value="{{category}}">{{category}}</option>
-    {% endfor %}
+  
 	</select></td>
 	</tr>
 
 	<tr>
 	<td style="text-align:right"><strong>Type of Business</strong></td>
 	<td style="text-align:left">
-	<select id="company-business-category" name="company-business-category">
-    {% for type in businesstypes %}
+	<select id="company-business-category" name="company-business-category" disabled>
+  
 	<option value="{{type}}">{{type}}</option>
-    {% endfor %}
+
 	</select></td>
 	</tr>
 
@@ -167,11 +161,7 @@
 	<div class="checkbox">
     {% for service in services %}
 	<label>
-    {% ifequal service.included_in_default True %}
-    	<input name="services" type="checkbox" value="{{service.name}}" checked="checked" disabled="disabled">
-    {% else %}
-    	<input name="services" type="checkbox" value="{{service.name}}">
-    {% endifequal%} 
+    	<input name="services" type="checkbox" value="{{service.name}}" checked="checked" disabled>
     {{service.name}}
 	<span style="color:#00CC33">(+Rs. {{service.charges}})</span>
 	</label>
@@ -184,22 +174,22 @@
 	<table style="padding:2em;left: 29%;position: relative;">
 	<tr>
 	<td style="text-align:right"><strong>Your Name</strong></td>
-	<td style="text-align:left"><input id="your-name" name="your-name" type="text" placeholder="Name..."></input></td>
+	<td style="text-align:left"><input id="your-name" name="your-name" type="text" placeholder="{{name}}" disabled></input></td>
 	</tr>
 	<tr>
 	<td style="text-align:right"><strong>Email Address</strong></td>
-	<td style="text-align:left"><input name="email" id="email" type="text" placeholder="example@xyz.com"></input></td>
+	<td style="text-align:left"><input name="email" id="email" type="text" placeholder="{{email}}" disabled></input></td>
 	</tr>
 	<tr>
 	<td style="text-align:right"><strong>Phone Number</strong></td>
-	<td style="text-align:left"><input name="phone" id="phone" type="text" placeholder="XXXXX XXXXX"></input></td>
+	<td style="text-align:left"><input name="phone" id="phone" type="text" placeholder="{{phone}}" disabled></input></td>
 	</tr>
 	<tr>
 	<td style="text-align:right"><strong>Password</strong></td>
-	<td style="text-align:left"><input name="password" id="password"  type="password" placeholder="*******"></input></td>
+	<td style="text-align:left"><input name="password" id="password"  type="password" placeholder="*******" disabled></input></td>
 	</tr>
 	</table>
-	<input type="checkbox" onclick="var p = document.getElementById('button-content1'); p.disabled = !(p.disabled) " ></input>
+	<input type="checkbox" checked='checked' disabled ></input>
 	<span style="padding:10px;padding-top:15px;">I have read and agree to the <a href="http://signup.citruspay.com/attachment/CitrusTermsAndConditions.pdf" target="_blank" style="color:#0000FF">terms and conditions</a></span>
 	</form>
 	</br>
@@ -207,3 +197,6 @@
   </div>
 </div>
 </div>
+</div>
+</body>
+</html>
