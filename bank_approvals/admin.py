@@ -6,7 +6,6 @@ from datetime import datetime
 import xlwt
 from signup.models import Company, MerchantBankApproval, Bank
 from django.core.mail import send_mail
-#from django.core.management.base import NoArgsCommand
 from django.core.mail.message import EmailMessage
 
 def unapproved_users(modeladmin,request,bank_obj,choiceList): 
@@ -74,24 +73,8 @@ def unapproved_users(modeladmin,request,bank_obj,choiceList):
 				colVal = colVal+1
 			colVal=0
 			rowVal= rowVal +1
-			####################header stops, body starts#####################3
-<<<<<<< HEAD
-			workbook.save("Files/"+bank_obj.bank+".xlsx")
-			#send_mail('mail for bank approval', 'agar aaya to code chala.', 'vasughatole@gmail.com', ['utkarsh.dixit11@gmail.com'], fail_silently=False,)
-		#	class Command(NoArgsCommand):
-				#def handle_noargs(self, **options):
-			emailtemp=bank_obj.email
-			email = EmailMessage('subject rdydhhof the mail ', 'body of the mail', 'vasughatole@gmail.com', [''+emailtemp])
-			email.attach_file("Files/"+bank_obj.bank+".xlsx")
-			email.send()
-			for obj in unapp_user:
-				obj.status= "ES"
-				obj.date_mailed_on=datetime.datetime.now()
-				obj.employee_assigned_to = request.user
-				obj.save()
-=======
+			####################header stops, body starts#####################
 			dirname=str(datetime.now().strftime('%Y.%m.%d'))
-			#d = os.path.dirname(dirname)
 			if not os.path.exists('./'+dirname+'/'):
 				os.makedirs("%s"%dirname)
 
@@ -104,15 +87,13 @@ def unapproved_users(modeladmin,request,bank_obj,choiceList):
 				for obj in unapp_user:
 					obj.status= "ES"
 					obj.date_mailed_on=datetime.now()
+					obj.employee_assigned_to = request.user
 					obj.save()
 			except Exception, e:
 				message="Email not sent to bank "+bank_obj.bank
 				modeladmin.message_user (request,message,"error")
-			
->>>>>>> ad7636aa63a53537824826b4e1a10110d994ac1b
-			
 			return unapp_user
-#################################################
+						#################################################
 
 
 def email_banks(modeladmin, request, queryset): 
