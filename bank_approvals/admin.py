@@ -83,6 +83,7 @@ def unapproved_users(modeladmin,request,bank_obj,choiceList):
 			for obj in unapp_user:
 				obj.status= "ES"
 				obj.date_mailed_on=datetime.datetime.now()
+				obj.employee_assigned_to = request.user
 				obj.save()
 			
 			return unapp_user
@@ -109,7 +110,7 @@ class BankAdmin (admin.ModelAdmin):
 	actions = [email_banks]
 
 class RecordAdmin (admin.ModelAdmin):
-	list_display = ('bank','merchant','status','remarks','date_mailed_on','date_received_status')
+	list_display = ('bank','merchant','status','remarks','employee_assigned_to','date_mailed_on','date_received_status')
 
 admin.site.register(Bank,BankAdmin)
 admin.site.register(MerchantBankApproval,RecordAdmin)
