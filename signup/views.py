@@ -37,10 +37,20 @@ def reg(request, **kwargs):
                     temphtml += '<br><br><tr><td style="text-align:center"><strong>No. of Docs Left</strong></td><td style="text-align:center"><strong>'+str(total-no_file_uploaded)+ '/' +str(total) +'</strong></td></tr></table>'
                     return render_to_response("index.html", {'step':0,'dashboardbody':temphtml})
 
-            elif step==2:
+            elif req_step=='2':
+                print "hakuna matata"
                 servicelist =  MerchantService.objects.filter(merchant=merchant)
                 charges = [a.service.charges for a in servicelist]
-                return render_to_response('index.html', {'step':step,'amt':sum(charges)})
+                if step>2:
+                    amount = sum(charges)
+                    disable = "disabled"
+                    status = "Paid"
+                    return render_to_response('index.html', {'step':2,'amt':amount, 'disable':disable, 'status':status})
+                else:
+                    amount = sum(charges)
+                    disable = ""
+                    status = "Pay"
+                    return render_to_response('index.html', {'step':2,'amt':amount, 'disable':disable, 'status':status})
             elif req_step=='1':
                 company = Company.objects.get(merchant=merchant)
                 merchantservices = MerchantService.objects.filter(merchant=merchant)
@@ -55,9 +65,9 @@ def reg(request, **kwargs):
                 datadict['services'] = []
                 a = [datadict['services'].append({'name':g.service.name, 'charges':g.service.charges}) for g in merchantservices]
                 return render_to_response('indextab1.html', datadict)
-            elif req_step=='3':
+            elif req_step=='3' and step>2:
                 return render_to_response('index.html', {'step':3})
-            elif req_step=='4':
+            elif req_step=='4' and step>2:
                 return render_to_response('index.html', {'step':4})
             else:
                 return HttpResponseRedirect('../0')
