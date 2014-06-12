@@ -90,3 +90,11 @@ AUTH_PROFILE_MODULE = 'signup.Merchant'
 TEMPLATE_DIRS = ( 
     os.path.join('./signup/', "templates"),
 )
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'vasughatole@gmail.com'
+EMAIL_HOST_PASSWORD = 'mppqtscylobmthab'
+DEFAULT_FROM_EMAIL = 'vasughatole@gmail.com'
+DEFAULT_TO_EMAIL = 'utkarsh.dixit11@gmail.com'

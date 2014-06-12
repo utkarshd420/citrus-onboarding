@@ -77,6 +77,7 @@ class MerchantBankApproval(models.Model):
     remarks = models.CharField(max_length=320,blank=True) 
     date_mailed_on = models.DateTimeField(null=True, blank=True)
     date_received_status = models.DateTimeField(null=True, blank=True)
+    employee_assigned_to = models.ForeignKey(User,blank=True,null=True,editable=False)
 
 
 class Service(models.Model):
