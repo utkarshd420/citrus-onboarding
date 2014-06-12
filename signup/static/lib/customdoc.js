@@ -48,7 +48,7 @@ fd.append( this.id, $('#'+this.id)[0].files[0]);
      }, false);
      return xhr;
    },
-      url: '../uploadfiles/',
+      url: '../../uploadfiles/',
       type: 'POST',
       data: fd,
       processData: false,

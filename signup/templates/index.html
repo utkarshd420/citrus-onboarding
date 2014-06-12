@@ -71,7 +71,7 @@
 	</li>
 	
 	<li class="row">
-	<a data-toggle="tab" href="#tabs-2" id="tab-2" onclick="location.replace('../2/')">
+	<a data-toggle="tab" href="#tabs-2" id="tab-2">
 	<span class="headings-custom" id="headings-custom-tab2">
 	<span class="fa-stack fa-lg" style="padding-top:0.3em">
 	<i class="fa fa-circle-thin fa-stack-2x"></i>
@@ -237,11 +237,10 @@ Sample heading
   </div>
 </div>
   
-  
   <div id="tabs-2" class="tab-pane">
   <div style="text-align:center">
   <br><br><br><br>
-  <h3><span style="color:#808080">Annual Maintainence </span> <span style="color:#FF9900">Rs. {{amt}}</span></h3>
+  <h3><span style="color:#808080">Annual Maintainence </span> <span style="color:#FF9900"> {{amt}}</span></h3>
   <span style="color:#B8B8B8;text-align:center">
   Includes </br>
   24X7 Phone and Email Support</br>
@@ -264,7 +263,7 @@ Sample heading
 <input type="hidden" name="customParams[1].value" value=""></input>
 <input type="hidden" name="secSignature"></input>
 </form>
-<button id="pay" onclick="iniPay()" class="btn btn-warning btn-large" style="left:-180px;position: relative;"><span style="color:white"><strong>Pay {{amt}}</strong></span></button>
+<button id="pay" onclick="iniPay()" class="btn btn-warning btn-large" style="position: relative;" {{disable|safe}}><span style="color:white"><strong>{{status}} {{amt}}</strong></span></button>
   </div>
   </div>
   
@@ -283,7 +282,7 @@ Sample heading
   <strong>Integration Instruction</br></br></strong>
   <textarea rows="20" cols="100" style="background:#F8F8F8;width:45%;cursor:default" disabled></textarea>
   </div>
-  <input class="btn btn-large" value="Continue" onclick="switch_tab(2)">
+  <input class="btn btn-large" value="Continue" onclick="location.href='../4/'">
 	</input></br></br>
   <span style="color:#E0E0E0">You can skip this step and do it later, simply press continue for now</span>
   </div>

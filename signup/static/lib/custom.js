@@ -1,4 +1,35 @@
 $(document).ready(function() {
+$("#tab-2").click(function(e){
+    e.stopImmediatePropagation();
+    console.log("haukna matata");
+    e.preventDefault();
+    location.replace('../2/');
+    })
+$("#tab-1").click(function(e){
+    e.stopImmediatePropagation();
+    console.log("haukna matata");
+    e.preventDefault();
+    location.replace('../1/');
+    })
+$("#tab-3").click(function(e){
+    e.stopImmediatePropagation();
+    console.log("haukna matata");
+    e.preventDefault();
+    location.replace('../3/');
+    })
+$("#tab-4").click(function(e){
+    e.stopImmediatePropagation();
+    console.log("haukna matata");
+    e.preventDefault();
+    location.replace('../4/');
+    })
+$("#tab-0").click(function(e){
+    e.stopImmediatePropagation();
+    console.log("haukna matata");
+    e.preventDefault();
+    location.replace('../0/');
+    })
+
 $.ajaxSetup({ 
      beforeSend: function(xhr, settings) {
          function getCookie(name) {
@@ -57,7 +88,7 @@ function newpost()
 		success:function(data)
 		{
             if (data['status']=='success') {
-                location.reload();
+                location.replace('../2/');
             }
             else{
 			    console.log(data);
@@ -120,6 +151,7 @@ function iniPay(){
             $("input[name='customParams[0].value']").val(data['companyName']);
             $("input[name='customParams[1].value']").val(data['merchantEmail']);
             $("input[name=secSignature]").val(data['secSignature']);
-            //$("#payform").submit();
+            $("#payform").submit();
         });
 }
+
