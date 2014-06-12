@@ -19,12 +19,24 @@
     $(document).ready(function(){
             switch_tab({{step}});
         });
-    function modal_data_load(){
-  	/*$.get( "url", function( data ) {
-		$( "#myModalLabel" ).html( data['heading'] );
-		$( ".modal-body" ).html( data['body'] );
-	});*/
-	}
+    function modal_data_load(obj){
+	    if(obj.id == 'bankStatus')
+	    {
+	    	
+	 	 	$.get( "../../bankstatus/", function( data ) {
+				$( "#myModalLabel" ).html( data['heading'] );
+				$( ".modal-body" ).html( data['body'] );
+			});
+		}
+		else if(obj.id == 'docStatus')
+		{
+			
+			$.get( "../../docstatus/", function( data ) {
+				$( "#myModalLabel" ).html( data['heading'] );
+				$( ".modal-body" ).html( data['body'] );
+			});
+		}
+	}	
 </script>
 </head>
 
@@ -146,7 +158,28 @@ Sample heading
 {{dashboardbody|safe}}
 <br>
 <br>
-<a href="#myModal" role="button" class="btn" data-toggle="modal" onclick="modal_data_load()">Launch demo modal</a>
+<table style="position:relative;left:42%">
+<tr>
+<td><h6>Personal details</h6></td>
+<td><a href="../1/">More</a></td>
+</tr>
+<tr>
+<td><h6>Payment</h6></td>
+<td><a href="../2/">More</a></td>
+</tr>
+<tr>
+<td><h6>Implementation</h6></td>
+<td><a href="../3/">More</a></td>
+</tr>
+<tr>
+<td><h6>Bank Approval Status</h6></td>
+<td><a href="#myModal" data-toggle="modal" id ="bankStatus" onclick="modal_data_load(this)">More</a></td>
+</tr>
+<tr>
+<td><h6>Document Status</h6></td>
+<td><a href="#myModal" data-toggle="modal" id ="docStatus" onclick="modal_data_load(this)">More</a></td>
+</tr>
+</table>
 <br><br>
 </div>
 
