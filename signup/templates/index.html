@@ -19,6 +19,12 @@
     $(document).ready(function(){
             switch_tab({{step}});
         });
+    function modal_data_load(){
+  	/*$.get( "url", function( data ) {
+		$( "#myModalLabel" ).html( data['heading'] );
+		$( ".modal-body" ).html( data['body'] );
+	});*/
+	}
 </script>
 </head>
 
@@ -28,7 +34,7 @@
 <hr style="border-color:rgb(220,220,220)">
 <span style="color:#A8A8A8;position:absolute;left:15px;top:79px">Help us get you in quickly</span>
 
-<div  id="tabs" style="position:absolute;left:0.4%;top:25%;width:100%;z-index:1;height:100%" class="content">
+<div  id="tabs" style="position:absolute;left:0.4%;top:25%;width:100%;height:100%" class="content">
 
 <ul id="tablistcustom" class="nav nav-tabs" data-tabs="tab">
 	<li class="row active">
@@ -119,8 +125,28 @@
 <div id="tabs-0" style="text-align:center;background:white" class="tab-pane active">
 <br>
 <br><br>
+
+
+ 
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+<h3 id="myModalLabel">
+Sample heading
+</h3>
+</div>
+<div class="modal-body">
+<p>Add the body here</p>
+</div>
+<div class="modal-footer">
+<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+</div>
+</div>
+
 {{dashboardbody|safe}}
 <br>
+<br>
+<a href="#myModal" role="button" class="btn" data-toggle="modal" onclick="modal_data_load()">Launch demo modal</a>
 <br><br>
 </div>
 

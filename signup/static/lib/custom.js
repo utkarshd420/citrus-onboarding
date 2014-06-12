@@ -22,8 +22,8 @@ $.ajaxSetup({
          }
      } 
 });
-	$("#headings-custom-tab1").css("color","#A8A8A8");
 	$("#headings-custom-tab2").css("color","#A8A8A8");
+	$("#headings-custom-tab1").css("color","#A8A8A8");
 	$("#headings-custom-tab3").css("color","#A8A8A8");
 	$("#headings-custom-tab4").css("color","#A8A8A8");
   });
@@ -78,31 +78,32 @@ function newpost()
 	if(temp==1)
 	{
 		$("#tab-1").tab('show');
-		$("#headings-custom-tab0").css("color","#00CC00");
-		$("#ver0").attr("class","fa fa-check fa-stack-1x");
+//		$("#headings-custom-tab0").css("color","#00CC00");
+//		$("#ver0").attr("class","fa fa-check fa-stack-1x");
+		$("#headings-custom-tab0").css("color","#A8A8A8");
 		$("#headings-custom-tab1").css("color","#FF9900");	
 
 	}
 	else if(temp == 2)
 	{
 		$("#tab-2").tab('show');
-		$("#headings-custom-tab1").css("color","#00CC00");
-		$("#ver1").attr("class","fa fa-check fa-stack-1x");
+		$("#headings-custom-tab1").css("color","#A8A8A8");
+//		$("#ver1").attr("class","fa fa-check fa-stack-1x");
 		$("#headings-custom-tab2").css("color","#FF9900");	
 
 	}
 	else if(temp == 3)
 	{
 		$("#tab-3").tab('show');
-		$("#headings-custom-tab2").css("color","#00CC00");
-		$("#ver2").attr("class","fa fa-check fa-stack-1x");
+		$("#headings-custom-tab2").css("color","#A8A8A8");
+//		$("#ver2").attr("class","fa fa-check fa-stack-1x");
 		$("#headings-custom-tab3").css("color","#FF9900");	
 	}
 	else if (temp == 4)
 	{
 		$("#tab-4").tab('show');
-		$("#headings-custom-tab3").css("color","#00CC00");
-		$("#ver3").attr("class","fa fa-check fa-stack-1x");
+		$("#headings-custom-tab3").css("color","#A8A8A8");
+//		$("#ver3").attr("class","fa fa-check fa-stack-1x");
 		$("#headings-custom-tab4").css("color","#FF9900");		
 		//add migration to pg
 	}
