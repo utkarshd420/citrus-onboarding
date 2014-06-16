@@ -22,4 +22,18 @@ class BankChoice (models.Model):
 	bank_code = models.BooleanField(default=True)
 	merchant_address = models.BooleanField(default=True)
 
-
+class receive_mail_banks(models.Model):
+	bank = models.ForeignKey(Bank)
+	erec = "ER"
+	enrec = "NR"
+	ru = "RU"
+	email_status =  (
+         	            (erec, "Email Received"),
+                        (enrec, "Email Not Received"),
+                        (ru, "Records updated"),
+                    )
+	status = models.CharField(max_length=2, choices=email_status, default=enrec, db_index=True)
+	file_name = models.CharField(max_length=200,blank=True,null=True)
+	date_changed_on = models.DateTimeField(default=datetime.datetime.now())
+	def __unicode__(self):
+		return self.bank.bank
