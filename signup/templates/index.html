@@ -14,7 +14,6 @@
 <script src="{% static "lib/custom.js" %}"></script>
 <script src="{% static "lib/customdoc.js" %}"></script>
 <script src="{% static "lib/bootstrap.min.js" %}"></script>
-
 <script type="text/javascript">
     $(document).ready(function(){
             switch_tab({{step}});
@@ -47,7 +46,6 @@
 <span style="color:#A8A8A8;position:absolute;left:15px;top:79px">Help us get you in quickly</span>
 
 <div  id="tabs" style="position:absolute;left:0.4%;top:25%;width:100%;height:100%" class="content">
-
 <ul id="tablistcustom" class="nav nav-tabs" data-tabs="tab">
 	<li class="row active">
 	<a data-toggle="tab" href="#tabs-0" id="tab-0" onclick="location.replace('../0/')">
@@ -134,7 +132,7 @@
 </ul>
 
 <div class="tab-content" id="content" style="margin-top:0px;padding-top:0px;background:white">
-<div id="tabs-0" style="text-align:center;background:white" class="tab-pane active">
+<div id="tabs-0" style="background:white" class="tab-pane active">
 <br>
 <br><br>
 
@@ -154,11 +152,17 @@ Sample heading
 <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
 </div>
 </div>
+<span style="position:relative;left:42%;text-align:centre">
 
+</span>
+<br>
+<br>
+<table style="position:relative;left:36%">
+<tr style="text-align:center">
+<td>
 {{dashboardbody|safe}}
-<br>
-<br>
-<table style="position:relative;left:42%">
+</td>
+</tr>
 <tr>
 <td><h6>Personal details</h6></td>
 <td><a href="../1/">More</a></td>

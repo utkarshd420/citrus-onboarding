@@ -1,3 +1,4 @@
+
 #tabs-0
 {
 
@@ -37,6 +38,7 @@
 	padding-left: 0.2%;
 	padding-right: 0.2%;
 }
+
 .subtext-custom{
 	color: black;
 	font-size:65%;
@@ -44,6 +46,30 @@
 	top:-20px;
 	left:26%;
 }	
+
+
+@media screen and (max-width: 1324px){
+    .headings-custom{
+        font-size: 110%;
+        }
+    
+}
+
+@media screen and (max-width: 980px){
+	.row
+	{
+		width: 100%;
+	}
+
+    .headings-custom{
+        font-size: 140%;
+        }
+    .subtext-custom{
+    	font-size:65%;
+    	left:65px;
+    }
+}
+
 
 tr
 {

@@ -22,7 +22,7 @@ def unapproved_users(modeladmin,request,bank_obj,choiceList):
 			email.send()
 			for obj in unapp_user:
 				obj.status= "ES"
-				obj.bank_objdate_mailed_on=datetime.now()
+				obj.date_mailed_on=datetime.now()
 				obj.employee_assigned_to = request.user
 				obj.save()
 		except Exception, e:
