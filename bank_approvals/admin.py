@@ -7,6 +7,8 @@ from e import *
 from create_email import *
 from django.core.mail import send_mail
 from django.core.mail.message import EmailMessage
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 def unapproved_users(modeladmin,request,bank_obj,choiceList): 
 	unapp_user = MerchantBankApproval.objects.filter(status = "P", bank=bank_obj)
@@ -110,6 +112,13 @@ class RecordAdmin (admin.ModelAdmin):
 class ReceiveEmail (admin.ModelAdmin):
 	list_display = ('bank','status','file_name','date_changed_on')
 	actions = [receive_email,reset_status]
+
+@receiver(post_save, sender=Bank)
+def create_bank_commercial(sender,instance,created,**kwargs):
+    if created:
+        temp = receive_mail_banks(bank=instance,status="NR") 
+        temp.save()
+
 
 admin.site.register(Bank,BankAdmin)
 admin.site.register(MerchantBankApproval,RecordAdmin)
