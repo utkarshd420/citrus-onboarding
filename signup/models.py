@@ -39,8 +39,28 @@ class Merchant(models.Model):
 
 class CompanyCategory(models.Model):
     category = models.CharField(max_length = 300)
+    bank_commercial_citrus = models.DecimalField(max_digits=10,decimal_places=2)
+    PERCENTAGE = "PERC"
+    RUPEES = "INR"
+    mode_choices = (
+                    (PERCENTAGE,"%"),
+                    (RUPEES,"INR")
+                    )
+    mode_bank = models.CharField(max_length=4, choices=mode_choices, default=PERCENTAGE, db_index=True)
+    merchant_commercial_citrus = models.DecimalField(max_digits=10,decimal_places=2)
+    mode_merchant = models.CharField(max_length=4, choices=mode_choices, default=PERCENTAGE, db_index=True)
     def __unicode__(self):
         return self.category
+    def merchant_rate(self):
+        if (self.mode_merchant == "PERC"):
+            return str(self.merchant_commercial_citrus) + " % " 
+        else:
+            return str(self.merchant_commercial_citrus) + " Rs. "
+    def bank_rate(self):
+        if (self.mode_bank == "PERC"):
+            return str(self.bank_commercial_citrus) + " % " 
+        else:
+            return str(self.bank_commercial_citrus) + " Rs. "
 
 class BusinessType(models.Model):
     type = models.CharField(max_length = 200)
@@ -53,9 +73,24 @@ class Company(models.Model):
     merchant = models.ForeignKey(Merchant)
     company_category = models.ForeignKey(CompanyCategory)
     business_type = models.ForeignKey(BusinessType)
+    friendly_name = models.CharField(max_length=200,blank=True,null=True)
     def __unicode__(self):
         return "%s,%s,%s,%s" %(self.name,self.merchant,self.company_category,self.business_type)
-
+    def get_merchant_name(self):
+        return self.merchant.name
+    get_merchant_name.short_description = 'Merchant Name'
+    def get_merchant_user(self):
+        return self.merchant.user
+    get_merchant_user.short_description = 'Merchant User'
+    def get_merchant_phone(self):
+        return self.merchant.phone
+    get_merchant_phone.short_description = 'Merchant Phone Number'
+    def get_merchant_url(self):
+        return self.merchant.url
+    get_merchant_url.short_description = 'Merchant URL'
+    def get_merchant_applicationStat(self):
+        return self.merchant.application_status
+    get_merchant_applicationStat.short_description = 'Merchant Application Status'
 
 class Bank(models.Model):
     bank = models.CharField(max_length = 200,unique=True)
@@ -75,7 +110,7 @@ class MerchantBankApproval(models.Model):
                                    (INSUFFICIENT_DOCUMENTS, "Insufficient Documents"),
                                    (EMAIL_SENT,"Email Sent"),
                                    )
-    merchant = models.ForeignKey(Merchant)
+    company = models.ForeignKey(Company)
     bank = models.ForeignKey(Bank)
     status = models.CharField(max_length=2, choices=APPLICATION_STATUS_CHOICES, default=PENDING, db_index=True)
     remarks = models.CharField(max_length=320,blank=True) 
@@ -111,17 +146,38 @@ class Txn(models.Model):
     amount = models.DecimalField(decimal_places=2, max_digits=10)
     date_time = models.DateTimeField(null=True, db_index=True, blank=True)
 
+class bank_commercial_value(models.Model):
+    PERCENTAGE = "PERC"
+    RUPEES = "INR"
+    mode_choices = (
+                    (PERCENTAGE,"%"),
+                    (RUPEES,"INR"),
+                    )
+    value = models.DecimalField(max_digits=10,decimal_places=2)
+    mode = models.CharField(max_length=4, choices=mode_choices, default=PERCENTAGE, db_index=True)
+    from_merchant = models.BooleanField(default= False)
+    bank_commercial = models.ForeignKey('bank_commercial')
+    def __unicode__(self): 
+        return str(self.value)+" "+str(self.mode)
+
 class bank_commercial(models.Model):
     bank = models.ForeignKey(Bank)
-    company_category = models.ForeignKey(CompanyCategory)
-    bank_commercial_value = models.CharField(max_length=15)
+    company_category = models.ForeignKey(CompanyCategory,blank=True,null=True)
+    #bank_commercial_value = models.ForeignKey(commercial_value)
     #commercial =  models.ForeignKey ('commercial',blank=True,null=True)
     def __unicode__(self):
-        return "%s,%s,%s" % (self.bank.bank,self.company_category.category,self.bank_commercial_value)
+        return "%s,%s" % (self.bank.bank,self.company_category.category)
 
 class commercial(models.Model):
     bank = models.ForeignKey(Bank)
-    commercial_value = models.CharField(max_length=15,blank=True,null=True)
+    commercial_value = models.DecimalField(max_digits=10,decimal_places=2)
+    PERCENTAGE = "PERC"
+    RUPEES = "INR"
+    mode_choices = (
+                    (PERCENTAGE,"%"),
+                    (RUPEES,"INR")
+                    )
+    mode = models.CharField(max_length=4, choices=mode_choices, default=PERCENTAGE, db_index=True)
     merchant_commercial = models.ForeignKey('merchant_commercial')
     def __unicode__(self):
         return "%s,%s,%s" % (self.merchant_commercial,self.bank,self.commercial_value)
@@ -148,15 +204,17 @@ def create_commercial(sender,instance,created,**kwargs):
         temp_merchant_commercial.save()
         all_banks = Bank.objects.all()
         for bank_obj in all_banks:
-            temp_commercial = commercial(bank=bank_obj,commercial_value="1.2%",merchant_commercial=temp_merchant_commercial)
+            temp_commercial = commercial(bank = bank_obj,commercial_value = (instance.company_category.merchant_commercial_citrus),mode=instance.company_category.mode_merchant,merchant_commercial=temp_merchant_commercial)
             temp_commercial.save()
 
 @receiver(post_save, sender=Bank)
 def create_bank_commercial(sender,instance,created,**kwargs):
     if created:
         for obj in CompanyCategory.objects.all():
-            temp = bank_commercial(bank=instance,company_category=obj,bank_commercial_value="1.5%")
-            temp.save()  
+            temp = bank_commercial(bank=instance,company_category=obj)
+            temp.save()
+            temp_bank_commercial = bank_commercial_value(value= obj.bank_commercial_citrus,mode = obj.mode_bank,bank_commercial= temp)
+            temp_bank_commercial.save()
 #def create_user_profile(sender, instance, created, **kwargs):  
 #    if created:  
 #        profile, created = Merchant.objects.get_or_create(user=instance)  

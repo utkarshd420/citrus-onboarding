@@ -18,7 +18,7 @@ class BankChoice (models.Model):
 	expected_no_vol = models.BooleanField(default=True)
 	requested_date = models.BooleanField(default=True)
 	status = models.BooleanField(default=True)
-	confirmation = models.BooleanField(default=True)
+	remarks = models.BooleanField(default=True)
 	bank_code = models.BooleanField(default=True)
 	merchant_address = models.BooleanField(default=True)
 

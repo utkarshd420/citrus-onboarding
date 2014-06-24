@@ -12,23 +12,37 @@ from django.dispatch import receiver
 
 def unapproved_users(modeladmin,request,bank_obj,choiceList): 
 	unapp_user = MerchantBankApproval.objects.filter(status = "P", bank=bank_obj)
+	body_mail = '''Dear Sir/Ma'am,
+
+Please find attached the  new merchant addition list on Citrus - Deutsche Bank Net Banking payment platform.  Request your approval for the same.
+
+_______________________________________________
+
+Thanks and Regards,
+Citrus Payment Solutions Pvt. Ltd.
+					'''
+					
+	subject_mail= ''' Deutsche Bank - Citrus_Merchant addition_ %s'''%(str(datetime.now().strftime('%d.%m.%Y')))
+
 	if(len(unapp_user)==0):
 		message="No user with pending status"
 		modeladmin.message_user (request,message)
 	else:
-		dirname = create_workbook(bank_obj,choiceList)
+		dirname = create_workbook(bank_obj,choiceList,unapp_user)
 		try:
 			emailtemp=bank_obj.email
-			email = EmailMessage('subject of the mail ', 'body of the mail', 'vasughatole@gmail.com', [''+emailtemp])
-			email.attach_file(dirname+"/"+bank_obj.bank+".xlsx")
+			email = EmailMessage(subject_mail, body_mail, 'vasughatole@gmail.com', [''+emailtemp])
+			email.attach_file(dirname+"/"+bank_obj.bank+".xls")
 			email.send()
+			message = "Email sent to "+bank_obj.bank
+			modeladmin.message_user(request,message)
 			for obj in unapp_user:
 				obj.status= "ES"
 				obj.date_mailed_on=datetime.now()
 				obj.employee_assigned_to = request.user
 				obj.save()
 		except Exception, e:
-			message="Email not sent to bank "+bank_obj.bank+ "Error raised: "+str(e)
+			message="Email not sent to bank "+bank_obj.bank+ " Error raised: "+str(e)
 			modeladmin.message_user (request,message,"error")
 		return unapp_user
 
@@ -107,11 +121,12 @@ class BankAdmin (admin.ModelAdmin):
 	actions = [email_banks]
 
 class RecordAdmin (admin.ModelAdmin):
-	list_display = ('bank','merchant','status','remarks','employee_assigned_to','date_mailed_on','date_received_status')
+	list_display = ('bank','company','status','remarks','employee_assigned_to','date_mailed_on','date_received_status')
 
 class ReceiveEmail (admin.ModelAdmin):
 	list_display = ('bank','status','file_name','date_changed_on')
 	actions = [receive_email,reset_status]
+
 
 @receiver(post_save, sender=Bank)
 def create_bank_commercial(sender,instance,created,**kwargs):
