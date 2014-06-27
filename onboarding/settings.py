@@ -92,9 +92,10 @@ TEMPLATE_DIRS = (
 )
 
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtp.citruspay.com'
 EMAIL_PORT = 25
-EMAIL_HOST_USER = 'vasughatole@gmail.com'
-EMAIL_HOST_PASSWORD = 'mppqtscylobmthab'
+EMAIL_HOST_USER = 'bank-relations@citruspay.com'
+EMAIL_HOST_PASSWORD = 'XzoTeGy7'
+#EMAIL_HOST_PASSWORD = 'mppqtscylobmthab'
 DEFAULT_FROM_EMAIL = 'vasughatole@gmail.com'
 DEFAULT_TO_EMAIL = 'utkarsh.dixit11@gmail.com'

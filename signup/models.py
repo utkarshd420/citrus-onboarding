@@ -2,7 +2,8 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
+import os
+import datetime
 class Merchant(models.Model):
     NEW = "N"
     REJECTED = "R"
@@ -32,7 +33,7 @@ class Merchant(models.Model):
     url = models.URLField(max_length=200, unique=True)
     step = models.IntegerField(choices=STEP_CHOICES, default=STEP_SIGNUP)
     application_status = models.CharField(max_length=2, choices=APPLICATION_STATUS_CHOICES, default=NEW, db_index=True)
-    
+    last_changed_on = models.DateTimeField(default=datetime.datetime.now())
     def __unicode__(self):
         return self.name
 
@@ -89,9 +90,38 @@ class Company(models.Model):
         return self.merchant.url
     get_merchant_url.short_description = 'Merchant URL'
     def get_merchant_applicationStat(self):
-        return self.merchant.application_status
+        if(self.merchant.application_status == 'N'):
+            return "New"
+        if(self.merchant.application_status == 'R'):
+            return "Rejected"
+        if(self.merchant.application_status == 'IP'):
+            return "In Progress"
+        if(self.merchant.application_status == 'OC'):
+            return "Onboarding Completed"
     get_merchant_applicationStat.short_description = 'Merchant Application Status'
-
+    def get_merchant_step(self):
+        return self.merchant.step
+    get_merchant_step.short_description = "Merchant Step"
+    def get_file_list(self):
+        curr_file_dir = os.getcwd()+"/files/"+self.merchant.user.email
+        try:
+            output = ""
+            dir_list =  os.listdir(curr_file_dir)
+            
+            for dirs in dir_list:
+                curr_file_temp_dir = curr_file_dir + "/"+dirs+"/"
+                output+= "-------"+dirs+"------<br>"
+                file_list = os.listdir(curr_file_temp_dir)
+                for files in file_list:
+                    output+= "<a href='%s'>%s</a><br>" %("/files/"+self.merchant.user.email+"/"+dirs+"/"+files,files)
+            return output
+        except Exception, e:
+            return 
+    get_file_list.allow_tags =True
+    get_file_list.short_description = "Files Uploaded"
+    def get_last_changed(self):
+        return self.merchant.last_changed_on
+    get_last_changed.short_description = "Last Changed"
 class Bank(models.Model):
     bank = models.CharField(max_length = 200,unique=True)
     email = models.EmailField()

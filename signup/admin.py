@@ -43,7 +43,7 @@ class merchantAdmin(admin.ModelAdmin):
 
 class companyAdmin(admin.ModelAdmin):
 	fields = ('name','merchant','company_category','business_type','friendly_name')
-	list_display = ('name','friendly_name','get_merchant_name','get_merchant_phone','get_merchant_url','get_merchant_applicationStat','company_category','business_type')
+	list_display = ('name','friendly_name','get_merchant_name','get_merchant_phone','get_merchant_url','get_merchant_step','get_merchant_applicationStat','get_last_changed','company_category','business_type','get_file_list')
 
 admin.site.register(Company,companyAdmin)
 

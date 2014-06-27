@@ -25,12 +25,13 @@ def reg(request, **kwargs):
                     return render_to_response("index.html", {'step':0,'dashboardbody':'Nothing to do here<br>until you pay us first by<a href="../2">clicking here</a>'})
                 if step==4 or step==3:
                     temphtml='<table style="border-bottom:2px solid rgb(240,240,240);left: 36%;position: relative;"><tr><td style="text-align:center"><strong>Bank</strong></td><td style="text-align:center"><strong>Status</strong></td></tr>'
-                    banks = MerchantBankApproval.objects.filter(merchant=merchant)
+                    company = Company.objects.get(merchant= merchant)
+                    banks = MerchantBankApproval.objects.filter(company=company)
                     for elem in banks:
                         if elem.status == 'A':
                             temphtml += '<tr><td class="bank-name">'+elem.bank.bank+'</td><td class="approved-status" style="color:green"><i class="fa fa-check-square fa-1x"></i>Approved</td></tr>'
                         elif elem.status == 'P':
-                            temphtml += '<tr><td class="bank-name">'+elem.bank.bank+'<td class="pending-status" style="color:rgb(200,200,200)"><i class="fa fa-exclamation-circle fa-1x"></i>Pending</td></tr>'
+                            temphtml += '<tr><td class="bank-name">'+elem.bank.bank+'<td class="pending-status" style="color:rgb(200,200,200)"><i class="fa fa-exclamation-circle fa-1x"></i>&nbsp;Pending</td></tr>'
                     filelist = os.listdir('./files/'+ merchant.user.email + '/')
                     no_file_uploaded = len(set([elem[:4] for elem in filelist]))
                     total = 10
@@ -99,7 +100,7 @@ def reg(request, **kwargs):
             services = data.get('services')
             reg_date = datetime.datetime.now()
             step = 1 
-            merchant = Merchant(user=user, name=name, phone=phone, url=url)
+            merchant = Merchant(user=user, name=name, phone=phone, url=url,last_changed_on = datetime.datetime.now())
             merchant.save() 
             category = CompanyCategory.objects.get(category=company_category)
             btype = BusinessType.objects.get(type=business_type)
@@ -138,16 +139,23 @@ def upload_files(request):
             return HttpResponse("Failed")
     else:
         if request.user.is_authenticated():
+            file_count = 1
+            merchant = Merchant.objects.get(user=request.user)
             if not os.path.exists('./files/'+request.user.email):
                 os.makedirs('./files/'+ request.user.email)
             if not os.path.exists('./files/'+ request.user.email + '/' + request.FILES.keys()[0]):
                 os.makedirs('./files/'+ request.user.email + '/' + request.FILES.keys()[0])
-            path = './files/'+ request.user.email + '/' + request.FILES.keys()[0] + '/' + request.FILES[request.FILES.keys()[0]].name
+            else:
+                file_count = len(os.listdir('./files/'+ request.user.email + '/' + request.FILES.keys()[0]))
+            file_name = request.FILES[request.FILES.keys()[0]].name
+            path = './files/'+ request.user.email + '/' + request.FILES.keys()[0] + '/' + "%s%s"%("version "+str(file_count),file_name[file_name.rfind('.'):])#(request.FILES[request.FILES.keys()[0]].name)
             f = request.FILES[request.FILES.keys()[0]]   
             destination = open(path, 'wb+')
             for chunk in f.chunks():
                 destination.write(chunk)
             destination.close()
+            merchant.last_changed_on = datetime.datetime.now()
+            merchant.save()
             return HttpResponse(str(request.user.username))
         else:
             return HttpResponse("Failed")
@@ -174,7 +182,6 @@ def gen_hmac(request):
         return HttpResponse(json.dumps(returndata), content_type="application/json")
     else:
         raise Http404
-
 @csrf_exempt
 def citrusresponse(request):
     print request.POST
@@ -184,13 +191,15 @@ def citrusresponse(request):
         txn.citrus_txn_id = request.POST.get('TxRefNo')
         txn.save()
         merchant = Merchant.objects.get(user__email=request.POST.get('Merchant Email'))
+        print merchant
         merchant.step = 3
+        merchant.last_changed_on = datetime.datetime.now()
         merchant.save()
+        company = Company.objects.get(merchant = merchant)
         banks = Bank.objects.all()
         for elem in banks:
-            merchant_bank = MerchantBankApproval(merchant=merchant, bank=elem, status='P', remarks='')
+            merchant_bank = MerchantBankApproval(company=company, bank=elem, status='P', remarks='')
             merchant_bank.save()
-        if not os.path.exists('./files/'+request.user.email):
-            os.makedirs('./files/'+ request.user.email)
+        if not os.path.exists('./files/'+request.POST.get('Merchant Email')):
+            os.makedirs('./files/'+ request.POST.get('Merchant Email'))
     return HttpResponseRedirect('../reg/3')
-

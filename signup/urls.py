@@ -6,5 +6,4 @@ urlpatterns = patterns('',
     url(r'^uploadfiles/$', upload_files),
     url(r'^gencode/$', gen_hmac),
     url(r'^citrusresponse/$', citrusresponse),
-
 )

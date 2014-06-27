@@ -14,13 +14,14 @@ def unapproved_users(modeladmin,request,bank_obj,choiceList):
 	unapp_user = MerchantBankApproval.objects.filter(status = "P", bank=bank_obj)
 	body_mail = '''Dear Sir/Ma'am,
 
-Please find attached the  new merchant addition list on Citrus - Deutsche Bank Net Banking payment platform.  Request your approval for the same.
+Please find attached the  new merchant addition list on Citrus - %s Net Banking payment platform.  
+Request your approval for the same.
 
 _______________________________________________
 
 Thanks and Regards,
 Citrus Payment Solutions Pvt. Ltd.
-					'''
+					''' %(bank_obj.bank)
 					
 	subject_mail= ''' Deutsche Bank - Citrus_Merchant addition_ %s'''%(str(datetime.now().strftime('%d.%m.%Y')))
 
@@ -31,7 +32,7 @@ Citrus Payment Solutions Pvt. Ltd.
 		dirname = create_workbook(bank_obj,choiceList,unapp_user)
 		try:
 			emailtemp=bank_obj.email
-			email = EmailMessage(subject_mail, body_mail, 'vasughatole@gmail.com', [''+emailtemp])
+			email = EmailMessage(subject_mail, body_mail, 'bank-relations@citruspay.com', [''+emailtemp])
 			email.attach_file(dirname+"/"+bank_obj.bank+".xls")
 			email.send()
 			message = "Email sent to "+bank_obj.bank
@@ -67,14 +68,20 @@ def read_update(filePath,bank):
 			row=[]
 			for cell in row_obj:
 				row.append(cell.value)
-			bank_approval_temp = MerchantBankApproval.objects.get(bank=bank,merchant__name = row[merchantCol])
+			print (row[merchantCol])
+			bank_approval_temp = MerchantBankApproval.objects.get(bank=bank,company__name = unicode(row[merchantCol]))
+			company_temp = Company.objects.get(company__name= bank_approval_temp.company)
 			if (row[statusCol].lower() == "approved"):
 				bank_approval_temp.status = "A"
+				company_temp.merchant.application_status = "IP"
 			elif (row[statusCol].lower() == "insufficient documents"):
 				bank_approval_temp.status = "ID"
+				company_temp.merchant.application_status = "R"
 			else:
 				bank_approval_temp.status = "P"
+				company_temp.merchant.application_status = "R"
 			bank_approval_temp.remarks = row[remarkCol]
+			company_temp.save()
 			bank_approval_temp.save()
 def email_banks(modeladmin, request, queryset): 
 	for obj in queryset: 
