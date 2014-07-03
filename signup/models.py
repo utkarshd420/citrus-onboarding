@@ -3,17 +3,19 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 import os
-import datetime
+import datetime, random
 class Merchant(models.Model):
     NEW = "N"
     REJECTED = "R"
     IN_PROGRESS = "IP"
     ONBOARDING_COMPLETED = "OC"
+    DROPPED = "DP"
     APPLICATION_STATUS_CHOICES = (
                                    (NEW, "New"),
                                    (REJECTED, "Rejected"),
                                    (IN_PROGRESS, "In Progress"),
                                    (ONBOARDING_COMPLETED, "Completed"),
+                                   (DROPPED,"Dropped"),
                                    ) 
     
     STEP_SIGNUP = 1
@@ -34,6 +36,7 @@ class Merchant(models.Model):
     step = models.IntegerField(choices=STEP_CHOICES, default=STEP_SIGNUP)
     application_status = models.CharField(max_length=2, choices=APPLICATION_STATUS_CHOICES, default=NEW, db_index=True)
     last_changed_on = models.DateTimeField(default=datetime.datetime.now())
+    verified_account = models.BooleanField(default=False)
     def __unicode__(self):
         return self.name
 
@@ -175,6 +178,7 @@ class Txn(models.Model):
     citrus_tx_id = models.CharField(max_length=64, null=True, db_index=True, blank=True)
     amount = models.DecimalField(decimal_places=2, max_digits=10)
     date_time = models.DateTimeField(null=True, db_index=True, blank=True)
+    verification_amount = models.DecimalField(decimal_places=2,max_digits=5,default= random.random()*10)
 
 class bank_commercial_value(models.Model):
     PERCENTAGE = "PERC"
@@ -193,8 +197,6 @@ class bank_commercial_value(models.Model):
 class bank_commercial(models.Model):
     bank = models.ForeignKey(Bank)
     company_category = models.ForeignKey(CompanyCategory,blank=True,null=True)
-    #bank_commercial_value = models.ForeignKey(commercial_value)
-    #commercial =  models.ForeignKey ('commercial',blank=True,null=True)
     def __unicode__(self):
         return "%s,%s" % (self.bank.bank,self.company_category.category)
 
@@ -227,6 +229,74 @@ class merchant_commercial(models.Model):
 '''def __unicode__(self):
     return "%s\n%s" % (self.bank_commercial,self.merchant_commercial)'''
 
+
+
+
+class document(models.Model):
+	header = models.CharField(max_length=200)
+	doc_list = models.CharField(max_length=200)
+	businessType = models.ForeignKey(BusinessType)
+### Additional Merchant Details ###
+
+class action_mail(models.Model):
+	head=models.CharField(max_length=100)
+	limit=models.IntegerField()
+	age=models.IntegerField()
+
+class document_user_status(models.Model):
+		merchant=models.ForeignKey(Merchant)
+		type=models.CharField(max_length=200)
+		verified=models.BooleanField(default=False)
+		uploaded=models.BooleanField(default=False)
+		join_date=models.DateTimeField(default=datetime.datetime.now())
+		last_reminder=models.DateTimeField(default=datetime.datetime.now())
+
+class merchant_address(models.Model):
+	flat_no = models.CharField(max_length=20,null=True,blank=True)
+	building_name = models.CharField(max_length=150,null=True,blank=True)
+	street_name = models.CharField(max_length=150,null=True,blank=True)
+	road_name = models.CharField(max_length=150,null=True,blank=True)
+	area_name = models.CharField(max_length=150,null=True,blank=True)
+	city = models.CharField(max_length=150,null=True,blank=True)
+	state = models.CharField(max_length=150,null=True,blank=True)
+
+class current_pg(models.Model):
+	name_pg = models.CharField(max_length=200)
+
+class additional_company_details(models.Model):
+	merchant = models.ForeignKey(Merchant)
+	address = models.ForeignKey(merchant_address)
+	date_of_establishment = models.DateTimeField()
+	min_ticket_size = models.CharField(max_length=15)
+	max_ticket_size = models.CharField(max_length=15)
+	avg_monthly_volume = models.CharField(max_length=15)
+	company_turnover = models.CharField(max_length=15)
+	current_pg_service = models.ForeignKey(current_pg,blank=True,null=True)
+	international_card_required = models.BooleanField(default=False)
+
+class merchant_contact(models.Model):
+	name = models.CharField(max_length=300)
+	email = models.EmailField()
+	contact_number = models.IntegerField(max_length=12)
+
+class merchant_contact_details(models.Model):
+	merchant = models.ForeignKey(Merchant)
+	merchant_business_contact = models.ForeignKey(merchant_contact)
+	#merchant_operation_contact = models.ForeignKey(merchant_contact)
+	#merchant_customer_service = models.ForeignKey(merchant_contact)
+
+class merchant_website_details(models.Model):
+	merchant = models.ForeignKey(Merchant)
+	about_us_url = models.URLField()
+	contact_us_url = models.URLField()
+	terms_conditions_url = models.URLField()
+	prduct_description_url = models.URLField()
+	returns_refund_url = models.URLField()
+	privacy_policy_url = models.URLField()
+	shipping_delivery_url = models.URLField()
+	disclaimer_url = models.URLField()
+
+####################
 @receiver(post_save, sender=Company)
 def create_commercial(sender,instance,created,**kwargs):
     if created:
@@ -245,6 +315,12 @@ def create_bank_commercial(sender,instance,created,**kwargs):
             temp.save()
             temp_bank_commercial = bank_commercial_value(value= obj.bank_commercial_citrus,mode = obj.mode_bank,bank_commercial= temp)
             temp_bank_commercial.save()
+
+'''@receiver(post_save,sender=Merchant)
+def update_last_changed(sender,instance,**kwargs):
+	instance.last_changed_on = datetime.datetime.now()
+	instance.save()'''
+
 #def create_user_profile(sender, instance, created, **kwargs):  
 #    if created:  
 #        profile, created = Merchant.objects.get_or_create(user=instance)  

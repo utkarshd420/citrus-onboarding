@@ -1,11 +1,11 @@
 from django.db import models
 from signup.models import *
-import xlwt,os
+import xlwt,os,xlsxwriter,string
 from datetime import datetime
 def create_workbook(bank_obj,choiceList,unapp_user):
 	workbook = xlwt.Workbook();
 	worksheet = workbook.add_sheet(bank_obj.bank)
-	rowVal=0;colVal=0;
+	rowVal=0;colVal=0;status_list_val = 0;
 	style_string = """font:bold on;
 					  border:left thick,top thick,bottom thick,right thick;
 					  alignment:horizontal center,vertical center;
@@ -150,6 +150,7 @@ def create_workbook(bank_obj,choiceList,unapp_user):
 		colVal = colVal+1
 	if (choiceList.status == True):
 		worksheet.write(rowVal,colVal,"Status",style=header_style)
+		status_list_val = colVal
 		colVal = colVal+1
 	if (choiceList.remarks == True):
 		worksheet.write(rowVal,colVal,"Remarks",style=header_style)
@@ -162,4 +163,6 @@ def create_workbook(bank_obj,choiceList,unapp_user):
 		os.makedirs("%s"%dirname)
 
 	workbook.save(dirname+"/"+bank_obj.bank+".xls")
+	## making a status field as dropdown ##
+	
 	return dirname

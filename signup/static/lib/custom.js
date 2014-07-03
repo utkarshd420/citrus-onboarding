@@ -155,3 +155,33 @@ function iniPay(){
         });
 }
 
+function bankDetails_save()
+{
+    var datastring = {
+        "bank-name":$("#bankName").val(),
+        "branch-name":$("#branchName").val(),
+        "ifsc-code":$("#ifscCode").val(),
+        "account-number":$("#accNum").val(),
+    }
+    $.ajax({
+        type: 'POST',
+        url:"",
+        data:JSON.stringify({data:datastring}),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        processData:false,
+        success:function(data)
+        {
+            if (data['status']=='success') {
+                iniPay();
+            }
+            else{
+                console.log(data);
+            }
+        },
+        failure: function(errMsg) {
+                    alert(errMsg);
+        }
+});
+}
+

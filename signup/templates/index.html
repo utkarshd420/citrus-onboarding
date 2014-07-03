@@ -157,11 +157,11 @@ Sample heading
 </span>
 <br>
 <br>
+
+{{dashboardbody|safe}}
+
 <table style="position:relative;left:36%">
 <tr style="text-align:center">
-<td>
-{{dashboardbody|safe}}
-</td>
 </tr>
 <tr>
 <td><h6>Personal details</h6></td>
@@ -284,6 +284,37 @@ Sample heading
   International Payments </br>
   Variable Items #3
   </span>
+  
+  </br>
+  <hr>
+  </br>
+	<table style="text-align: left; position: relative; left: 33%;">
+	<form id="bankAccount" method="post" action="">
+	<th><h4>Add bank details</h4></th>
+	<tr>
+	<td>
+		Bank Name:<br>
+		<input id="bankName" name="bankName" type="text"></input>
+	</td>
+	<td>
+		Branch Name:<br>
+		<input id="branchName" name="branchName" type="text"></input>
+	</td>
+	</tr>
+	<tr>
+	<td>
+		IFSC code:<br>
+		<input id="ifscCode" name="ifscCode" type="text"></input>
+	</td>
+	</tr>
+	<tr>
+	<td>
+		Account Number:<br>
+		<input id="accNum" name="accNum" type="text" style="width:250px"></input>
+	</td>
+	</tr>
+	</form>
+	</table>
   </br>
   </br>
   <hr>
@@ -344,13 +375,14 @@ If you need help, please call our team at <span style="color:#FF9900">1-800-456-
 </span>
 </br>
 </br></br></br></br></br></br>
-<table style="border-bottom:2px solid rgb(240,240,240);left: 22%;position: relative;">
+<table style="border-bottom:2px solid rgb(240,240,240);left: 24%;position: relative;">
 <tr style="border-bottom:2px solid rgb(240,240,240)">
 	<td><strong>Document name</strong></td>
 	<td><strong>&nbsp;&nbsp;&nbsp;Upload Status&nbsp;&nbsp;&nbsp;</strong></td>
 	<td><strong>&nbsp;&nbsp;&nbsp;Verification status&nbsp;&nbsp;&nbsp;</strong></td>
 </tr>
-
+{{htmlTable|safe}}
+<!--
 <tr style="border-bottom:2px solid rgb(240,240,240)">
 <td><h4>Identity proof</h4>
 <span style="color:rgb(230,230,230)">
@@ -425,7 +457,7 @@ Lorem ipsum dolor sit amet, consectetuer adipiscing
 <i class="fa fa-check-square fa-1x" style="padding:0.2em"></i>Verified
 </td>
 </tr>
-
+-->
 </table>
 </br>
 <button  class="btn btn-default btn-large" style="position:relative;">Submit for Verification</button>
