@@ -125,6 +125,8 @@ class Company(models.Model):
     def get_last_changed(self):
         return self.merchant.last_changed_on
     get_last_changed.short_description = "Last Changed"
+
+    
 class Bank(models.Model):
     bank = models.CharField(max_length = 200,unique=True)
     email = models.EmailField()
@@ -156,6 +158,8 @@ class Service(models.Model):
     name = models.CharField(max_length=200)
     charges = models.IntegerField(default=0)
     included_in_default = models.BooleanField(default=False)
+    def __unicode__(self):
+        return self.name
 
 
 class MerchantService(models.Model):

@@ -3,8 +3,11 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from signup.models import *
+<<<<<<< Updated upstream
 from django.core.mail import send_mass_mail
 import datetime
+from django.core.mail import send_mail
+from django.core.mail.message import EmailMessage
 
 
 def send_alert(modeladmin,request,queryset):
@@ -68,6 +71,26 @@ class alertsAdmin(admin.ModelAdmin):
 
 admin.site.register(action_mail,alertsAdmin)
 
+
+
+
+
+
+def email_pg():
+	body_mail = '''Dear Sir/Ma'am,
+
+Please find attached the  new merchant addition list on Citrus - %s Net Banking payment platform.  
+Request your approval for the same.
+
+_______________________________________________
+
+Thanks and Regards,
+Citrus Payment Solutions Pvt. Ltd.
+					''' %(bank_obj.bank)
+email_pg.short_description = "Email HDFC_PG approval for selected merchant"
+
+
+
 class serviceAdmin (admin.ModelAdmin):
 	fields= ('name', 'charges', 'included_in_default')
 	list_display = ('name', 'charges', 'included_in_default')
@@ -108,14 +131,29 @@ class bankCommercialAdmin(admin.ModelAdmin):
 admin.site.register(bank_commercial,bankCommercialAdmin)
 
 
+
 class merchantAdmin(admin.ModelAdmin):
 	fields = ('user','name','phone','url','application_status','step','verified_account')
 	list_display = ('user','name','phone','url','application_status','step','verified_account')
+
+	#model = Merchant
+	#extra=0
+
 admin.site.register(Merchant,merchantAdmin)
+#admin.site.register(merchantAdmin)
+
+class MerchantServiceAdmin(admin.ModelAdmin):
+	list_display = ('merchant','service')
+	actions = [email_pg]
+
+admin.site.register(MerchantService, MerchantServiceAdmin)
+
 
 class companyAdmin(admin.ModelAdmin):
 	fields = ('name','merchant','company_category','business_type','friendly_name')
 	list_display = ('name','friendly_name','get_merchant_name','get_merchant_phone','get_merchant_url','get_merchant_step','get_merchant_applicationStat','get_last_changed','company_category','business_type','get_file_list')
+	
+
 
 admin.site.register(Company,companyAdmin)
 
