@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% load staticfiles %}
+<link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet" media="screen">
+<link href="{% static "bootstrap/css/bootstrap-responsive.min.css" %}" rel="stylesheet" media="screen">
+<link rel="stylesheet" href="{% static "lib/custom.css" %}">
+<script src="{% static "lib/bootstrap.min.js" %}"></script>
+</head>
+<body>
+<form id="additional_details" name ="additional_details">
+	<h4>Company Website Additional Details</h4>
+	<hr>
+	<br>
+	<table id="company_website_details">
+		<tr>
+		<td><h6>About us</h6></td>
+		<td><input type="text" name="about_us_url"></td>
+		</tr>
+		<tr>
+		<td><h6>Contact us (Address should be on the webpage)</h6></td>
+		<td><input type="text" name="contact_us_url"></td>
+		</tr>
+		<tr>
+		<td><h6>Terms and Conditons</h6></td>
+		<td><input type="text" name="tnc_url"></td>
+		</tr>
+		<tr>
+		<td><h6>Product Description and Policy</h6></td>
+		<td><input type="text" name="returns_url"></td>
+		</tr>
+		<tr>
+		<td><h6>Privacy policy</h6></td>
+		<td><input type="text" name="privacy_policy"></td>
+		</tr>
+		<tr>
+		<td><h6>Shipping and Delivery policy</h6></td>
+		<td><input type="text" name="shipping_policy"></td>
+		</tr>
+		<tr>
+		<td><h6>Disclaimer Policy</h6></td>
+		<td><input type="text" name="disclaimer_policy"></td>
+		</tr>
+	</table>
+	<h4>Merchant Additional Details</h4>
+	<hr>
+	<br>
+	<table id="merchant_details">
+		<tr>
+		<td><h6>Business Name/Friendly Name</h6></td>
+		<td><input type="text" name="friendly_name"></td>
+		</tr>
+		<tr>
+		<td><h6>Website Status</h6></td>
+		<td><select name="website_status"><option value="live">Live</option><option value="not_live">Not Live</option></select></td>
+		</tr>
+		<tr>
+		<td><h6>Address</h6></td>
+		<td>
+		<!--Add address here-->		
+		</td>
+		</tr>
+		<tr>
+		<td><h6>Date of incorporation/ Year of Establishment</h6></td>
+		<td><input type="text" name="returns_url"></td>
+		</tr>
+		<tr>
+		<td><h6>Privacy policy</h6></td>
+		<td><input type="text" name="privacy_policy"></td>
+		</tr>
+		<tr>
+		<td><h6>Shipping and Delivery policy</h6></td>
+		<td><input type="text" name="shipping_policy"></td>
+		</tr>
+		<tr>
+		<td><h6>Disclaimer Policy</h6></td>
+		<td><input type="text" name="disclaimer_policy"></td>
+		</tr>
+	</table>
+</form>
+</body>
+</html>
