@@ -179,6 +179,7 @@ class Txn(models.Model):
     amount = models.DecimalField(decimal_places=2, max_digits=10)
     date_time = models.DateTimeField(null=True, db_index=True, blank=True)
     verification_amount = models.DecimalField(decimal_places=2,max_digits=5,default= random.random()*10)
+    verification_amount_sent_date = models.DateTimeField(blank=True,null=True)
 
 class bank_commercial_value(models.Model):
     PERCENTAGE = "PERC"
@@ -296,7 +297,18 @@ class merchant_website_details(models.Model):
 	shipping_delivery_url = models.URLField()
 	disclaimer_url = models.URLField()
 
+class merchant_bank_details(models.Model):
+	merchant = models.ForeignKey(Merchant)
+	bank_name = models.CharField(max_length=200)
+	branch_name = models.CharField(max_length=300)
+	ifsc_code = models.CharField(max_length=20)
+	account_number = models.CharField(max_length=30)
 ####################
+class emailNEFT(models.Model):
+	email  = models.EmailField()
+	name = models.CharField(max_length=200,blank=True,null=True)
+
+
 @receiver(post_save, sender=Company)
 def create_commercial(sender,instance,created,**kwargs):
     if created:
