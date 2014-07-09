@@ -269,6 +269,7 @@ class additional_company_details(models.Model):
 	min_ticket_size = models.CharField(max_length=15)
 	max_ticket_size = models.CharField(max_length=15)
 	avg_monthly_volume = models.CharField(max_length=15)
+	expected_no_txn = models.CharField(max_length=15)
 	company_turnover = models.CharField(max_length=15)
 	business_line = models.CharField(max_length=50)
 	current_pg_service = models.CharField(max_length=200,blank=True,null=True)

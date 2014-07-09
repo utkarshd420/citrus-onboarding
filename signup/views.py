@@ -30,6 +30,7 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return HttpResponseRedirect("../login/")
+@csrf_exempt
 def reg(request, **kwargs):
     if request.method == 'GET':
         req_step = kwargs.get('step')
@@ -132,11 +133,12 @@ def reg(request, **kwargs):
                 return render_to_response("index.html", {'categories':category_list,'businesstypes':business_list, 'services':service_list,'step':1})
             else:
                 return render_to_response("index.html", {'step':0,'dashboardbody':'<span style="text-align:center;position:relative;left:36%">Nothing to do here get started with signup by <a href="../1">clicking here</a></span>'})
-                
     else:
+        print "Post aayi"
         try:
             data = json.loads(request.body).get('data')
             passwd= data.get('password')
+            print passwd
             email  = data.get('email')
             username = hashlib.md5(email).hexdigest()[:30] 
             user = User.objects.create_user(username, email, passwd)
@@ -314,9 +316,10 @@ def additionalDetails(request):
         area_name =  request.POST.get('area_name')
         city =  request.POST.get('city')
         state =  request.POST.get('state')
+        expected_no_txn = request.POST.get('expected_txn')
         address = merchant_address(flat_no =flat_no,building_name =building_name,street_name =street_name,road_name =road_name,area_name =area_name,city =city,state =state)
         address.save()
-        acd = additional_company_details(merchant=merchant,website_details=mwd,address =address,date_of_establishment =date_of_incorp,min_ticket_size =min_ticket_size,max_ticket_size =max_ticket_size,avg_monthly_volume =monthly_vol,company_turnover =company_turn,business_line =business_line,current_pg_service =current_pg,international_card_required =international)
+        acd = additional_company_details(merchant=merchant,website_details=mwd,address =address,date_of_establishment =date_of_incorp,expected_no_txn=expected_no_txn,min_ticket_size =min_ticket_size,max_ticket_size =max_ticket_size,avg_monthly_volume =monthly_vol,company_turnover =company_turn,business_line =business_line,current_pg_service =current_pg,international_card_required =international)
         acd.save()
         mbcd = merchant_contact(name=request.POST.get('business_contact_name'),email=request.POST.get('business_contact_email'),contact_number=request.POST.get('business_contact_number'))
         mbcd.save()

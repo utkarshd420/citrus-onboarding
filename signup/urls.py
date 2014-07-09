@@ -8,6 +8,6 @@ urlpatterns = patterns('',
     url(r'^citrusresponse/$', citrusresponse),
     url(r'^verify/$',verifyUser),
     url(r'^additional',additionalDetails),
-    url(r'^login',login_user),
+   	url(r'^login',login_user),
     url(r'^logout',logout_user),
 )

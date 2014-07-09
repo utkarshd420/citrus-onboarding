@@ -54,6 +54,11 @@ def create_workbook(bank_obj,choiceList,unapp_user):
 	if (choiceList.merchant_region == True):
 		worksheet.write(rowVal,colVal,"Merchant Region",style=header_style)
 		worksheet.col(colVal).width = 100*100
+		for user in unapp_user:
+			acd = additional_company_details.objects.filter(merchant=user)[0]
+			rowVal = rowVal+1
+			worksheet.write(rowVal,colVal,str(acd.address.company_category.city))
+		rowVal = 0
 		colVal = colVal+1
 	if (choiceList.merchant_category == True):
 		worksheet.write(rowVal,colVal,"Merchant Category",style=header_style)
@@ -86,6 +91,22 @@ def create_workbook(bank_obj,choiceList,unapp_user):
 		colVal = colVal+1
 	if (choiceList.merchant_address == True):
 		worksheet.write(rowVal,colVal,"Merchant Address",style=header_style)
+		for user in unapp_user:
+			rowVal = rowVal+1
+			acd = additional_company_details.objects.filter(merchant=user)[0]
+			address_string=""
+			if acd.address.flat_no != None:
+				address_string += str(acd.address.flat_no)
+			if acd.address.building_name != None:
+				address_string += str(acd.address.building_name)
+			if acd.address.street_name != None:
+				address_string += str(acd.address.street_name)
+			if acd.address.area_name != None:
+				address_string += str(acd.address.street_name)
+			if acd.address.city != None:
+				address_string += str(acd.address.city)
+			worksheet.write(rowVal,colVal,str(address_string))
+		rowVal = 0
 		colVal = colVal+1
 		worksheet.col(colVal).width = 100*100
 	if (choiceList.bank_share == True):
@@ -133,14 +154,20 @@ def create_workbook(bank_obj,choiceList,unapp_user):
 	if (choiceList.expected_no_txn == True):
 		worksheet.write(rowVal,colVal,"Expected no. of Txn",style=header_style)
 		for user in unapp_user:
+			acd = additional_company_details.objects.filter(merchant=user)[0]
 			rowVal = rowVal+1
-			worksheet.write(rowVal,colVal,"50,000")
+			worksheet.write(rowVal,colVal,acd.expected_no_txn)
 		rowVal = 0
 		worksheet.col(colVal).width = 100*50
 		colVal = colVal+1
 	if (choiceList.expected_no_vol == True):
 		worksheet.write(rowVal,colVal,"Expected No. of Volume",style=header_style)
 		worksheet.col(colVal).width = 100*55
+		for user in unapp_user:
+			acd = additional_company_details.objects.filter(merchant=user)[0]
+			rowVal = rowVal+1
+			worksheet.write(rowVal,colVal,acd.avg_monthly_volume)
+		rowVal = 0
 		colVal = colVal+1
 	if (choiceList.requested_date == True):
 		worksheet.write(rowVal,colVal,"Requested Date",style=header_style)
