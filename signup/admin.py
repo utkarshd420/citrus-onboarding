@@ -85,7 +85,7 @@ def email_pg(modeladmin,request,queryset):
 			subject_mail = "TID Request dated %s Label Corp Pvt. Ltd - %s"%((str(datetime.datetime.now().strftime('%d.%m.%Y'))),obj.merchant.url)
 			body_mail = '''	test subject'''		
 			email = EmailMessage(subject_mail, body_mail, 'bank-relations@citruspay.com', [''+email_hdfc])
-			create_hdfc_pg_sheet(obj)
+			dirname=create_hdfc_pg_sheet(obj)
 			email.attach_file(dirname+"/"+obj.merchant.name+".xls")
 			email.send()
 			message = "Email sent to HDFC_PG"

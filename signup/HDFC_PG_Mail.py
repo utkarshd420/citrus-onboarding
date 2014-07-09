@@ -33,13 +33,13 @@ def create_hdfc_pg_sheet(merchant_obj):
 	# set width.. 256 = 1 width of 0 character
 	
 	w_sheet.col(4).width = 256 * 20
-	# set width.. 256 = 1 width of 0 character
+	# set width.. 256 = 1 width of 0 characterg
 
-	a = Company.objects.filter(merchant=merchant_obj)[0]
+	a = Company.objects.filter(merchant=merchant_obj.merchant)[0]
 	x = additional_company_details.objects.filter(merchant=merchant_obj)[0]
 	#b = merchant_contact_details.objects.filter(merchant=merchant_obj)[0]
-	l = merchant_website_details.objects.filter(merchant=merchant_obj)[0]
-	c = l.website_details
+	#l = x.website_details
+	c = x.website_details
 
 	w_sheet.write(9,3,'CITRUS PAY - %s'%(a.name))
 
@@ -70,26 +70,26 @@ def create_hdfc_pg_sheet(merchant_obj):
 
 	w_sheet.write(53,3,'%s'%(x.avg_monthly_volume))
 
-	w_sheet.write(63, 3, xlwt.Formula('HYPERLINK("'+c.privacy_policy_url+'"; "'+c.privacy_policy_url+'")'))
-	w_sheet.write(64, 3, xlwt.Formula('HYPERLINK("'+c.returns_refund_url+'"; "'+c.returns_refund_url+'")'))
-	w_sheet.write(65, 3, xlwt.Formula('HYPERLINK("'+c.terms_conditions_url+'"; "'+c.terms_conditions_url+'")'))
-	w_sheet.write(66, 3, xlwt.Formula('HYPERLINK("'+c.prduct_description_url+'"; "'+c.product_description_url+'")'))
-	w_sheet.write(67, 3, xlwt.Formula('HYPERLINK("'+c.prduct_description_url+'"; "'+c.product_description_url+'")'))
-	w_sheet.write(68, 3, xlwt.Formula('HYPERLINK("'+c.about_us_url+'"; "'+c.about_us_url+'")'))
-	w_sheet.write(69, 3, xlwt.Formula('HYPERLINK("'+c.shipping_delivery_url+'"; "'+c.shipping_delivery_url+'")'))
-	w_sheet.write(70, 3, xlwt.Formula('HYPERLINK("'+c.contact_us_url+'"; "'+c.contact_us_url+'")'))
-	w_sheet.write(71, 3, xlwt.Formula('HYPERLINK("'+c.disclaimer_url+'"; "'+c.disclaimer_url+'")'))
+	w_sheet.write(63, 3, xlwt.Formula('HYPERLINK("'+str(c.privacy_policy_url)+'"; "'+str(c.privacy_policy_url)+'")'))
+	w_sheet.write(64, 3, xlwt.Formula('HYPERLINK("'+str(c.returns_refund_url)+'"; "'+str(c.returns_refund_url)+'")'))
+	w_sheet.write(65, 3, xlwt.Formula('HYPERLINK("'+str(c.terms_conditions_url)+'"; "'+str(c.terms_conditions_url)+'")'))
+	w_sheet.write(66, 3, xlwt.Formula('HYPERLINK("'+str(c.prduct_description_url)+'"; "'+str(c.prduct_description_url)+'")'))
+	w_sheet.write(67, 3, xlwt.Formula('HYPERLINK("'+str(c.prduct_description_url)+'"; "'+str(c.prduct_description_url)+'")'))
+	w_sheet.write(68, 3, xlwt.Formula('HYPERLINK("'+str(c.about_us_url)+'"; "'+str(c.about_us_url)+'")'))
+	w_sheet.write(69, 3, xlwt.Formula('HYPERLINK("'+str(c.shipping_delivery_url)+'"; "'+str(c.shipping_delivery_url)+'")'))
+	w_sheet.write(70, 3, xlwt.Formula('HYPERLINK("'+str(c.contact_us_url)+'"; "'+str(c.contact_us_url)+'")'))
+	w_sheet.write(71, 3, xlwt.Formula('HYPERLINK("'+str(c.disclaimer_url)+'"; "'+str(c.disclaimer_url)+'")'))
 	
 
 
 	w_sheet.write(16, 3, xlwt.Formula('HYPERLINK("http://yujitomita.com"; "click me")'))
 
-	dirname='HDFC_PG_'+str(datetime.now().strftime('%Y.%m.%d'))
+	dirname='HDFC_PG_'+str(datetime.datetime.now().strftime('%Y.%m.%d'))
 	if not os.path.exists('./'+dirname+'/'):
 		os.makedirs("%s"%dirname)
 
 	wb.save(dirname+"/"+merchant_obj.merchant.name+".xls")
-
+	return dirname
 	#wb.save('HDFC_PG_%s'%(merchant_obj.merchant.name)+'.xls')
 
 	# done!
