@@ -38,8 +38,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'signup',
     'bank_approvals',
-    'payment_gateway',
-    'south'
 )
 
 MIDDLEWARE_CLASSES = (

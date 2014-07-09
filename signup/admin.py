@@ -3,11 +3,11 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from signup.models import *
-<<<<<<< Updated upstream
 from django.core.mail import send_mass_mail
 import datetime
 from django.core.mail import send_mail
 from django.core.mail.message import EmailMessage
+from HDFC_PG_Mail import *
 
 
 def send_alert(modeladmin,request,queryset):
@@ -76,17 +76,26 @@ admin.site.register(action_mail,alertsAdmin)
 
 
 
-def email_pg():
-	body_mail = '''Dear Sir/Ma'am,
+def email_pg(modeladmin,request,queryset):
+	for obj in queryset:
+		if additional_company_details.objects.get(merchant=obj.merchant):
+			email_hdfc = Bank.objects.get(bank='HDFC_PG').email
+			subject_mail = "TID Request dated %s Label Corp Pvt. Ltd - %s"%((str(datetime.now().strftime('%d.%m.%Y'))),obj.merchant.url)
+			body_mail = '''	test subject'''		
+			email = EmailMessage(subject_mail, body_mail, 'bank-relations@citruspay.com', [''+email_hdfc])
+			create_hdfc_pg_sheet(obj)
+			email.attach_file(dirname+"/"+obj.merchant.name+".xls")
+			email.send()
+			message = "Email sent to HDFC_PG"
+			modeladmin.message_user(request,message)
+		else:
+			try:
+				pass
+			except Exception, e:
+				message="Email not sent to bank Error raised: "+str(e)
+				modeladmin.message_user (request,message,"error")
 
-Please find attached the  new merchant addition list on Citrus - %s Net Banking payment platform.  
-Request your approval for the same.
 
-_______________________________________________
-
-Thanks and Regards,
-Citrus Payment Solutions Pvt. Ltd.
-					''' %(bank_obj.bank)
 email_pg.short_description = "Email HDFC_PG approval for selected merchant"
 
 
@@ -136,8 +145,8 @@ class merchantAdmin(admin.ModelAdmin):
 	fields = ('user','name','phone','url','application_status','step','verified_account')
 	list_display = ('user','name','phone','url','application_status','step','verified_account')
 
-	#model = Merchant
-	#extra=0
+	model = Merchant
+	extra=0
 
 admin.site.register(Merchant,merchantAdmin)
 #admin.site.register(merchantAdmin)

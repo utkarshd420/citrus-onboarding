@@ -267,9 +267,22 @@ class merchant_address(models.Model):
 class current_pg(models.Model):
 	name_pg = models.CharField(max_length=200)
 
+class merchant_website_details(models.Model):
+	#merchant = models.ForeignKey(Merchant)
+	about_us_url = models.URLField(null=True,blank=True)
+	contact_us_url = models.URLField(null=True,blank=True)
+	terms_conditions_url = models.URLField(null=True,blank=True)
+	prduct_description_url = models.URLField(null=True,blank=True)
+	returns_refund_url = models.URLField(null=True,blank=True)
+	privacy_policy_url = models.URLField(null=True,blank=True)
+	shipping_delivery_url = models.URLField(null=True,blank=True)
+	disclaimer_url = models.URLField(null=True,blank=True)
+
+
 class additional_company_details(models.Model):
 	merchant = models.ForeignKey(Merchant)
 	address = models.ForeignKey(merchant_address)
+	website_details = models.ForeignKey(merchant_website_details)
 	date_of_establishment = models.DateTimeField()
 	min_ticket_size = models.CharField(max_length=15)
 	max_ticket_size = models.CharField(max_length=15)
@@ -278,6 +291,8 @@ class additional_company_details(models.Model):
 	current_pg_service = models.ForeignKey(current_pg,blank=True,null=True)
 	international_card_required = models.BooleanField(default=False)
 
+        
+
 class merchant_contact(models.Model):
 	name = models.CharField(max_length=300)
 	email = models.EmailField()
@@ -285,20 +300,10 @@ class merchant_contact(models.Model):
 
 class merchant_contact_details(models.Model):
 	merchant = models.ForeignKey(Merchant)
-	merchant_business_contact = models.ForeignKey(merchant_contact)
-	#merchant_operation_contact = models.ForeignKey(merchant_contact)
-	#merchant_customer_service = models.ForeignKey(merchant_contact)
+	#merchant_business_contact = models.ForeignKey(merchant_contact,related_name="merchant_business_contact+")
+	#merchant_operation_contact = models.ForeignKey(merchant_contact,related_name="merchant_operation_contact+")
+	#merchant_customer_service = models.ForeignKey(merchant_contact,related_name="merchant_customer_service+")
 
-class merchant_website_details(models.Model):
-	merchant = models.ForeignKey(Merchant)
-	about_us_url = models.URLField()
-	contact_us_url = models.URLField()
-	terms_conditions_url = models.URLField()
-	prduct_description_url = models.URLField()
-	returns_refund_url = models.URLField()
-	privacy_policy_url = models.URLField()
-	shipping_delivery_url = models.URLField()
-	disclaimer_url = models.URLField()
 
 ####################
 @receiver(post_save, sender=Company)
