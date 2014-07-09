@@ -22,8 +22,10 @@ def create_workbook(bank_obj,choiceList,unapp_user):
 
 
 	# Check for empty strings #
-
-
+	for user in unapp_user:
+		if not (additional_company_details.objects.get(merchant=user) and merchant_bank_details.objects.get(merchant=user)):
+			ind=unapp_user.find(user)
+			del unapp_user[ind]
 	if (choiceList.merchant_name == True):
 		worksheet.write(rowVal,colVal,"Merchant Name",style=header_style)
 		for user in unapp_user:

@@ -127,7 +127,7 @@ class businessAdmin(admin.ModelAdmin):
 admin.site.register(BusinessType,businessAdmin)
 
 def send_neft_sheet(modeladmin,request,queryset):
-	txns = Txn.objects.filter(verification_amount_sent_date=None)
+	txns = Txn.objects.filter(verification_amount_sent_date=None,status="S")
 	workbook = xlwt.Workbook();
 	worksheet_icici = workbook.add_sheet("ICICI")
 	worksheet_non_icici = workbook.add_sheet("Non ICICI")
@@ -175,47 +175,48 @@ def send_neft_sheet(modeladmin,request,queryset):
 	colVal_non_icici+=1;rowVal_non_icici+=1;colVal_non_icici=1;
 	for txn in txns:
 		company = Company.objects.get(merchant= txn.merchant)
-		merchant_bank = merchant_bank_details.objects.get(merchant=txn.merchant)
-		if (merchant_bank.bank_name.upper().find("ICICI") != -1):
-			worksheet_icici.write(rowVal_icici,colVal_icici,str(txn.date_time.strftime('%d.%m.%Y')))
-			colVal_icici+=1
-			worksheet_icici.write(rowVal_icici,colVal_icici,company.name)
-			colVal_icici+=1
-			worksheet_icici.write(rowVal_icici,colVal_icici,merchant_bank.account_number)
-			colVal_icici+=1
-			worksheet_icici.write(rowVal_icici,colVal_icici,str(txn.verification_amount))
-			colVal_icici+=1
-			worksheet_icici.write(rowVal_icici,colVal_icici,"/Urgent/CITRUS Txn Dtd %s"% (str(datetime.datetime.now().strftime('%d.%m.%Y'))) )
-			colVal_icici+=1
-			worksheet_icici.write(rowVal_icici,colVal_icici,"020905004123")
-			colVal_icici+=1
-			rowVal_icici+=1;colVal_icici=1;
-		else:
-			worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,str(txn.verified_account))
-			colVal_non_icici+=1
-			worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"11")
-			colVal_non_icici+=1
-			worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"ICICI Nodal Ac Citrus Pay")
-			colVal_non_icici+=1
-			worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"EML")
-			colVal_non_icici+=1
-			worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"ops@citruspay.com")
-			colVal_non_icici+=1
-			worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"UBIN0555495")
-			colVal_non_icici+=1
-			worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"11")
-			colVal_non_icici+=1
-			worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,merchant_bank.account_number)
-			colVal_non_icici+=1
-			worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,company.name)
-			colVal_non_icici+=1
-			worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"/Urgent/CITRUS Txn Dtd %s"% (str(datetime.datetime.now().strftime('%d.%m.%Y'))) )
-			colVal_non_icici+=1
-			worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"Noida")
-			colVal_non_icici+=1
-			rowVal_non_icici+=1;colVal_non_icici=1;
-		txn.verification_amount_sent_date = datetime.datetime.now()
-		txn.save()
+		if merchant_bank_details.objects.get(merchant=txn.merchant):
+			merchant_bank = merchant_bank_details.objects.get(merchant=txn.merchant)
+			if (merchant_bank.bank_name.upper().find("ICICI") != -1):
+				worksheet_icici.write(rowVal_icici,colVal_icici,str(txn.date_time.strftime('%d.%m.%Y')))
+				colVal_icici+=1
+				worksheet_icici.write(rowVal_icici,colVal_icici,company.name)
+				colVal_icici+=1
+				worksheet_icici.write(rowVal_icici,colVal_icici,merchant_bank.account_number)
+				colVal_icici+=1
+				worksheet_icici.write(rowVal_icici,colVal_icici,str(txn.verification_amount))
+				colVal_icici+=1
+				worksheet_icici.write(rowVal_icici,colVal_icici,"/Urgent/CITRUS Txn Dtd %s"% (str(datetime.datetime.now().strftime('%d.%m.%Y'))) )
+				colVal_icici+=1
+				worksheet_icici.write(rowVal_icici,colVal_icici,"020905004123")
+				colVal_icici+=1
+				rowVal_icici+=1;colVal_icici=1;
+			else:
+				worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,str(txn.verification_amount))
+				colVal_non_icici+=1
+				worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"11")
+				colVal_non_icici+=1
+				worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"ICICI Nodal Ac Citrus Pay")
+				colVal_non_icici+=1
+				worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"EML")
+				colVal_non_icici+=1
+				worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"ops@citruspay.com")
+				colVal_non_icici+=1
+				worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"UBIN0555495")
+				colVal_non_icici+=1
+				worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"11")
+				colVal_non_icici+=1
+				worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,merchant_bank.account_number)
+				colVal_non_icici+=1
+				worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,company.name)
+				colVal_non_icici+=1
+				worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"/Urgent/CITRUS Txn Dtd %s"% (str(datetime.datetime.now().strftime('%d.%m.%Y'))) )
+				colVal_non_icici+=1
+				worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"Noida")
+				colVal_non_icici+=1
+				rowVal_non_icici+=1;colVal_non_icici=1;
+			txn.verification_amount_sent_date = datetime.datetime.now()
+			txn.save()
 	filename = "neft sheets/"+str(datetime.datetime.now().strftime('%d.%m.%Y'))+".xls"
 	workbook.save(filename)
 	##sending emails##
@@ -244,3 +245,10 @@ class emailNEFTAdmin(admin.ModelAdmin):
 	list_display=('name','email')
 	actions= [send_neft_sheet] 
 admin.site.register(emailNEFT,emailNEFTAdmin)
+
+admin.site.register(Txn)
+
+admin.site.register(additional_company_details)
+admin.site.register(merchant_contact)
+admin.site.register(merchant_website_details)
+admin.site.register(merchant_bank_details)

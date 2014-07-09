@@ -259,21 +259,20 @@ class merchant_address(models.Model):
 	road_name = models.CharField(max_length=150,null=True,blank=True)
 	area_name = models.CharField(max_length=150,null=True,blank=True)
 	city = models.CharField(max_length=150,null=True,blank=True)
-	state = models.CharField(max_length=150,null=True,blank=True)
-
-class current_pg(models.Model):
-	name_pg = models.CharField(max_length=200)
+	state = models.CharField(max_length=150,null=True,blank=True) 
 
 class additional_company_details(models.Model):
 	merchant = models.ForeignKey(Merchant)
-	address = models.ForeignKey(merchant_address)
-	date_of_establishment = models.DateTimeField()
+	address = models.ForeignKey(merchant_address,blank=True,null=True)
+	website_details= models.ForeignKey('merchant_website_details')
+	date_of_establishment = models.DateField()
 	min_ticket_size = models.CharField(max_length=15)
 	max_ticket_size = models.CharField(max_length=15)
 	avg_monthly_volume = models.CharField(max_length=15)
 	company_turnover = models.CharField(max_length=15)
-	current_pg_service = models.ForeignKey(current_pg,blank=True,null=True)
-	international_card_required = models.BooleanField(default=False)
+	business_line = models.CharField(max_length=50)
+	current_pg_service = models.CharField(max_length=200,blank=True,null=True)
+	international_card_required = models.CharField(max_length=10)
 
 class merchant_contact(models.Model):
 	name = models.CharField(max_length=300)
@@ -282,20 +281,21 @@ class merchant_contact(models.Model):
 
 class merchant_contact_details(models.Model):
 	merchant = models.ForeignKey(Merchant)
-	merchant_business_contact = models.ForeignKey(merchant_contact)
-	#merchant_operation_contact = models.ForeignKey(merchant_contact)
-	#merchant_customer_service = models.ForeignKey(merchant_contact)
+	merchant_business_contact = models.ForeignKey(merchant_contact,related_name="merchant_business_contact+",blank=True,null=True)
+	merchant_operation_contact = models.ForeignKey(merchant_contact,related_name="merchant_operation_contact+",blank=True,null=True)
+	merchant_customer_service = models.ForeignKey(merchant_contact,related_name="merchant_customer_contact+",blank=True,null=True)
 
 class merchant_website_details(models.Model):
-	merchant = models.ForeignKey(Merchant)
+	#merchant = models.ForeignKey(Merchant)
 	about_us_url = models.URLField()
 	contact_us_url = models.URLField()
 	terms_conditions_url = models.URLField()
-	prduct_description_url = models.URLField()
+	product_description_url = models.URLField()
 	returns_refund_url = models.URLField()
 	privacy_policy_url = models.URLField()
 	shipping_delivery_url = models.URLField()
 	disclaimer_url = models.URLField()
+	website_status = models.CharField(max_length=10)
 
 class merchant_bank_details(models.Model):
 	merchant = models.ForeignKey(Merchant)
