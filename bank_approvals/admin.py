@@ -114,6 +114,7 @@ def reset_status(modeladmin, request, queryset):
 		obj.date_changed_on = datetime.now()
 		obj.save()		
 reset_status.short_description = "Reset status of selected banks"
+
 class BankChoiceInline(admin.StackedInline):
 	model = BankChoice
 	extra = 0;
@@ -126,6 +127,7 @@ class BankAdmin (admin.ModelAdmin):
 	inlines = [BankChoiceInline]
 	list_display = ('bank','email')
 	actions = [email_banks]
+
 
 class RecordAdmin (admin.ModelAdmin):
 	list_display = ('bank','company','status','remarks','employee_assigned_to','date_mailed_on','date_received_status')

@@ -125,6 +125,8 @@ class Company(models.Model):
     def get_last_changed(self):
         return self.merchant.last_changed_on
     get_last_changed.short_description = "Last Changed"
+
+    
 class Bank(models.Model):
     bank = models.CharField(max_length = 200,unique=True)
     email = models.EmailField()
@@ -156,6 +158,8 @@ class Service(models.Model):
     name = models.CharField(max_length=200)
     charges = models.IntegerField(default=0)
     included_in_default = models.BooleanField(default=False)
+    def __unicode__(self):
+        return self.name
 
 
 class MerchantService(models.Model):
@@ -261,11 +265,23 @@ class merchant_address(models.Model):
 	city = models.CharField(max_length=150,null=True,blank=True)
 	state = models.CharField(max_length=150,null=True,blank=True) 
 
+class merchant_website_details(models.Model):
+	#merchant = models.ForeignKey(Merchant)
+	about_us_url = models.URLField(null=True,blank=True)
+	contact_us_url = models.URLField(null=True,blank=True)
+	terms_conditions_url = models.URLField(null=True,blank=True)
+	prduct_description_url = models.URLField(null=True,blank=True)
+	returns_refund_url = models.URLField(null=True,blank=True)
+	privacy_policy_url = models.URLField(null=True,blank=True)
+	shipping_delivery_url = models.URLField(null=True,blank=True)
+	disclaimer_url = models.URLField(null=True,blank=True)
+	website_status = models.CharField(max_length=10)
+
 class additional_company_details(models.Model):
 	merchant = models.ForeignKey(Merchant)
-	address = models.ForeignKey(merchant_address,blank=True,null=True)
-	website_details= models.ForeignKey('merchant_website_details')
-	date_of_establishment = models.DateField()
+	address = models.ForeignKey(merchant_address)
+	website_details = models.ForeignKey(merchant_website_details)
+	date_of_establishment = models.DateTimeField()
 	min_ticket_size = models.CharField(max_length=15)
 	max_ticket_size = models.CharField(max_length=15)
 	avg_monthly_volume = models.CharField(max_length=15)
@@ -275,6 +291,8 @@ class additional_company_details(models.Model):
 	current_pg_service = models.CharField(max_length=200,blank=True,null=True)
 	international_card_required = models.CharField(max_length=10)
 
+        
+
 class merchant_contact(models.Model):
 	name = models.CharField(max_length=300)
 	email = models.EmailField()
@@ -282,22 +300,13 @@ class merchant_contact(models.Model):
 
 class merchant_contact_details(models.Model):
 	merchant = models.ForeignKey(Merchant)
+	#merchant_business_contact = models.ForeignKey(merchant_contact,related_name="merchant_business_contact+")
+	#merchant_operation_contact = models.ForeignKey(merchant_contact,related_name="merchant_operation_contact+")
+	#merchant_customer_service = models.ForeignKey(merchant_contact,related_name="merchant_customer_service+")
 	merchant_business_contact = models.ForeignKey(merchant_contact,related_name="merchant_business_contact+",blank=True,null=True)
 	merchant_operation_contact = models.ForeignKey(merchant_contact,related_name="merchant_operation_contact+",blank=True,null=True)
 	merchant_customer_service = models.ForeignKey(merchant_contact,related_name="merchant_customer_contact+",blank=True,null=True)
-
-class merchant_website_details(models.Model):
-	#merchant = models.ForeignKey(Merchant)
-	about_us_url = models.URLField()
-	contact_us_url = models.URLField()
-	terms_conditions_url = models.URLField()
-	product_description_url = models.URLField()
-	returns_refund_url = models.URLField()
-	privacy_policy_url = models.URLField()
-	shipping_delivery_url = models.URLField()
-	disclaimer_url = models.URLField()
-	website_status = models.CharField(max_length=10)
-
+	
 class merchant_bank_details(models.Model):
 	merchant = models.ForeignKey(Merchant)
 	bank_name = models.CharField(max_length=200)

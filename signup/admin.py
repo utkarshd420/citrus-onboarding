@@ -3,9 +3,13 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from signup.models import *
-from django.core.mail import send_mass_mail,send_mail
+from django.core.mail import send_mass_mail
+import datetime
+from django.core.mail import send_mail
 from django.core.mail.message import EmailMessage
-import datetime,xlwt
+from HDFC_PG_Mail import *
+import xlwt
+
 
 
 def send_alert(modeladmin,request,queryset):
@@ -69,6 +73,35 @@ class alertsAdmin(admin.ModelAdmin):
 
 admin.site.register(action_mail,alertsAdmin)
 
+
+
+
+
+
+def email_pg(modeladmin,request,queryset):
+	for obj in queryset:
+		if additional_company_details.objects.get(merchant=obj.merchant):
+			email_hdfc = Bank.objects.get(bank='HDFC_PG').email
+			subject_mail = "TID Request dated %s Label Corp Pvt. Ltd - %s"%((str(datetime.datetime.now().strftime('%d.%m.%Y'))),obj.merchant.url)
+			body_mail = '''	test subject'''		
+			email = EmailMessage(subject_mail, body_mail, 'bank-relations@citruspay.com', [''+email_hdfc])
+			dirname=create_hdfc_pg_sheet(obj)
+			email.attach_file(dirname+"/"+obj.merchant.name+".xls")
+			email.send()
+			message = "Email sent to HDFC_PG"
+			modeladmin.message_user(request,message)
+		else:
+			try:
+				pass
+			except Exception, e:
+				message="Email not sent to bank Error raised: "+str(e)
+				modeladmin.message_user (request,message,"error")
+
+
+email_pg.short_description = "Email HDFC_PG approval for selected merchant"
+
+
+
 class serviceAdmin (admin.ModelAdmin):
 	fields= ('name', 'charges', 'included_in_default')
 	list_display = ('name', 'charges', 'included_in_default')
@@ -105,14 +138,29 @@ class bankCommercialAdmin(admin.ModelAdmin):
 admin.site.register(bank_commercial,bankCommercialAdmin)
 
 
+
 class merchantAdmin(admin.ModelAdmin):
 	fields = ('user','name','phone','url','application_status','step','verified_account')
 	list_display = ('user','name','phone','url','application_status','step','verified_account')
+
+	model = Merchant
+	extra=0
+
 admin.site.register(Merchant,merchantAdmin)
+#admin.site.register(merchantAdmin)
+
+class MerchantServiceAdmin(admin.ModelAdmin):
+	list_display = ('merchant','service')
+	actions = [email_pg]
+
+admin.site.register(MerchantService, MerchantServiceAdmin)
+
 
 class companyAdmin(admin.ModelAdmin):
 	fields = ('name','merchant','company_category','business_type','friendly_name')
 	list_display = ('name','friendly_name','get_merchant_name','get_merchant_phone','get_merchant_url','get_merchant_step','get_merchant_applicationStat','get_last_changed','company_category','business_type','get_file_list')
+	
+
 
 admin.site.register(Company,companyAdmin)
 
@@ -125,6 +173,7 @@ admin.site.register(CompanyCategory,companycategoryAdmin)
 class businessAdmin(admin.ModelAdmin):
 	inlines = [documentInline]
 admin.site.register(BusinessType,businessAdmin)
+
 
 def send_neft_sheet(modeladmin,request,queryset):
 	txns = Txn.objects.filter(verification_amount_sent_date=None,status="S")
