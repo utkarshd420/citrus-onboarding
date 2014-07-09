@@ -128,6 +128,7 @@ class BankAdmin (admin.ModelAdmin):
 	list_display = ('bank','email')
 	actions = [email_banks]
 
+
 class RecordAdmin (admin.ModelAdmin):
 	list_display = ('bank','company','status','remarks','employee_assigned_to','date_mailed_on','date_received_status')
 

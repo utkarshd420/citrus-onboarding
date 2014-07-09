@@ -30,6 +30,8 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return HttpResponseRedirect("../login/")
+
+@csrf_exempt
 def reg(request, **kwargs):
     if request.method == 'GET':
         req_step = kwargs.get('step')
@@ -294,7 +296,7 @@ def additionalDetails(request):
         shipping_policy = request.POST.get('shipping_policy')
         disclaimer_policy = request.POST.get('disclaimer_policy')
         merchant_website_status = request.POST.get('website_status')
-        mwd = merchant_website_details(about_us_url=about_us,contact_us_url=contact_us,terms_conditions_url=tnc,product_description_url=product_desc,privacy_policy_url=privacy_policy,shipping_delivery_url=shipping_policy,disclaimer_url=disclaimer_policy,website_status=merchant_website_status)
+        mwd = merchant_website_details(about_us_url=about_us,contact_us_url=contact_us,terms_conditions_url=tnc,prduct_description_url=product_desc,privacy_policy_url=privacy_policy,shipping_delivery_url=shipping_policy,disclaimer_url=disclaimer_policy,website_status=merchant_website_status)
         mwd.save()
         company.friendly_name = request.POST.get('friendly_name')
         company.save()

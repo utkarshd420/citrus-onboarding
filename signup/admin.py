@@ -3,17 +3,13 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from signup.models import *
-<<<<<<< HEAD
 from django.core.mail import send_mass_mail
 import datetime
 from django.core.mail import send_mail
 from django.core.mail.message import EmailMessage
 from HDFC_PG_Mail import *
-=======
-from django.core.mail import send_mass_mail,send_mail
-from django.core.mail.message import EmailMessage
-import datetime,xlwt
->>>>>>> 7d53252b58c779fae01bf7c8dba6ae3a3e2a2b03
+import xlwt
+
 
 
 def send_alert(modeladmin,request,queryset):
@@ -86,7 +82,7 @@ def email_pg(modeladmin,request,queryset):
 	for obj in queryset:
 		if additional_company_details.objects.get(merchant=obj.merchant):
 			email_hdfc = Bank.objects.get(bank='HDFC_PG').email
-			subject_mail = "TID Request dated %s Label Corp Pvt. Ltd - %s"%((str(datetime.now().strftime('%d.%m.%Y'))),obj.merchant.url)
+			subject_mail = "TID Request dated %s Label Corp Pvt. Ltd - %s"%((str(datetime.datetime.now().strftime('%d.%m.%Y'))),obj.merchant.url)
 			body_mail = '''	test subject'''		
 			email = EmailMessage(subject_mail, body_mail, 'bank-relations@citruspay.com', [''+email_hdfc])
 			create_hdfc_pg_sheet(obj)
@@ -177,8 +173,7 @@ admin.site.register(CompanyCategory,companycategoryAdmin)
 class businessAdmin(admin.ModelAdmin):
 	inlines = [documentInline]
 admin.site.register(BusinessType,businessAdmin)
-<<<<<<< HEAD
-=======
+
 
 def send_neft_sheet(modeladmin,request,queryset):
 	txns = Txn.objects.filter(verification_amount_sent_date=None,status="S")
@@ -306,4 +301,3 @@ admin.site.register(additional_company_details)
 admin.site.register(merchant_contact)
 admin.site.register(merchant_website_details)
 admin.site.register(merchant_bank_details)
->>>>>>> 7d53252b58c779fae01bf7c8dba6ae3a3e2a2b03

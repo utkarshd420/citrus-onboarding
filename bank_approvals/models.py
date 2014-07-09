@@ -20,11 +20,7 @@ class BankChoice (models.Model):
 	status = models.BooleanField(default=False)
 	remarks = models.BooleanField(default=False)
 	bank_code = models.BooleanField(default=False)
-<<<<<<< HEAD
-	
-=======
 	merchant_address = models.BooleanField(default=False)
->>>>>>> 7d53252b58c779fae01bf7c8dba6ae3a3e2a2b03
 
 class receive_mail_banks(models.Model):
 	bank = models.ForeignKey(Bank)

@@ -275,7 +275,7 @@ class merchant_website_details(models.Model):
 	privacy_policy_url = models.URLField(null=True,blank=True)
 	shipping_delivery_url = models.URLField(null=True,blank=True)
 	disclaimer_url = models.URLField(null=True,blank=True)
-
+	website_status = models.CharField(max_length=10)
 
 class additional_company_details(models.Model):
 	merchant = models.ForeignKey(Merchant)
@@ -299,29 +299,13 @@ class merchant_contact(models.Model):
 
 class merchant_contact_details(models.Model):
 	merchant = models.ForeignKey(Merchant)
-<<<<<<< HEAD
 	#merchant_business_contact = models.ForeignKey(merchant_contact,related_name="merchant_business_contact+")
 	#merchant_operation_contact = models.ForeignKey(merchant_contact,related_name="merchant_operation_contact+")
 	#merchant_customer_service = models.ForeignKey(merchant_contact,related_name="merchant_customer_service+")
-
-=======
 	merchant_business_contact = models.ForeignKey(merchant_contact,related_name="merchant_business_contact+",blank=True,null=True)
 	merchant_operation_contact = models.ForeignKey(merchant_contact,related_name="merchant_operation_contact+",blank=True,null=True)
 	merchant_customer_service = models.ForeignKey(merchant_contact,related_name="merchant_customer_contact+",blank=True,null=True)
-
-class merchant_website_details(models.Model):
-	#merchant = models.ForeignKey(Merchant)
-	about_us_url = models.URLField()
-	contact_us_url = models.URLField()
-	terms_conditions_url = models.URLField()
-	product_description_url = models.URLField()
-	returns_refund_url = models.URLField()
-	privacy_policy_url = models.URLField()
-	shipping_delivery_url = models.URLField()
-	disclaimer_url = models.URLField()
-	website_status = models.CharField(max_length=10)
->>>>>>> 7d53252b58c779fae01bf7c8dba6ae3a3e2a2b03
-
+	
 class merchant_bank_details(models.Model):
 	merchant = models.ForeignKey(Merchant)
 	bank_name = models.CharField(max_length=200)
