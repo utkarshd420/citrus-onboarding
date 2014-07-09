@@ -183,6 +183,7 @@ class Txn(models.Model):
     amount = models.DecimalField(decimal_places=2, max_digits=10)
     date_time = models.DateTimeField(null=True, db_index=True, blank=True)
     verification_amount = models.DecimalField(decimal_places=2,max_digits=5,default= random.random()*10)
+    verification_amount_sent_date = models.DateTimeField(blank=True,null=True)
 
 class bank_commercial_value(models.Model):
     PERCENTAGE = "PERC"
@@ -262,10 +263,7 @@ class merchant_address(models.Model):
 	road_name = models.CharField(max_length=150,null=True,blank=True)
 	area_name = models.CharField(max_length=150,null=True,blank=True)
 	city = models.CharField(max_length=150,null=True,blank=True)
-	state = models.CharField(max_length=150,null=True,blank=True)
-
-class current_pg(models.Model):
-	name_pg = models.CharField(max_length=200)
+	state = models.CharField(max_length=150,null=True,blank=True) 
 
 class merchant_website_details(models.Model):
 	#merchant = models.ForeignKey(Merchant)
@@ -288,8 +286,9 @@ class additional_company_details(models.Model):
 	max_ticket_size = models.CharField(max_length=15)
 	avg_monthly_volume = models.CharField(max_length=15)
 	company_turnover = models.CharField(max_length=15)
-	current_pg_service = models.ForeignKey(current_pg,blank=True,null=True)
-	international_card_required = models.BooleanField(default=False)
+	business_line = models.CharField(max_length=50)
+	current_pg_service = models.CharField(max_length=200,blank=True,null=True)
+	international_card_required = models.CharField(max_length=10)
 
         
 
@@ -300,12 +299,41 @@ class merchant_contact(models.Model):
 
 class merchant_contact_details(models.Model):
 	merchant = models.ForeignKey(Merchant)
+<<<<<<< HEAD
 	#merchant_business_contact = models.ForeignKey(merchant_contact,related_name="merchant_business_contact+")
 	#merchant_operation_contact = models.ForeignKey(merchant_contact,related_name="merchant_operation_contact+")
 	#merchant_customer_service = models.ForeignKey(merchant_contact,related_name="merchant_customer_service+")
 
+=======
+	merchant_business_contact = models.ForeignKey(merchant_contact,related_name="merchant_business_contact+",blank=True,null=True)
+	merchant_operation_contact = models.ForeignKey(merchant_contact,related_name="merchant_operation_contact+",blank=True,null=True)
+	merchant_customer_service = models.ForeignKey(merchant_contact,related_name="merchant_customer_contact+",blank=True,null=True)
 
+class merchant_website_details(models.Model):
+	#merchant = models.ForeignKey(Merchant)
+	about_us_url = models.URLField()
+	contact_us_url = models.URLField()
+	terms_conditions_url = models.URLField()
+	product_description_url = models.URLField()
+	returns_refund_url = models.URLField()
+	privacy_policy_url = models.URLField()
+	shipping_delivery_url = models.URLField()
+	disclaimer_url = models.URLField()
+	website_status = models.CharField(max_length=10)
+>>>>>>> 7d53252b58c779fae01bf7c8dba6ae3a3e2a2b03
+
+class merchant_bank_details(models.Model):
+	merchant = models.ForeignKey(Merchant)
+	bank_name = models.CharField(max_length=200)
+	branch_name = models.CharField(max_length=300)
+	ifsc_code = models.CharField(max_length=20)
+	account_number = models.CharField(max_length=30)
 ####################
+class emailNEFT(models.Model):
+	email  = models.EmailField()
+	name = models.CharField(max_length=200,blank=True,null=True)
+
+
 @receiver(post_save, sender=Company)
 def create_commercial(sender,instance,created,**kwargs):
     if created:

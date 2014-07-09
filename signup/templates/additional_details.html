@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% load staticfiles %}
+<link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet" media="screen">
+<link href="{% static "bootstrap/css/bootstrap-responsive.min.css" %}" rel="stylesheet" media="screen">
+<link rel="stylesheet" href="{% static "lib/custom.css" %}">
+<script src="{% static "lib/bootstrap.min.js" %}"></script>
+</head>
+<body>
+<form id="additional_details" name ="additional_details" method="POST">
+<h4 style="position:relative;left:4%">Bank Details</h4>
+	<hr>
+	<table style="position: relative; left: 20%;">
+	<tr>
+	<td><h6>Bank Name</h6></td><td></td>
+	<td><input id="bankName" name="bankName" type="text"></input></td>
+	<tr>
+		<td><h6>Branch Name</h6></td><td></td>
+		<td><input id="branchName" name="branchName" type="text"></input></td>
+	</tr>
+	<tr>
+	<td><h6>IFSC code</h6></td><td></td>
+	<td><input id="ifscCode" name="ifscCode" type="text"></input></td>
+	</tr>
+	<tr>
+	<td>
+		<h6>Account Number</h6></td><td></td>
+	<td><input id="accNum" name="accNum" type="text" style="width:250px"></input>
+	</td>
+	</tr>
+	</table>
+
+
+	<h4 style="position:relative;left:4%">Company Website Additional Details</h4>
+	<hr>
+	<table id="company_website_details" style="position:relative;left:20%">
+		<tr>
+		<td><h6>About us Url</h6></td>
+		<td><input type="text" name="about_us_url"></td>
+		</tr>
+		<tr>
+		<td><h6>Contact us (Address should be on the webpage) Url</h6></td>
+		<td><input type="text" name="contact_us_url"></td>
+		</tr>
+		<tr>
+		<td><h6>Terms and Conditons Url</h6></td>
+		<td><input type="text" name="tnc_url"></td>
+		</tr>
+		<tr>
+		<td><h6>Product Description and Policy Url</h6></td>
+		<td><input type="text" name="product_url"></td>
+		</tr>
+		<tr>
+		<td><h6>Returns and Refunds policy Url</h6></td>
+		<td><input type="text" name="returns_url"></td>
+		</tr>
+		<tr>
+		<td><h6>Privacy policy Url</h6></td>
+		<td><input type="text" name="privacy_policy"></td>
+		</tr>
+		<tr>
+		<td><h6>Shipping and Delivery policy Url</h6></td>
+		<td><input type="text" name="shipping_policy"></td>
+		</tr>
+		<tr>
+		<td><h6>Disclaimer Policy Url</h6></td>
+		<td><input type="text" name="disclaimer_policy"></td>
+		</tr>
+	</table>
+	<h4 style="position:relative;left:4%">Merchant Additional Details</h4>
+	<hr>
+	<table id="merchant_details"  style="position:relative;left:20%">
+		<tr>
+		<td><h6>Business Name/Friendly Name</h6></td>
+		<td><input type="text" name="friendly_name"></td>
+		</tr>
+		<tr>
+		<td><h6>Website Status</h6></td>
+		<td><select name="website_status"><option value="live">Live</option><option value="not_live">Not Live</option></select></td>
+		</tr>
+		<tr>
+		<td><h6>Address</h6></td>
+		<td>
+		Flat No. <input type="text" name="flat_no"/>
+		</td>
+		<td>
+		Building Name <input type="text" name="building_name"/>
+		</td>
+		<td>
+		Street Name <input type="text" name="street_name"/>
+		</td>
+		</tr>
+		<tr>
+		<td></td>
+		<td>Road Name <input type="text" name="road_name"/></td>
+		<td>Area Name <input type="text" name="area_name"/></td>
+		</tr>
+		<tr>
+		<td></td>
+		<td>City <input type="text" name="city"/></td>
+		<td>State <input type="text" name="state"/></td>
+		</tr>
+		<tr>
+		<td><h6>Date of incorporation/ Year of Establishment</h6></td>
+		<td><input type="text" name="returns_url"></td>
+		</tr>
+		<tr>
+		<td><h6>Average Ticket Size </h6></td>
+		<td>Max : <input type="text" name="max_ticket_size"></td>
+		<td>Min : <input type="text" name="min_ticket_size"></td>
+		</tr>
+		<tr>
+		<td><h6>Average Monthly Volume</h6></td>
+		<td><input type="text" name="monthly_volume"></td>
+		</tr>
+	</table>
+	</table>
+	<h4 style="position:relative;left:4%">Company Additional Details</h4>
+	<hr>
+	<table id="company_details"  style="position:relative;left:20%">
+		<tr>
+		<td><h6>Company Turnover</h6></td>
+		<td><input type="text" name="company_turnover"></td>
+		</tr>
+		<tr>
+		<td><h6>Detailed Line of Business</h6></td>
+		<td><input type="text" name="business_line"></td>
+		</tr>
+		<tr>
+		<td><h6>Whether current availing any other PG Service? </h6>
+		<span style="color:grey">(If yes then please specify details If no Please write NA)
+		</span>
+		</td>
+		<td><input type="text" name="current_pg"></td>
+		</tr>
+		<tr>
+		<td><h6>International Card acceptance Required</h6></td>
+		<td><select  name="international_card">
+			<option value="yes">Yes</option>
+			<option value="no">No</option>
+		</select>
+		</td>
+		</tr>
+	</table>
+	<h4 style="position:relative;left:4%">Merchant Business Contact Details</h4>
+	<hr>
+	<table id="merchant_business_contact"  style="position:relative;left:20%">
+	<tr>
+		<td><h6>Merchant Business Contact Name </h6>
+		</td>
+		<td><input type="text" name="business_contact_name"></td>
+	</tr>
+	<tr>
+		<td><h6>Merchant Business Contact Email </h6>
+		</td>
+		<td><input type="email" name="business_contact_email"></td>
+	</tr>
+	<tr>
+		<td><h6>Merchant Business Contact Number </h6>
+		</td>
+		<td><input type="text" name="business_contact_number"></td>
+	</tr>
+	</table>
+
+
+	<h4 style="position:relative;left:4%">Merchant Operational Contact Details</h4>
+	<hr>
+	<table id="merchant_operational_contact"  style="position:relative;left:20%">
+	<tr>
+		<td><h6>Merchant Operational Contact Name </h6>
+		</td>
+		<td><input type="text" name="operational_contact_name"></td>
+	</tr>
+	<tr>
+		<td><h6>Merchant Operational Contact Email </h6>
+		</td>
+		<td><input type="email" name="operational_contact_email"></td>
+	</tr>
+	<tr>
+		<td><h6>Merchant Operational Contact Number </h6>
+		</td>
+		<td><input type="text" name="operational_contact_number"></td>
+	</tr>
+	</table>
+
+
+	<h4 style="position:relative;left:4%">Merchant Customer Service Contact Details</h4>
+	<hr>
+	<table id="merchant_service_contact"  style="position:relative;left:20%">
+	<tr>
+		<td><h6>Merchant Customer Service Contact Name </h6>
+		</td>
+		<td><input type="text" name="customer_contact_name"></td>
+	</tr>
+	<tr>
+		<td><h6>Merchant Customer Service Contact Email </h6>
+		</td>
+		<td><input type="email" name="customer_contact_email"></td>
+	</tr>
+	<tr>
+		<td><h6>Merchant Customer Service Contact Number </h6>
+		</td>
+		<td><input type="text" name="customer_contact_number"></td>
+	</tr>
+	</table>
+	<input type="submit" style="position:relative;left:43%" value="Submit Details" class="btn btn-large"/>
+</form>
+</body>
+</html>

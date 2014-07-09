@@ -1,7 +1,7 @@
 from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login,logout
 from django.contrib import staticfiles
 import datetime, hashlib, json,os, random
 from django.http import HttpResponse, Http404, HttpResponseRedirect
@@ -12,6 +12,24 @@ import binascii
 from models import *
 
 @csrf_exempt
+def login_user(request):
+    if request.method == 'GET':
+        return render_to_response("login.html")
+    else:
+        username = hashlib.md5(request.POST.get('email')).hexdigest()[:30] 
+        password = request.POST.get('passwd')
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                return HttpResponseRedirect("../reg/0/")
+            else:
+                return render_to_response("login.html",{errormsg:"User Not active"})
+        else:
+            return render_to_response("login.html",{'errormsg':"User Login invalid"})
+def logout_user(request):
+    logout(request)
+    return HttpResponseRedirect("../login/")
 def reg(request, **kwargs):
     if request.method == 'GET':
         req_step = kwargs.get('step')
@@ -25,8 +43,11 @@ def reg(request, **kwargs):
                     return render_to_response("index.html", {'step':0,'dashboardbody':'<span style="text-align:center;position:relative;left:36%">Nothing to do here until you pay us first by<a href="../2">clicking here</a></span>'})
 
                 elif step==4 or step==3:
-                    if merchant.verified_account==False:
-                        formhtml = "<span style='text:align:center'><form method='post' action='../../verify/'>Please Verify the Amount that we have submitted  before proceeding: <input id='veramt' name='veramt'  type='text' style='width:40px'/>&nbsp;&nbsp;<input class='btn btn-primary ' style='margin-bottom:10px' value='Verify' type='submit'/></form></span>"
+                    if merchant.verified_account==False and merchant_bank_details.objects.filter(merchant=merchant):
+                        formhtml = "<span style='text-align:center;position:relative;'><form method='post' action='../../verify/'>Please Verify the Amount that we have submitted  before proceeding: <input id='veramt' name='veramt'  type='text' style='width:40px'/>&nbsp;&nbsp;<input class='btn btn-primary ' style='margin-bottom:10px' value='Verify' type='submit'/></form></span>"
+                        return render_to_response("index.html",{'step':0,'dashboardbody':formhtml})
+                    elif(not merchant_bank_details.objects.filter(merchant=merchant)):
+                        formhtml = "<span style='text-align:center;position:relative;left:36%'><a href='../../additional/'>Click Here</a> to fill in additional details</span>"
                         return render_to_response("index.html",{'step':0,'dashboardbody':formhtml})
                     temphtml='<table style="border-bottom:2px solid rgb(240,240,240);left: 36%;position: relative;"><tr><td style="text-align:center"><strong>Bank</strong></td><td style="text-align:center"><strong>Status</strong></td></tr>'
                     company = Company.objects.get(merchant= merchant)
@@ -72,8 +93,8 @@ def reg(request, **kwargs):
                 datadict['services'] = []
                 a = [datadict['services'].append({'name':g.service.name, 'charges':g.service.charges}) for g in merchantservices]
                 return render_to_response('indextab1.html', datadict)
-            elif merchant.verified_account==False:
-                formhtml = "<form method='post' action='../../verify/'>Please Verify the Amount that we have submitted  before proceeding: <input id='veramt' name='veramt'  type='text' style='width:40px'/>&nbsp;&nbsp;<input class='btn btn-primary ' style='margin-bottom:10px' value='Verify' type='submit'/></form>"
+            elif merchant.verified_account==False and merchant_bank_details.objects.filter(merchant=merchant):
+                formhtml = "<span style='text-align:center;position:relative;'><form method='post' action='../../verify/'>Please Verify the Amount that we have submitted  before proceeding: <input id='veramt' name='veramt'  type='text' style='width:40px'/>&nbsp;&nbsp;<input class='btn btn-primary ' style='margin-bottom:10px' value='Verify' type='submit'/></form></span>"
                 return render_to_response("index.html",{'step':0,'dashboardbody':formhtml})
             elif req_step=='3' and step>2:
                 return render_to_response('index.html', {'step':3})
@@ -243,7 +264,7 @@ def citrusresponse(request):
 def verifyUser(request):
     print request.POST
     merchant = Merchant.objects.get(user= request.user)
-    txn = Txn.objects.get(merchant=merchant)
+    txn = Txn.objects.filter(merchant=merchant,status="S")[0]
     print "ver amt1 is %s" %(txn.verification_amount)
     print "ver amt2 is %s" %(request.POST.get('veramt'))
     if(str(txn.verification_amount) == str(request.POST.get('veramt'))):
@@ -251,3 +272,57 @@ def verifyUser(request):
         merchant.save()
     print merchant.verified_account
     return HttpResponseRedirect('../reg/0/')
+@csrf_exempt
+def additionalDetails(request):
+    username = request.user.username
+    merchant = Merchant.objects.get(user__username=username)
+    company = Company.objects.get(merchant=merchant)
+    if request.method == 'GET':
+        return render_to_response('additional_details.html')
+    else:
+        bank_name = request.POST.get('bankName')
+        branch_name = request.POST.get('branchName')
+        ifsc_code = request.POST.get('ifscCode')
+        account_number = request.POST.get('accNum')
+        mbd = merchant_bank_details(merchant=merchant,bank_name=bank_name,branch_name=branch_name,ifsc_code=ifsc_code,account_number=account_number)
+        mbd.save()
+        about_us = request.POST.get('about_us_url')
+        contact_us = request.POST.get('contact_us_url')
+        tnc = request.POST.get('tnc_url')
+        product_desc = request.POST.get('product_url')
+        privacy_policy = request.POST.get('privacy_policy')
+        shipping_policy = request.POST.get('shipping_policy')
+        disclaimer_policy = request.POST.get('disclaimer_policy')
+        merchant_website_status = request.POST.get('website_status')
+        mwd = merchant_website_details(about_us_url=about_us,contact_us_url=contact_us,terms_conditions_url=tnc,product_description_url=product_desc,privacy_policy_url=privacy_policy,shipping_delivery_url=shipping_policy,disclaimer_url=disclaimer_policy,website_status=merchant_website_status)
+        mwd.save()
+        company.friendly_name = request.POST.get('friendly_name')
+        company.save()
+        date_of_incorp = request.POST.get('returns_url')
+        min_ticket_size = request.POST.get('min_ticket_size')
+        max_ticket_size = request.POST.get('max_ticket_size')
+        monthly_vol = request.POST.get('monthly_volume')
+        company_turn = request.POST.get('company_turnover')
+        business_line = request.POST.get('business_line')
+        international = request.POST.get('international_card')
+        current_pg = request.POST.get('current_pg')
+        #address
+        flat_no = request.POST.get('flat_no')
+        building_name  = request.POST.get('building_name')
+        street_name =  request.POST.get('street_name')
+        road_name =  request.POST.get('road_name')
+        area_name =  request.POST.get('area_name')
+        city =  request.POST.get('city')
+        state =  request.POST.get('state')
+        address = merchant_address(flat_no =flat_no,building_name =building_name,street_name =street_name,road_name =road_name,area_name =area_name,city =city,state =state)
+        address.save()
+        acd = additional_company_details(merchant=merchant,website_details=mwd,address =address,date_of_establishment =date_of_incorp,min_ticket_size =min_ticket_size,max_ticket_size =max_ticket_size,avg_monthly_volume =monthly_vol,company_turnover =company_turn,business_line =business_line,current_pg_service =current_pg,international_card_required =international)
+        acd.save()
+        mbcd = merchant_contact(name=request.POST.get('business_contact_name'),email=request.POST.get('business_contact_email'),contact_number=request.POST.get('business_contact_number'))
+        mbcd.save()
+        mocd = merchant_contact(name=request.POST.get('operational_contact_name'),email=request.POST.get('operational_contact_email'),contact_number=request.POST.get('operational_contact_number'))
+        mocd.save()
+        mcscd = merchant_contact(name=request.POST.get('customer_contact_name'),email=request.POST.get('customer_contact_email'),contact_number=request.POST.get('customer_contact_number'))
+        mcscd.save()
+        merchant_contact_details(merchant =merchant,merchant_business_contact =mbcd,merchant_operation_contact =mocd,merchant_customer_service =mcscd).save()
+        return HttpResponseRedirect('../reg/0/')

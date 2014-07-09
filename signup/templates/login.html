@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% load staticfiles %}
+<link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet" media="screen">
+<link href="{% static "bootstrap/css/bootstrap-responsive.min.css" %}" rel="stylesheet" media="screen">
+<link rel="stylesheet" href="{% static "lib/custom.css" %}">
+<script src="{% static "lib/bootstrap.min.js" %}"></script>
+</head>
+<body>
+	<form method="POST" action="" style="position:absolute;left:30%;top:20%;border:solid 2px;padding:2em;">
+	Username/email : <input type="email" name="email"/><br>
+	Password : <input type="password" name="passwd"><br>
+	<input type="submit" value="Login" class="btn btn-primary"><br>
+	</form>
+	<span style="position:absolute;left:40%;top:45%;;color:red">{{errormsg}}</span>
+</body>
+</html>

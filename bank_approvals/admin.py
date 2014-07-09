@@ -23,7 +23,7 @@ Thanks and Regards,
 Citrus Payment Solutions Pvt. Ltd.
 					''' %(bank_obj.bank)
 					
-	subject_mail= ''' Deutsche Bank - Citrus_Merchant addition_ %s'''%(str(datetime.now().strftime('%d.%m.%Y')))
+	subject_mail= ''' %s - Citrus_Merchant addition_ %s'''%(bank_obj.bank,str(datetime.now().strftime('%d.%m.%Y')))
 
 	if(len(unapp_user)==0):
 		message="No user with pending status"
@@ -32,7 +32,7 @@ Citrus Payment Solutions Pvt. Ltd.
 		dirname = create_workbook(bank_obj,choiceList,unapp_user)
 		try:
 			emailtemp=bank_obj.email
-			email = EmailMessage(subject_mail, body_mail, 'bank-relations@citruspay.com', [''+emailtemp])
+			email = EmailMessage(subject_mail, body_mail, 'vasughatole@gmail.com', [''+emailtemp])
 			email.attach_file(dirname+"/"+bank_obj.bank+".xls")
 			email.send()
 			message = "Email sent to "+bank_obj.bank
@@ -85,7 +85,7 @@ def read_update(filePath,bank):
 			bank_approval_temp.save()
 def email_banks(modeladmin, request, queryset): 
 	for obj in queryset: 
-		choiceList = BankChoice.objects.get(bank=obj)
+		choiceList = BankChoice.objects.filter(bank=obj)[0]
 		unapproved_users(modeladmin,request,obj,choiceList)
 
 email_banks.short_description = "Email the selected banks all Pending users"

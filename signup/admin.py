@@ -3,11 +3,17 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from signup.models import *
+<<<<<<< HEAD
 from django.core.mail import send_mass_mail
 import datetime
 from django.core.mail import send_mail
 from django.core.mail.message import EmailMessage
 from HDFC_PG_Mail import *
+=======
+from django.core.mail import send_mass_mail,send_mail
+from django.core.mail.message import EmailMessage
+import datetime,xlwt
+>>>>>>> 7d53252b58c779fae01bf7c8dba6ae3a3e2a2b03
 
 
 def send_alert(modeladmin,request,queryset):
@@ -113,10 +119,6 @@ class commercialInline(admin.StackedInline):
 	model = commercial
 	extra = 0
 
-'''class bankcommercialInline(admin.StackedInline):
-	model = bank_commercial
-	extra = 0 '''
-
 class merchantCommercialAdmin(admin.ModelAdmin):
 	#fields = ('merchant')
 	list_display = ('Merchant','Company','Company_category')
@@ -175,3 +177,133 @@ admin.site.register(CompanyCategory,companycategoryAdmin)
 class businessAdmin(admin.ModelAdmin):
 	inlines = [documentInline]
 admin.site.register(BusinessType,businessAdmin)
+<<<<<<< HEAD
+=======
+
+def send_neft_sheet(modeladmin,request,queryset):
+	txns = Txn.objects.filter(verification_amount_sent_date=None,status="S")
+	workbook = xlwt.Workbook();
+	worksheet_icici = workbook.add_sheet("ICICI")
+	worksheet_non_icici = workbook.add_sheet("Non ICICI")
+	rowVal_icici=0;colVal_icici=0;rowVal_non_icici=0;colVal_non_icici=0;
+	worksheet_icici.write(rowVal_icici,colVal_icici,"SI. No")
+	colVal_icici+=1
+	worksheet_icici.write(rowVal_icici,colVal_icici,"Transaction Date")
+	colVal_icici+=1
+	worksheet_icici.write(rowVal_icici,colVal_icici,"Beneficiary Customer Name")
+	colVal_icici+=1
+	worksheet_icici.write(rowVal_icici,colVal_icici,"Beneficiary Customer Account Number")
+	colVal_icici+=1
+	worksheet_icici.write(rowVal_icici,colVal_icici,"Amount")
+	colVal_icici+=1
+	worksheet_icici.write(rowVal_icici,colVal_icici,"Batch")
+	colVal_icici+=1
+	worksheet_icici.write(rowVal_icici,colVal_icici,"Sening Customer Account Number")
+	colVal_icici+=1
+	rowVal_icici+=1;colVal_icici=1;
+	worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"Transaction Reference Number")
+	colVal_non_icici+=1
+	worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"Amount")
+	colVal_non_icici+=1
+	worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"Sending Customer Account Type")
+	colVal_non_icici+=1
+	worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"Sending Customer Account Name")
+	colVal_non_icici+=1
+	worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"Sending Customer Mobile Number")
+	colVal_non_icici+=1
+	worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"Sending Customer Email Id")
+	colVal_non_icici+=1
+	worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"Originator of remittance")
+	colVal_non_icici+=1
+	worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"Benficiary Branches IFSC")
+	colVal_non_icici+=1
+	worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"Benficiary Customer Account Type")
+	colVal_non_icici+=1
+	worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"Benficiary Customer Account Number")
+	colVal_non_icici+=1
+	worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"Benficiary Customer Name")
+	colVal_non_icici+=1
+	worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"Sender to Receiver Information")
+	colVal_non_icici+=1
+	worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"City")
+	colVal_non_icici+=1;rowVal_non_icici+=1;colVal_non_icici=1;
+	for txn in txns:
+		company = Company.objects.get(merchant= txn.merchant)
+		if merchant_bank_details.objects.get(merchant=txn.merchant):
+			merchant_bank = merchant_bank_details.objects.get(merchant=txn.merchant)
+			if (merchant_bank.bank_name.upper().find("ICICI") != -1):
+				worksheet_icici.write(rowVal_icici,colVal_icici,str(txn.date_time.strftime('%d.%m.%Y')))
+				colVal_icici+=1
+				worksheet_icici.write(rowVal_icici,colVal_icici,company.name)
+				colVal_icici+=1
+				worksheet_icici.write(rowVal_icici,colVal_icici,merchant_bank.account_number)
+				colVal_icici+=1
+				worksheet_icici.write(rowVal_icici,colVal_icici,str(txn.verification_amount))
+				colVal_icici+=1
+				worksheet_icici.write(rowVal_icici,colVal_icici,"/Urgent/CITRUS Txn Dtd %s"% (str(datetime.datetime.now().strftime('%d.%m.%Y'))) )
+				colVal_icici+=1
+				worksheet_icici.write(rowVal_icici,colVal_icici,"020905004123")
+				colVal_icici+=1
+				rowVal_icici+=1;colVal_icici=1;
+			else:
+				worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,str(txn.verification_amount))
+				colVal_non_icici+=1
+				worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"11")
+				colVal_non_icici+=1
+				worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"ICICI Nodal Ac Citrus Pay")
+				colVal_non_icici+=1
+				worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"EML")
+				colVal_non_icici+=1
+				worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"ops@citruspay.com")
+				colVal_non_icici+=1
+				worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"UBIN0555495")
+				colVal_non_icici+=1
+				worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"11")
+				colVal_non_icici+=1
+				worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,merchant_bank.account_number)
+				colVal_non_icici+=1
+				worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,company.name)
+				colVal_non_icici+=1
+				worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"/Urgent/CITRUS Txn Dtd %s"% (str(datetime.datetime.now().strftime('%d.%m.%Y'))) )
+				colVal_non_icici+=1
+				worksheet_non_icici.write(rowVal_non_icici,colVal_non_icici,"Noida")
+				colVal_non_icici+=1
+				rowVal_non_icici+=1;colVal_non_icici=1;
+			txn.verification_amount_sent_date = datetime.datetime.now()
+			txn.save()
+	filename = "neft sheets/"+str(datetime.datetime.now().strftime('%d.%m.%Y'))+".xls"
+	workbook.save(filename)
+	##sending emails##
+	for obj in queryset:
+		body_mail = '''
+Please find attached the  neft sheet dated  - %s  
+
+_______________________________________________
+
+Thanks and Regards,
+Citrus Payment Solutions Pvt. Ltd.''' %(str(datetime.datetime.now().strftime('%d.%m.%Y')))
+		subject_mail= ''' NEFT SHEET %s'''%(str(datetime.datetime.now().strftime('%d.%m.%Y')))
+		try:
+			email = EmailMessage(subject_mail, body_mail, 'bank-relations@citruspay.com', [''+obj.email])
+			email.attach_file(filename)
+			email.send()
+			message = "Email sent to "+obj.name
+			modeladmin.message_user(request,message)
+		except Exception, e:
+			message="Email not sent to  "+obj.name+ " Error raised: "+str(e)
+			modeladmin.message_user (request,message,"error")
+
+send_neft_sheet.short_description = "Email The Neft Sheet"
+
+class emailNEFTAdmin(admin.ModelAdmin):
+	list_display=('name','email')
+	actions= [send_neft_sheet] 
+admin.site.register(emailNEFT,emailNEFTAdmin)
+
+admin.site.register(Txn)
+
+admin.site.register(additional_company_details)
+admin.site.register(merchant_contact)
+admin.site.register(merchant_website_details)
+admin.site.register(merchant_bank_details)
+>>>>>>> 7d53252b58c779fae01bf7c8dba6ae3a3e2a2b03

@@ -3,7 +3,8 @@ import imaplib, email
 #log in and select the inbox
 def email_rec(bank_obj):
     mail = imaplib.IMAP4_SSL('imap.gmail.com')
-    mail.login('citruspay.bankrelations@gmail.com', 'ASDFGHJKLqwertyuiop')
+    mail.login('vasughatole@gmail.com','mppqtscylobmthab')
+    #mail.login('citruspay.bankrelations@gmail.com', 'ASDFGHJKLqwertyuiop')
     mail.select('inbox')
 
     #get uids of all messages
